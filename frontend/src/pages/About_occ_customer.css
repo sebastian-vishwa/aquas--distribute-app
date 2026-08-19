@@ -1,0 +1,59 @@
+.about-wrapper { width: 100%; overflow-x: hidden; }
+
+/* Hero */
+.about-hero { display: flex; background-color: var(--primary-blue); color: white; padding: 5rem 8%; align-items: center; gap: 4rem; }
+.about-hero h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
+.about-hero p { color: #E2E8F0; line-height: 1.6; font-size: 1.1rem; max-width: 500px; }
+.about-hero .hero-image { flex: 1; height: 350px; background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+
+/* Origin & Vision */
+.origin-vision-section { display: flex; padding: 5rem 8%; gap: 4rem; background: white; }
+.origin-left { flex: 1.5; }
+.title-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.title-row h2 { color: var(--text-dark); margin: 0; }
+.origin-left p { color: var(--text-gray); line-height: 1.7; margin-bottom: 1.5rem; }
+.stats-row { display: flex; gap: 3rem; margin-top: 3rem; border-top: 1px solid #E2E8F0; padding-top: 2rem; }
+.stat h2 { color: var(--primary-blue); font-size: 2.5rem; margin: 0 0 0.5rem 0; }
+.stat span { font-size: 0.75rem; color: var(--text-gray); font-weight: bold; letter-spacing: 1px; }
+
+.vision-right { flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }
+.vision-card { background: var(--primary-blue); color: white; padding: 2rem; border-radius: 8px; }
+.vision-card h3 { margin: 0 0 1rem 0; }
+.vision-card p { color: #E2E8F0; line-height: 1.6; font-size: 0.95rem; margin: 0; }
+.mission-card { background: #F8FAFC; border: 1px solid #E2E8F0; padding: 2rem; border-radius: 8px; }
+.mission-card h3 { color: var(--text-dark); margin: 0 0 1rem 0; }
+.mission-card ul { margin: 0; padding-left: 1.2rem; color: var(--text-gray); font-size: 0.9rem; line-height: 1.7; }
+.mission-card li { margin-bottom: 0.5rem; }
+
+/* Team Section */
+.team-section { padding: 5rem 8%; background: #F8FAFC; text-align: center; }
+.team-header { margin-bottom: 3rem; }
+.team-header h2 { color: var(--text-dark); margin-bottom: 0.5rem; }
+.team-header p { color: var(--text-gray); }
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+.team-card { background: white; padding: 2rem 1.5rem; border-radius: 8px; border: 1px solid #E2E8F0; transition: transform 0.2s; cursor: pointer; }
+.team-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+.avatar-placeholder { width: 100px; height: 100px; background: #E2E8F0; border-radius: 12px; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: #94A3B8; }
+.team-card h3 { color: var(--text-dark); margin: 0 0 0.5rem 0; }
+.role { display: block; color: var(--primary-blue); font-size: 0.7rem; font-weight: bold; letter-spacing: 1px; margin-bottom: 1rem; }
+.team-card p { color: var(--text-gray); font-size: 0.85rem; line-height: 1.5; margin: 0; }
+
+/* Contact Section */
+.contact-section { display: flex; padding: 5rem 8%; gap: 4rem; background: white; }
+.contact-info { flex: 1; background: var(--primary-blue); color: white; padding: 3rem; border-radius: 12px; }
+.contact-info h2 { margin-bottom: 1rem; }
+.contact-info > p { color: #E2E8F0; line-height: 1.6; margin-bottom: 2.5rem; }
+.method { margin-bottom: 2rem; }
+.method strong { display: block; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 0.5rem; color: #93C5FD; }
+.method p { margin: 0; line-height: 1.5; font-size: 0.95rem; }
+.small-text { font-size: 0.8rem; color: #94A3B8; }
+
+.contact-form { flex: 1.5; padding: 1rem 0; }
+.contact-form h3 { color: var(--text-dark); margin-bottom: 2rem; font-size: 1.5rem; }
+.form-row { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; }
+.input-group { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+.input-group label { font-size: 0.75rem; font-weight: bold; color: var(--text-dark); letter-spacing: 1px; }
+.input-group input, .input-group select, .input-group textarea { padding: 0.8rem; border: 1px solid #CBD5E1; border-radius: 6px; font-family: inherit; font-size: 0.95rem; transition: border-color 0.2s; }
+.input-group input:focus, .input-group select:focus, .input-group textarea:focus { outline: none; border-color: var(--primary-blue); }
+.btn-submit { width: 100%; background: #0EA5E9; color: white; border: none; padding: 1rem; font-weight: bold; font-size: 0.95rem; letter-spacing: 1px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+.btn-submit:hover { background: #0284C7; }
