@@ -1,0 +1,13 @@
+.manager-layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #F8FAFC;
+}
+
+.manager-main-content {
+  flex: 1;
+  margin-left: 80px; /* Matches the collapsed sidebar width */
+  padding: 2.5rem 3.5rem;
+  transition: margin-left 0.3s ease;
+  overflow-y: auto;
+}
