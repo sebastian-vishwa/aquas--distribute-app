@@ -1,5 +1,5 @@
 import React from 'react';
-import './Footer_occ_cus';
+import './Footer_occ_cus.css';
 
 export default function Footer() {
   return (
