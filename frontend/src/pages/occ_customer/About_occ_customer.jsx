@@ -1,4 +1,5 @@
 import React from 'react';
+import { History, Eye, Target, MapPin, Phone, Mail, CheckCircle2 } from 'lucide-react';
 import './About_occ_customer.css';
 
 export default function About() {
@@ -11,15 +12,17 @@ export default function About() {
           <p>Since 2010, AquaPure has defined the standard for high-volume, precision-filtered hydration solutions. We supply the infrastructure that keeps industry moving.</p>
         </div>
         <div className="hero-image">
-           <div className="image-placeholder">Facility Image Here</div>
+          <div className="image-placeholder">Facility Image Here</div>
         </div>
       </header>
 
       {/* ORIGIN & VISION SECTION */}
       <section className="origin-vision-section">
         <div className="origin-left">
-          <div className="title-row">
-            <span className="icon">⏱️</span>
+          <div className="title-row" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span className="icon" style={{ color: '#0A3D91', display: 'flex', alignItems: 'center' }}>
+              <History size={26} strokeWidth={2} />
+            </span>
             <h2>The Origin</h2>
           </div>
           <p>AquaPure began with a single observation: industrial hydration was inefficient, inconsistent, and lacked the rigorous quality control demanded by modern enterprises. Founded by logistics engineers, our approach was systematically different from day one.</p>
@@ -34,15 +37,28 @@ export default function About() {
         
         <div className="vision-right">
           <div className="vision-card">
-            <h3>👁️ Our Vision</h3>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Eye size={20} color="#0A3D91" /> Our Vision
+            </h3>
             <p>To become the invisible, infallible circulatory system of hydration for global enterprise, where pure water is guaranteed as a basic operational utility.</p>
           </div>
           <div className="mission-card">
-            <h3>⚑ Mission Protocol</h3>
-            <ul>
-              <li>Execute zero-tolerance filtration protocols (0.0001 micron threshold).</li>
-              <li>Optimize supply chains for sub-24 hour corporate replenishment.</li>
-              <li>Maintain 100% transparency in logistical tracking and water telemetry.</li>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Target size={20} color="#0A3D91" /> Mission Protocol
+            </h3>
+            <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
+              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '8px' }}>
+                <CheckCircle2 size={16} color="#16a34a" style={{ flexShrink: 0, marginTop: '4px' }} />
+                <span>Execute zero-tolerance filtration protocols (0.0001 micron threshold).</span>
+              </li>
+              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '8px' }}>
+                <CheckCircle2 size={16} color="#16a34a" style={{ flexShrink: 0, marginTop: '4px' }} />
+                <span>Optimize supply chains for sub-24 hour corporate replenishment.</span>
+              </li>
+              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                <CheckCircle2 size={16} color="#16a34a" style={{ flexShrink: 0, marginTop: '4px' }} />
+                <span>Maintain 100% transparency in logistical tracking and water telemetry.</span>
+              </li>
             </ul>
           </div>
         </div>
@@ -66,22 +82,28 @@ export default function About() {
         </div>
       </section>
 
-     {/* CONTACT SECTION */}
+      {/* CONTACT SECTION */}
       <section className="contact-section">
         <div className="contact-info">
           <h2>Initiate Contact</h2>
           <p>Our logistics team is on standby to calculate volume requirements and establish an optimized delivery matrix for your facility.</p>
           <div className="contact-methods">
             <div className="method">
-              <strong>📍 CENTRAL HUB</strong>
+              <strong style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <MapPin size={16} color="#0A3D91" /> CENTRAL HUB
+              </strong>
               <p>700 Aqua Matrix Blvd.<br/>Industrial Sector 4<br/>Chicago, IL 60607</p>
             </div>
             <div className="method">
-              <strong>📞 DIRECT LINE</strong>
+              <strong style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Phone size={16} color="#0A3D91" /> DIRECT LINE
+              </strong>
               <p>1-800-AQUA-B2B<br/><span className="small-text">(0800 - 1800 CST)</span></p>
             </div>
             <div className="method">
-              <strong>✉️ DISPATCH EMAIL</strong>
+              <strong style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Mail size={16} color="#0A3D91" /> DISPATCH EMAIL
+              </strong>
               <p>logistics@aquapurewholesale.com</p>
             </div>
           </div>

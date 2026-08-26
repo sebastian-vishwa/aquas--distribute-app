@@ -1,5 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { 
+  Droplet, 
+  Headphones, 
+  Check, 
+  User, 
+  Camera, 
+  Building2, 
+  UploadCloud, 
+  Truck, 
+  MapPin, 
+  ArrowLeft, 
+  ArrowRight, 
+  CheckCircle2 
+} from 'lucide-react';
 import './register.css';
 
 export default function Register() {
@@ -43,7 +57,7 @@ export default function Register() {
     }
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
@@ -67,10 +81,10 @@ const handleSubmit = async (e) => {
 
       // 3. Handle success or failure
       if (response.ok) {
-        alert('✅ Application submitted successfully! Welcome to AquaPure.');
+        alert('Application submitted successfully! Welcome to AquaPure.');
         navigate('/login'); // Sends them to the split-screen login page
       } else {
-        alert(`❌ Registration failed: ${data.message}`);
+        alert(`Registration failed: ${data.message}`);
       }
     } catch (err) {
       console.error('Registration error:', err);
@@ -82,8 +96,12 @@ const handleSubmit = async (e) => {
     <div className="register-page">
       {/* Top Bar */}
       <div className="register-topbar">
-        <h3 className="brand-logo" onClick={() => navigate('/')}>💧 Aquas</h3>
-        <span className="help-link">🎧 Need Help?</span>
+        <h3 className="brand-logo" onClick={() => navigate('/')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Droplet size={22} fill="#0A3D91" color="#0A3D91" /> Aquas
+        </h3>
+        <span className="help-link" style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+          <Headphones size={18} /> Need Help?
+        </span>
       </div>
 
       <div className="register-container">
@@ -95,8 +113,8 @@ const handleSubmit = async (e) => {
         {/* Dynamic Progress Tracker */}
         <div className="progress-tracker">
           <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>
-            <div className={`circle ${currentStep > 1 ? 'completed' : currentStep === 1 ? '' : 'inactive'}`}>
-              {currentStep > 1 ? '✓' : '1'}
+            <div className={`circle ${currentStep > 1 ? 'completed' : currentStep === 1 ? '' : 'inactive'}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {currentStep > 1 ? <Check size={16} strokeWidth={3} /> : '1'}
             </div>
             <span>Verification</span>
           </div>
@@ -104,8 +122,8 @@ const handleSubmit = async (e) => {
           <div className={`line ${currentStep > 1 ? 'line-active' : ''}`}></div>
 
           <div className={`step ${currentStep >= 2 ? 'active' : ''}`}>
-            <div className={`circle ${currentStep > 2 ? 'completed' : currentStep === 2 ? '' : 'inactive'}`}>
-              {currentStep > 2 ? '✓' : '2'}
+            <div className={`circle ${currentStep > 2 ? 'completed' : currentStep === 2 ? '' : 'inactive'}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {currentStep > 2 ? <Check size={16} strokeWidth={3} /> : '2'}
             </div>
             <span>Business</span>
           </div>
@@ -113,7 +131,7 @@ const handleSubmit = async (e) => {
           <div className={`line ${currentStep > 2 ? 'line-active' : ''}`}></div>
 
           <div className={`step ${currentStep === 3 ? 'active' : ''}`}>
-            <div className={`circle ${currentStep === 3 ? '' : 'inactive'}`}>
+            <div className={`circle ${currentStep === 3 ? '' : 'inactive'}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               3
             </div>
             <span>Location</span>
@@ -125,11 +143,15 @@ const handleSubmit = async (e) => {
           {/* ================= STEP 1: Personal & Verification ================= */}
           {currentStep === 1 && (
             <div className="form-section">
-              <h3 className="section-title">👤 Step 1: Personal & Verification</h3>
+              <h3 className="section-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <User size={20} color="#0A3D91" /> Step 1: Personal & Verification
+              </h3>
               <div className="form-row photo-row">
                 <div className="input-group">
                   <label>Profile Photo</label>
-                  <div className="photo-upload-box">📷</div>
+                  <div className="photo-upload-box" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Camera size={24} color="#64748B" />
+                  </div>
                 </div>
                 <div className="input-group full-width">
                   <label>Full Legal Name</label>
@@ -202,7 +224,9 @@ const handleSubmit = async (e) => {
           {/* ================= STEP 2: Business Details ================= */}
           {currentStep === 2 && (
             <div className="form-section">
-              <h3 className="section-title">🏢 Step 2: Business Details</h3>
+              <h3 className="section-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Building2 size={20} color="#0A3D91" /> Step 2: Business Details
+              </h3>
               <div className="input-group">
                 <label>Business / Shop Name</label>
                 <input
@@ -237,8 +261,9 @@ const handleSubmit = async (e) => {
 
               <div className="input-group">
                 <label>Business Verification Document (License / Certificate)</label>
-                <div className="file-upload-box">
-                  <span>☁️ Click to upload license / certificate (PDF or PNG)</span>
+                <div className="file-upload-box" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                  <UploadCloud size={20} color="#64748B" />
+                  <span>Click to upload license / certificate (PDF or PNG)</span>
                 </div>
               </div>
             </div>
@@ -247,7 +272,9 @@ const handleSubmit = async (e) => {
           {/* ================= STEP 3: Delivery Location ================= */}
           {currentStep === 3 && (
             <div className="form-section">
-              <h3 className="section-title">🚚 Step 3: Delivery Location Matrix</h3>
+              <h3 className="section-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Truck size={20} color="#0A3D91" /> Step 3: Delivery Location Matrix
+              </h3>
               <div className="input-group">
                 <label>Street Address</label>
                 <input
@@ -297,16 +324,20 @@ const handleSubmit = async (e) => {
               </div>
 
               <div className="input-group">
-                <div className="label-row">
+                <div className="label-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                   <label>Pinpoint Location</label>
-                  <span className="location-link">📍 Use Current Location</span>
+                  <span className="location-link" style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+                    <MapPin size={14} /> Use Current Location
+                  </span>
                 </div>
-                <div className="map-placeholder">
-                  <span>📍 Click to set exact delivery pin</span>
+                <div className="map-placeholder" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                  <MapPin size={18} color="#64748B" />
+                  <span>Click to set exact delivery pin</span>
                 </div>
               </div>
             </div>
           )}
+
           {/* Navigation Action Buttons */}
           <div
             className="form-actions"
@@ -328,6 +359,9 @@ const handleSubmit = async (e) => {
                   className="btn-outline-dark"
                   onClick={handleBack}
                   style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
                     padding: '0.85rem 1.8rem',
                     border: '1px solid #CBD5E1',
                     borderRadius: '6px',
@@ -338,7 +372,7 @@ const handleSubmit = async (e) => {
                     transition: '0.2s'
                   }}
                 >
-                  ← Back
+                  <ArrowLeft size={16} /> Back
                 </button>
               )}
             </div>
@@ -351,6 +385,9 @@ const handleSubmit = async (e) => {
                   className="btn-submit"
                   onClick={handleNext}
                   style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
                     padding: '0.85rem 2.5rem',
                     background: '#0EA5E9',
                     color: 'white',
@@ -361,15 +398,18 @@ const handleSubmit = async (e) => {
                     transition: '0.2s'
                   }}
                 >
-                  Next Step →
+                  Next Step <ArrowRight size={16} />
                 </button>
               ) : (
                 <button 
                   type="submit" 
                   className="btn-submit"
                   style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
                     padding: '0.85rem 2.5rem',
-                    background: '#10B981', /* Green to indicate final submission */
+                    background: '#10B981',
                     color: 'white',
                     border: 'none',
                     borderRadius: '6px',
@@ -377,7 +417,7 @@ const handleSubmit = async (e) => {
                     cursor: 'pointer'
                   }}
                 >
-                  Submit Application ✓
+                  <CheckCircle2 size={18} /> Submit Application
                 </button>
               )}
             </div>

@@ -1,33 +1,34 @@
 import React, { useState } from 'react';
 import './Products_occ_customer.css';
 import { useCart } from '../../components/common/CartContext';
+import { ShoppingCart, LayoutGrid, List, Plus, Minus, X, Check } from 'lucide-react';
 
 export default function Products() {
   const [viewMode, setViewMode] = useState('grid');
   const { addToCart } = useCart();
   
-  // Modal eka wenuwen aluth states
+  // Modal eka wenuwen states
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
-  // Add to cart click karama modal eka open wena function eka
+  // Modal open wena function eka
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
-    setQuantity(1); // Modal open weddi hama tissema 1n patan ganna
+    setQuantity(1);
   };
 
-  // Modal eke confirm karama cart ekata add wena function eka
+  // Modal confirm add function eka
   const handleConfirmAddToCart = () => {
     if (selectedProduct) {
       addToCart(selectedProduct, quantity);
-      setSelectedProduct(null); // Modal eka close karanawa
+      setSelectedProduct(null);
     }
   };
 
   return (
     <div className="products-wrapper">
       
-      {/* MODAL POPUP EKA */}
+      {/* MODAL POPUP */}
       {selectedProduct && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -36,14 +37,22 @@ export default function Products() {
             
             <div className="quantity-controls">
               <button 
+                type="button"
                 onClick={() => setQuantity(prev => (prev > 1 ? prev - 1 : 1))}
                 className="qty-btn"
-              >-</button>
+                aria-label="Decrease quantity"
+              >
+                <Minus size={18} />
+              </button>
               <span className="qty-display">{quantity}</span>
               <button 
+                type="button"
                 onClick={() => setQuantity(prev => prev + 1)}
                 className="qty-btn"
-              >+</button>
+                aria-label="Increase quantity"
+              >
+                <Plus size={18} />
+              </button>
             </div>
             
             {/* Dynamic Price Calculation */}
@@ -52,8 +61,22 @@ export default function Products() {
             </div>
 
             <div className="modal-actions">
-              <button className="btn-cancel" onClick={() => setSelectedProduct(null)}>Cancel</button>
-              <button className="btn-confirm" onClick={handleConfirmAddToCart}>Confirm Add</button>
+              <button 
+                type="button" 
+                className="btn-cancel" 
+                onClick={() => setSelectedProduct(null)}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+              >
+                <X size={16} /> Cancel
+              </button>
+              <button 
+                type="button" 
+                className="btn-confirm" 
+                onClick={handleConfirmAddToCart}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+              >
+                <Check size={16} /> Confirm Add
+              </button>
             </div>
           </div>
         </div>
@@ -76,8 +99,22 @@ export default function Products() {
         <div className="section-header">
           <h2>Available Bundles</h2>
           <div className="view-toggles">
-            <button className={`icon-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>⊞</button>
-            <button className={`icon-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>≣</button>
+            <button 
+              type="button"
+              className={`icon-btn ${viewMode === 'grid' ? 'active' : ''}`} 
+              onClick={() => setViewMode('grid')}
+              title="Grid View"
+            >
+              <LayoutGrid size={18} />
+            </button>
+            <button 
+              type="button"
+              className={`icon-btn ${viewMode === 'list' ? 'active' : ''}`} 
+              onClick={() => setViewMode('list')}
+              title="List View"
+            >
+              <List size={18} />
+            </button>
           </div>
         </div>
 
@@ -94,8 +131,14 @@ export default function Products() {
               <div className="price-row">
                 <h2>Rs. 3750</h2>
               </div>
-              {/* Button eka change kala handleOpenModal walata */}
-              <button className="btn-cart" onClick={() => handleOpenModal({ id: 1, title: '5-Gallon Jar', price: 3750 })}>🛒 Add to Cart</button>
+              <button 
+                type="button"
+                className="btn-cart" 
+                onClick={() => handleOpenModal({ id: 1, title: '5-Gallon Jar', price: 3750 })}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+              >
+                <ShoppingCart size={18} /> Add to Cart
+              </button>
             </div>
           </div>
 
@@ -112,7 +155,14 @@ export default function Products() {
               <div className="price-row">
                 <h2>Rs. 2400</h2>
               </div>
-              <button className="btn-cart" onClick={() => handleOpenModal({ id: 2, title: '19L Bottle', price: 2400 })}>🛒 Add to Cart</button>
+              <button 
+                type="button"
+                className="btn-cart" 
+                onClick={() => handleOpenModal({ id: 2, title: '19L Bottle', price: 2400 })}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+              >
+                <ShoppingCart size={18} /> Add to Cart
+              </button>
             </div>
           </div>
 
@@ -128,7 +178,14 @@ export default function Products() {
               <div className="price-row">
                 <h2>Rs. 1950</h2>
               </div>
-              <button className="btn-cart" onClick={() => handleOpenModal({ id: 3, title: '0.5L Small Bottles', price: 1950 })}>🛒 Add to Cart</button>
+              <button 
+                type="button"
+                className="btn-cart" 
+                onClick={() => handleOpenModal({ id: 3, title: '0.5L Small Bottles', price: 1950 })}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+              >
+                <ShoppingCart size={18} /> Add to Cart
+              </button>
             </div>
           </div> 
 
@@ -144,7 +201,14 @@ export default function Products() {
               <div className="price-row">
                 <h2>Rs. 1850</h2>
               </div>
-              <button className="btn-cart" onClick={() => handleOpenModal({ id: 4, title: '1.5L Bottles', price: 1850 })}>🛒 Add to Cart</button>
+              <button 
+                type="button"
+                className="btn-cart" 
+                onClick={() => handleOpenModal({ id: 4, title: '1.5L Bottles', price: 1850 })}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+              >
+                <ShoppingCart size={18} /> Add to Cart
+              </button>
             </div>
           </div>
         </div>
