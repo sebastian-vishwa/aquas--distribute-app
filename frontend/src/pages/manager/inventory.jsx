@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from "react";
 import './manager_pages.css';
+import AddProduct from "c:/Users/Administrator/OneDrive/Documents/aqus/aquas--distribute-app/frontend/src/components/manager/Addproduct"
+;
 
 export default function Inventory() {
+  const [showAddProduct, setShowAddProduct] = useState(false);
   const inventoryData = [
     { name: 'Premium 5-Gallon Dispenser Jar', sku: 'AQ-5G-PRM', cat: '5-Gallon', price: '$5.50', stock: '1,245', status: 'In Stock', statusClass: 'status-active' },
     { name: 'Pure Mineral 1L Case (24 Pk)', sku: 'AQ-1L-CS24', cat: '1L Bottles', price: '$12.00', stock: '42', status: 'Low Stock', statusClass: 'status-pending' },
     { name: 'Industrial Hot/Cold Dispenser Pro', sku: 'AQ-DSP-HCPRO', cat: 'Dispensers', price: '$185.00', stock: '0', status: 'Out of Stock', statusClass: 'status-inactive' }
   ];
-
+  const [products, setProducts] = useState(inventoryData);
   return (
     <div>
       <div className="manager-header">
@@ -15,7 +18,7 @@ export default function Inventory() {
           <h1>Product & Inventory</h1>
           <p>Manage wholesale catalog and monitor stock levels.</p>
         </div>
-        <button className="btn-action" onClick={() => alert('Add New Product Dialog')}>+ Add New Product</button>
+        <button className="btn-action" onClick={() => setShowAddProduct(true)}>+ Add New Product</button>
       </div>
 
       <div className="manager-table-container">
@@ -48,6 +51,20 @@ export default function Inventory() {
           </tbody>
         </table>
       </div>
+      {showAddProduct && (
+  <AddProduct
+    onClose={() => setShowAddProduct(false)}
+    onAdd={(newProduct) => {
+
+            setProducts((previousProducts) => [
+                ...previousProducts,
+                newProduct
+            ]);
+
+            setShowAddProduct(false);
+        }}
+  />
+)}
     </div>
   );
 }
