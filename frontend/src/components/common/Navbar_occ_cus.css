@@ -37,3 +37,13 @@
   font-size: 1.2rem;
   cursor: pointer;
 }
+
+/* Cart Hover Popup Styles */
+.cart-wrapper { position: relative; display: inline-block; }
+.cart-badge { position: absolute; top: -8px; right: -10px; background: #ef4444; color: white; font-size: 0.7rem; font-weight: bold; padding: 2px 6px; border-radius: 50%; }
+.cart-popup { position: absolute; top: 150%; right: -20px; width: 260px; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); padding: 1rem; z-index: 1000; text-align: left; }
+.cart-popup h4 { margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 1rem; }
+.popup-items { max-height: 200px; overflow-y: auto; margin-bottom: 10px; }
+.popup-item { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; color: #334155; }
+.popup-checkout-btn { width: 100%; padding: 8px; background: #1e3a8a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.popup-checkout-btn:hover { background: #152c6b; }
