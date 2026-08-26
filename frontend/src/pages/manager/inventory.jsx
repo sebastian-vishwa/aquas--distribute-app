@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './manager_pages.css';
-import AddProduct from "c:/Users/Administrator/OneDrive/Documents/aqus/aquas--distribute-app/frontend/src/components/manager/Addproduct"
-;
+import AddProduct from "../../components/manager/Addproduct";
+
 
 export default function Inventory() {
   const [showAddProduct, setShowAddProduct] = useState(false);
