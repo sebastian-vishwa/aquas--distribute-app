@@ -10,7 +10,11 @@ app.use(express.json());
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
+const driverRoutes = require('./routes/driverRoutes');
+app.use('/api/drivers', driverRoutes);
 
+const vehicleRoutes = require('./routes/vehicleRoutes');
+app.use('/api/vehicles', vehicleRoutes);
 
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log('✅ Connected to Aquas MongoDB!'))
