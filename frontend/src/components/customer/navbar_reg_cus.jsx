@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { Search, Bell, ShoppingCart, User } from 'lucide-react';
 import './navbar_reg_cus.css';
 
 export default function NavbarRegCus() {
@@ -17,9 +18,7 @@ export default function NavbarRegCus() {
     <nav className="navbar-container">
       {/* Left: Brand Logo */}
       <div className="navbar-left">
-        <h2 className="navbar-brand" onClick={() => navigate('/portal')}>
-          💧 AquaPure <span className="navbar-portal-tag">PORTAL</span>
-        </h2>
+        <h2 className="navbar-brand" onClick={() => navigate('/portal')}>💧 AQUAS </h2>
       </div>
 
       {/* Middle: Navigation Links */}
@@ -38,37 +37,18 @@ export default function NavbarRegCus() {
         </NavLink>
       </div>
 
-      {/* Right: Search Icon & User Actions */}
+     {/* Right: Pure Icon Group */}
       <div className="navbar-right">
-        <div className="search-wrapper">
-          {showSearch && (
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Search TRK ID..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleSearchSubmit}
-              autoFocus
-            />
-          )}
-          <span
-            className="icon-btn"
-            title="Search"
-            onClick={() => setShowSearch(!showSearch)}
-          >
-            🔍
-          </span>
-        </div>
-
-        <span className="icon-btn" title="Notifications">🔔</span>
-        <span className="icon-btn" title="Cart">🛒</span>
-
-        <div
-          className="user-avatar"
-          onClick={() => navigate('/login')}
-          title="Sign Out"
-        >
+        <button className="icon-btn" title="Search">
+          <Search size={20} />
+        </button>
+        <button className="icon-btn" title="Notifications">
+          <Bell size={20} />
+        </button>
+        <button className="icon-btn" title="Cart">
+          <ShoppingCart size={20} />
+        </button>
+        <div  className="user-avatar-circle" onClick={() => navigate('/login')}  title="Account / Sign Out">
           JD
         </div>
       </div>
