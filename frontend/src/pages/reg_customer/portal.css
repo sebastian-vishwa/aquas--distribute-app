@@ -1,0 +1,31 @@
+.portal-page { padding: 3rem 5%; max-width: 1400px; margin: 0 auto; font-family: 'Inter', sans-serif; }
+.portal-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
+.portal-title { font-size: 2rem; color: #1E293B; margin-bottom: 0.5rem; }
+.portal-subtitle { color: #64748B; font-size: 1rem; }
+
+/* Grid Cards */
+.portal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+.portal-card { background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #E2E8F0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+
+/* Tables */
+.portal-table-container { background: white; border-radius: 12px; border: 1px solid #E2E8F0; overflow: hidden; }
+.portal-table { width: 100%; border-collapse: collapse; text-align: left; }
+.portal-table th { background: #F8FAFC; padding: 1rem 1.5rem; color: #475569; font-size: 0.8rem; text-transform: uppercase; border-bottom: 1px solid #E2E8F0; }
+.portal-table td { padding: 1.2rem 1.5rem; border-bottom: 1px solid #F1F5F9; color: #1E293B; font-size: 0.95rem; }
+
+/* Aliexpress Style Tracking */
+.tracking-card { background: white; padding: 2rem; border-radius: 12px; border: 1px solid #E2E8F0; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+.tracking-info h3 { margin: 0 0 0.5rem 0; color: #1E3A8A; }
+.tracking-steps { display: flex; align-items: center; gap: 1rem; flex: 1; max-width: 600px; }
+.step { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; position: relative; flex: 1; }
+.step-circle { width: 30px; height: 30px; border-radius: 50%; background: #E2E8F0; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; z-index: 2; }
+.step.active .step-circle { background: #0EA5E9; }
+.step.completed .step-circle { background: #10B981; }
+.step-label { font-size: 0.8rem; color: #64748B; text-align: center; font-weight: 600; }
+.step-line { position: absolute; top: 15px; left: 50%; width: 100%; height: 3px; background: #E2E8F0; z-index: 1; }
+.step.completed .step-line { background: #10B981; }
+
+.status-pill { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+.status-green { background: #D1FAE5; color: #059669; }
+.status-blue { background: #E0F2FE; color: #0284C7; }
+.status-orange { background: #FEF3C7; color: #D97706; }
