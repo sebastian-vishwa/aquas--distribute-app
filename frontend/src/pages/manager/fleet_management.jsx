@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './manager_pages.css';
-import AddVehicle from "c:/Users/Administrator/OneDrive/Documents/aqus/aquas--distribute-app/frontend/src/components/manager/Addvehicle";
+import AddVehicle from "../../components/manager/Addvehicle";
 
 export default function FleetManagement() {
   const fleetData = [
