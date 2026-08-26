@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Home_occ_customer.css';
 // Import your images here once they are in your assets folder!
 // import heroImg from '../assets/hero.png'; 
 
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <div className="home-wrapper">
       
@@ -15,7 +17,7 @@ export default function Home() {
           <h1>Premium Mineral Water Delivered To Your Door</h1>
           <p>Stay hydrated with our multi-stage purified drinking water. Perfect for homes, offices, and events. Quick delivery and flexible monthly packages tailored just for you.</p>
           <div className="hero-buttons">
-            <button className="btn-primary">Order Now</button>
+            <button className="btn-primary" onClick={() => navigate('/products')}>Order Now</button>
             <button className="btn-outline">Contact Us</button>
           </div>
         </div>
