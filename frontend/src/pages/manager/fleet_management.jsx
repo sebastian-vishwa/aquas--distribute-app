@@ -1,76 +1,66 @@
-import React, { useState } from "react";
-import { Plus, Download, Truck, Navigation, Wrench, Clock } from "lucide-react";
+import React, { useState, useEffect } from 'react';
 import './manager_pages.css';
-import AddVehicle from "../../components/manager/Addvehicle";
+import AddVehicle from "../../components/manager/Addvehicle"; 
+import AddDriver from "../../components/manager/AddDriver"; 
 
 export default function FleetManagement() {
-  const initialFleetData = [
-    { id: 'T-089', status: 'In Transit', sClass: 'status-active', driver: 'John Doe', loc: 'I-95 Northbound -> Depot B' },
-    { id: 'T-142', status: 'Maintenance', sClass: 'status-inactive', driver: 'Unassigned', loc: 'Garage A, Bay 4' },
-    { id: 'T-201', status: 'In Transit', sClass: 'status-active', driver: 'Sarah Jenkins', loc: 'Route 44 -> Retailer Hub C' }
-  ];
-
-  const [showAddVehicle, setShowAddVehicle] = useState(false);
-  const [vehicles, setVehicles] = useState(initialFleetData);
+  const [isVehicleModalOpen, setVehicleModalOpen] = useState(false);
+  const [isDriverModalOpen, setDriverModalOpen] = useState(false);
   
+  // State for database data
+  const [driverData, setDriverData] = useState([]);
+  const [vehicleData, setVehicleData] = useState([]); 
+
+  // 1. Fetch Drivers safely
+  const fetchDrivers = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/drivers');
+      const data = await response.json();
+      // Safety check: Ensure it's an array before saving to state
+      setDriverData(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Failed to fetch drivers:", error);
+      setDriverData([]); // Fallback to empty array on crash
+    }
+  };
+
+  // 2. Fetch Vehicles safely
+  const fetchVehicles = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/vehicles');
+      const data = await response.json();
+      setVehicleData(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Failed to fetch vehicles:", error);
+      setVehicleData([]); 
+    }
+  };
+
+  // Load data when page opens
+  useEffect(() => {
+    fetchDrivers();
+    fetchVehicles();
+  }, []);
+
   return (
     <div>
       <div className="manager-header">
-        <div>
-          <h1>Fleet Management</h1>
-          <p>Track live routes, vehicle health, and driver assignments.</p>
-        </div>
-        <button 
-          className="btn-action" 
-          onClick={() => setShowAddVehicle(true)}
-          style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-        >
-          <Plus size={18} /> Add Vehicle
-        </button>
+        <h1>Fleet Management</h1>
       </div>
 
       <div className="manager-stats-grid">
-        <div className="stat-card">
-          <div className="stat-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            Total Fleet
-            <Truck size={18} color="#64748B" />
-          </div>
-          <div className="stat-value">124</div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-title" style={{ color: '#3B82F6', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            In Transit
-            <Navigation size={18} color="#3B82F6" />
-          </div>
-          <div className="stat-value">87</div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-title" style={{ color: '#64748B', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            Idle
-            <Clock size={18} color="#64748B" />
-          </div>
-          <div className="stat-value">22</div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-title" style={{ color: '#DC2626', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            Maintenance
-            <Wrench size={18} color="#DC2626" />
-          </div>
-          <div className="stat-value">15</div>
-        </div>
+        <div className="stat-card"><div className="stat-title">Total Fleet</div><div className="stat-value">{vehicleData.length}</div></div>
+        <div className="stat-card"><div className="stat-title" style={{color: '#3B82F6'}}>In Transit</div><div className="stat-value">0</div></div>
+        <div className="stat-card"><div className="stat-title" style={{color: '#64748B'}}>Idle</div><div className="stat-value">{vehicleData.length}</div></div>
+        <div className="stat-card"><div className="stat-title" style={{color: '#DC2626'}}>Maintenance</div><div className="stat-value">0</div></div>
       </div>
 
-      <div className="manager-table-container">
-        <h3 style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* Vehicle Status Roster (Now mapped to MongoDB!) */}
+      <div className="manager-table-container" style={{ marginBottom: '2rem' }}>
+        <h3 style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           Vehicle Status Roster
-          <button 
-            style={{ background: 'none', border: 'none', color: '#0A5C99', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px' }} 
-            onClick={() => alert('Downloading CSV...')}
-          >
-            <Download size={16} /> Export CSV
+          <button className="btn-action" style={{ fontSize: '0.85rem', padding: '0.5rem 1rem' }} onClick={() => setVehicleModalOpen(true)}>
+            + Add Vehicle
           </button>
         </h3>
         <table className="manager-table">
@@ -78,35 +68,62 @@ export default function FleetManagement() {
             <tr><th>VEHICLE ID</th><th>STATUS</th><th>DRIVER</th><th>LOCATION / DESTINATION</th></tr>
           </thead>
           <tbody>
-            {vehicles.map((v, i) => (
-              <tr key={i}>
-                <td>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Truck size={16} color="#0A5C99" />
-                    <strong>{v.id}</strong>
-                  </div>
-                </td>
-                <td><span className={`status-pill ${v.sClass}`}>{v.status}</span></td>
-                <td>{v.driver}</td>
-                <td>{v.loc}</td>
-              </tr>
-            ))}
+            {vehicleData.length > 0 ? (
+              vehicleData.map((v, i) => (
+                <tr key={i}>
+                  <td><strong>{v.vehicleId}</strong></td>
+                  <td>
+                    <span className={`status-pill ${v.status === 'In Transit' ? 'status-active' : v.status === 'Maintenance' ? 'status-inactive' : 'status-pending'}`}>
+                      {v.status}
+                    </span>
+                  </td>
+                  <td>{v.driver}</td>
+                  <td>{v.location}</td>
+                </tr>
+              ))
+            ) : (
+              <tr><td colSpan="4" style={{textAlign: 'center', padding: '2rem'}}>No vehicles in database. Add one!</td></tr>
+            )}
           </tbody>
         </table>
       </div>
 
-      {showAddVehicle && (
-        <AddVehicle
-          onClose={() => setShowAddVehicle(false)}
-          onAdd={(newVehicle) => {
-            setVehicles((previousVehicles) => [
-              ...previousVehicles,
-              newVehicle,
-            ]);
-            setShowAddVehicle(false);
-          }}
-        />
-      )}
+      {/* Driver Roster Table (Now mapped to MongoDB!) */}
+      <div className="manager-table-container">
+        <h3 style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          Driver Roster
+          <button className="btn-action" style={{ fontSize: '0.85rem', padding: '0.5rem 1rem' }} onClick={() => setDriverModalOpen(true)}>
+            + Add Driver
+          </button>
+        </h3>
+        <table className="manager-table">
+          <thead>
+            <tr><th>DRIVER ID</th><th>NAME</th><th>STATUS</th><th>ASSIGNED VEHICLE</th></tr>
+          </thead>
+          <tbody>
+            {driverData.length > 0 ? (
+              driverData.map((d, i) => (
+                <tr key={i}>
+                  <td style={{ color: '#0A5C99', fontWeight: '600' }}>{d.driverId}</td>
+                  <td>{d.fullName}</td>
+                  <td>
+                    <span className={`status-pill ${d.status === 'Active' ? 'status-active' : 'status-inactive'}`}>
+                      {d.status}
+                    </span>
+                  </td>
+                  <td><strong>{d.assignedVehicle}</strong></td>
+                </tr>
+              ))
+            ) : (
+              <tr><td colSpan="4" style={{textAlign: 'center', padding: '2rem'}}>No drivers in database. Add one!</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Modals */}
+      {isVehicleModalOpen && <AddVehicle onClose={() => setVehicleModalOpen(false)} refreshVehicles={fetchVehicles} />}
+      {isDriverModalOpen && <AddDriver onClose={() => setDriverModalOpen(false)} refreshDrivers={fetchDrivers} />}
     </div>
   );
 }
