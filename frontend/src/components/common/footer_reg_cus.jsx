@@ -1,30 +1,35 @@
 import React from 'react';
+import './Footer_occ_cus.css';
 
-export default function FooterRegCus() {
+export default function Footer() {
   return (
-    <footer style={{ background: '#0F172A', color: '#94A3B8', padding: '3rem 5%', marginTop: 'auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #334155', paddingBottom: '2rem', marginBottom: '2rem' }}>
-        <div>
-          <h2 style={{ color: 'white', margin: '0 0 1rem 0' }}>💧 AquaPure</h2>
-          <p style={{ maxWidth: '300px', fontSize: '0.9rem' }}>Enterprise water logistics and delivery platform.</p>
+    <footer className="footer">
+      <div className="footer-cols">
+        <div className="col">
+          <h3 className="footer-logo">💧 AQUAS</h3>
+          <p>Delivering purity and reliability to businesses and homes nationwide.</p>
         </div>
-        <div style={{ display: 'flex', gap: '4rem' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <h4 style={{ color: 'white' }}>Platform</h4>
-            <span>Dashboard</span>
-            <span>Shop</span>
-            <span>Tracking</span>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <h4 style={{ color: 'white' }}>Support</h4>
-            <span>Help Center</span>
-            <span>Contact Us</span>
-            <span>Report Issue</span>
-          </div>
+        <div className="col">
+          <h4>COMPANY</h4>
+          <a href="#">About Us</a>
+          <a href="#">Service Areas</a>
+          <a href="#">Logistics Support</a>
+          <a href="#">Careers</a>
+        </div>
+        <div className="col">
+          <h4>LEGAL</h4>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Return Policy</a>
+        </div>
+        <div className="col">
+          <h4>CONTACT</h4>
+          <p>✉️ wholesale@aquas.com</p>
+          <p>📞 1-800-AQUAS</p>
         </div>
       </div>
-      <div style={{ textAlign: 'center', fontSize: '0.85rem' }}>
-        &copy; 2026 AquaPure Logistics. All rights reserved.
+      <div className="footer-bottom">
+        <p>© 2026 AQUAS Wholesale. All rights reserved.</p>
       </div>
     </footer>
   );
