@@ -71,9 +71,9 @@ export default function Login() {
             </button>
           </div>
 
+          {/* Guest link ain karapu footer eka */}
           <div className="login-footer-links">
             <p>Don&apos;t have an account? <span className="link-bold" onClick={() => navigate('/register')}>Create an Account</span></p>
-            <span className="link-guest" onClick={() => navigate('/')}>Continue as Guest &gt;</span>
           </div>
         </div>
       </div>
