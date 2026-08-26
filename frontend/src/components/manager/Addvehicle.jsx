@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AddVehicle.css";
 
-export default function AddVehicle({ onClose, onAdd }) {
+export default function AddVehicle({ onClose, refreshVehicles }) {
   const [vehicle, setVehicle] = useState({
     registrationNumber: "",
     vehicleType: "",
@@ -15,6 +15,8 @@ export default function AddVehicle({ onClose, onAdd }) {
     notes: "",
   });
 
+  const [driverList, setDriverList] = useState([]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -24,23 +26,60 @@ export default function AddVehicle({ onClose, onAdd }) {
     }));
   };
 
-  const handleSubmit = (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !vehicle.registrationNumber ||
-      !vehicle.vehicleType ||
-      !vehicle.make ||
-      !vehicle.model ||
-      !vehicle.year ||
-      !vehicle.capacity
-    ) {
+    // 1. Validation check
+    if (!vehicle.registrationNumber || !vehicle.vehicleType || !vehicle.make || !vehicle.model || !vehicle.year || !vehicle.capacity) {
       alert("Please fill all required fields.");
       return;
     }
 
-    onAdd(vehicle);
+    try {
+      // 2. Send the data to your backend
+      const response = await fetch('http://localhost:5000/api/vehicles/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...vehicle,
+          vehicleId: vehicle.registrationNumber, // Mapping this so it matches your backend schema
+          location: 'Depot' // Default location for new vehicles
+        }),
+      });
+
+      // 3. Handle success or failure
+      if (response.ok) {
+        alert('✅ Vehicle added successfully!');
+        if (refreshVehicles) refreshVehicles(); // Tell the roster table to update
+        onClose(); // Close the popup
+      } else {
+        const errData = await response.json();
+        alert(`❌ Error adding vehicle: ${errData.message}`);
+      }
+    } catch (error) {
+      console.error('Server error:', error);
+      alert('Server error. Make sure your backend terminal is running!');
+    }
   };
+
+  useEffect(() => {
+    const fetchDrivers = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/drivers');
+        const data = await response.json();
+        // Ensure it's an array to prevent crashes
+        setDriverList(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error('Error fetching drivers:', error);
+      }
+    };
+    
+    fetchDrivers();
+  }, []);
 
   return (
     <div className="vehicle-modal-overlay">
@@ -63,7 +102,7 @@ export default function AddVehicle({ onClose, onAdd }) {
             className="vehicle-close-btn"
             onClick={onClose}
           >
-            ×
+            
           </button>
 
         </div>
@@ -267,32 +306,25 @@ export default function AddVehicle({ onClose, onAdd }) {
               </div>
 
               {/* Driver */}
-              <div className="vehicle-form-group full-width">
-
+              <div className="vehicle-form-group">
                 <label>
                   Assigned Driver
                 </label>
-
-                <select
-                  name="driver"
-                  value={vehicle.driver}
-                  onChange={handleChange}
+                <select 
+                  name="driver" 
+                  value={vehicle.driver || "Unassigned"}
+                  onChange={handleChange} 
                 >
-
-                  <option value="">
-                    Unassigned
-                  </option>
-
-                  <option value="John Doe">
-                    W.D.Rathnayaka
-                  </option>
-
-                  <option value="Sarah Jenkins">
-                    D.S.D.Liyanarachchi
-                  </option>
-
+                  <option value="Unassigned">Unassigned</option>
+                  
+                  {/* Dynamically maps your database drivers into options */}
+                  {driverList.map((driver, index) => (
+                    <option key={index} value={driver.fullName}>
+                      {driver.fullName} ({driver.driverId})
+                    </option>
+                  ))}
+                  
                 </select>
-
               </div>
 
               {/* Notes */}
