@@ -1,6 +1,7 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
+import { Droplet, ShoppingCart, User } from 'lucide-react';
 import './Navbar_occ_cus.css';
 
 export default function NavbarOccCus() {
@@ -10,18 +11,23 @@ export default function NavbarOccCus() {
 
   return (
     <nav className="navbar">
+      {/* Logo */}
       <div className="logo-container" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-        <h2 className="logo-text">💧 AquaPure</h2>
+        <h2 className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Droplet size={24} fill="#0A3D91" color="#0A3D91" /> Aquas
+        </h2>
       </div>
       
+      {/* Navigation Links */}
       <div className="nav-links">
         <NavLink to="/">Home</NavLink>
         <NavLink to="/products">Products</NavLink>
         <NavLink to="/about">About</NavLink>
       </div>
       
-      <div className="nav-icons">
-        {/* Cart Wrapper eka */}
+      {/* Icons Area */}
+      <div className="nav-icons" style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+        {/* Cart Wrapper */}
         <div 
           className="cart-wrapper"
           onMouseEnter={() => setIsHovered(true)}
@@ -31,20 +37,20 @@ export default function NavbarOccCus() {
           <span 
             className="cart-icon" 
             onClick={() => navigate('/checkout')} 
-            style={{ cursor: 'pointer', position: 'relative' }}
+            style={{ cursor: 'pointer', position: 'relative', display: 'flex', alignItems: 'center' }}
           >
-            🛒
+            <ShoppingCart size={22} color="#1E293B" />
             {cartItems.length > 0 && (
               <span className="cart-badge">{cartItems.length}</span>
             )}
           </span>
 
-          {/* Hover Popup eka */}
+          {/* Hover Popup */}
           {isHovered && (
             <div className="cart-popup">
               <h4>Your Cart</h4>
               {cartItems.length === 0 ? (
-                <p style={{fontSize: '0.8rem', color: '#666'}}>Cart is empty</p>
+                <p style={{ fontSize: '0.8rem', color: '#666' }}>Cart is empty</p>
               ) : (
                 <div className="popup-items">
                   {cartItems.map((item, index) => (
@@ -62,11 +68,15 @@ export default function NavbarOccCus() {
           )}
         </div>
 
-        <span style={{ cursor: 'pointer', marginLeft: '1rem' }} onClick={() => navigate('/login')}>👤</span>
+        {/* User Login Profile Icon */}
+        <span 
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} 
+          onClick={() => navigate('/login')}
+          title="Account Login"
+        >
+          <User size={22} color="#1E293B" />
+        </span>
       </div>
-
-
-
     </nav>
   );
 }
