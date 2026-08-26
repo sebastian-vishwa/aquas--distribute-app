@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from "react";
 import './manager_pages.css';
+import AddVehicle from "c:/Users/Administrator/OneDrive/Documents/aqus/aquas--distribute-app/frontend/src/components/manager/Addvehicle";
 
 export default function FleetManagement() {
   const fleetData = [
@@ -7,12 +8,14 @@ export default function FleetManagement() {
     { id: 'T-142', status: 'Maintenance', sClass: 'status-inactive', driver: 'Unassigned', loc: 'Garage A, Bay 4' },
     { id: 'T-201', status: 'In Transit', sClass: 'status-active', driver: 'Sarah Jenkins', loc: 'Route 44 -> Retailer Hub C' }
   ];
-
+  const [showAddVehicle, setShowAddVehicle] = useState(false);
+  const [vehicles, setVehicles] = useState([]);
+  
   return (
     <div>
       <div className="manager-header">
         <h1>Fleet Management</h1>
-        <button className="btn-action" onClick={() => alert('Add Vehicle Modal')}>+ Add Vehicle</button>
+        <button className="btn-action" onClick={() => setShowAddVehicle(true)('Add Vehicle Modal')}>+ Add Vehicle</button>
       </div>
 
       <div className="manager-stats-grid">
@@ -43,6 +46,19 @@ export default function FleetManagement() {
           </tbody>
         </table>
       </div>
+      {showAddVehicle && (
+        <AddVehicle
+           onClose={() => setShowAddVehicle(false)}
+           onAdd={(newVehicle) => {
+            setVehicles((previousVehicles) => [
+              ...previousVehicles,
+              newVehicle,
+            ]);
+
+            setShowAddVehicle(false);
+           }}
+        />
+      )}
     </div>
   );
 }
