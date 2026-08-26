@@ -66,7 +66,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* CONTACT SECTION */}
+     {/* CONTACT SECTION */}
       <section className="contact-section">
         <div className="contact-info">
           <h2>Initiate Contact</h2>
@@ -85,44 +85,6 @@ export default function About() {
               <p>logistics@aquapurewholesale.com</p>
             </div>
           </div>
-        </div>
-        
-        <div className="contact-form">
-          <h3>Volume Inquiry Form</h3>
-          <form onSubmit={(e) => { e.preventDefault(); alert('Message sent!'); }}>
-            <div className="form-row">
-              <div className="input-group">
-                <label>ENTITY NAME</label>
-                <input type="text" placeholder="Corp Inc." />
-              </div>
-              <div className="input-group">
-                <label>CONTACT IDENTIFIER</label>
-                <input type="text" placeholder="Jane Doe" />
-              </div>
-            </div>
-            <div className="form-row">
-              <div className="input-group">
-                <label>EMAIL ADDRESS</label>
-                <input type="email" placeholder="jane@corp.com" />
-              </div>
-              <div className="input-group">
-                <label>PHONE NUMBER</label>
-                <input type="tel" placeholder="(555) 000-0000" />
-              </div>
-            </div>
-            <div className="input-group">
-              <label>ESTIMATED MONTHLY VOLUME</label>
-              <select>
-                <option>100 - 500 Gallons</option>
-                <option>500 - 1000 Gallons</option>
-              </select>
-            </div>
-            <div className="input-group">
-              <label>OPERATIONAL REQUIREMENTS</label>
-              <textarea rows="4" placeholder="Detail your specific logistical needs..."></textarea>
-            </div>
-            <button type="submit" className="btn-submit">TRANSMIT INQUIRY</button>
-          </form>
         </div>
       </section>
     </div>

@@ -1,7 +1,8 @@
-import React from 'react';
+import React,{useState}from 'react';
 import './Products_occ_customer.css';
 
 export default function Products() {
+  const [viewMode, setViewMode] = useState('grid');
   return (
     <div className="products-wrapper">
       {/* HERO SECTION - Updated to Default Blue */}
@@ -20,13 +21,19 @@ export default function Products() {
       <section className="bundles-section">
         <div className="section-header">
           <h2>Available Bundles</h2>
-          <div className="view-toggles">
-            <button className="icon-btn active">⊞</button>
-            <button className="icon-btn">≣</button>
+         <div className="view-toggles">
+            <button 
+              className={`icon-btn ${viewMode === 'grid' ? 'active' : ''}`}
+              onClick={() => setViewMode('grid')}
+            >⊞</button>
+            <button 
+              className={`icon-btn ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+            >≣</button>
           </div>
         </div>
 
-        <div className="bundles-grid">
+       <div className={`bundles-grid ${viewMode === 'list' ? 'list-view' : ''}`}>
           {/* Card 1 */}
           <div className="bundle-card">
             <div className="card-img-placeholder">5-Gallon Jar Image</div>

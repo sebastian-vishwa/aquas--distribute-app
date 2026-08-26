@@ -39,21 +39,12 @@
 .team-card p { color: var(--text-gray); font-size: 0.85rem; line-height: 1.5; margin: 0; }
 
 /* Contact Section */
-.contact-section { display: flex; padding: 5rem 8%; gap: 4rem; background: white; }
-.contact-info { flex: 1; background: var(--primary-blue); color: white; padding: 3rem; border-radius: 12px; }
-.contact-info h2 { margin-bottom: 1rem; }
-.contact-info > p { color: #E2E8F0; line-height: 1.6; margin-bottom: 2.5rem; }
-.method { margin-bottom: 2rem; }
-.method strong { display: block; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 0.5rem; color: #93C5FD; }
-.method p { margin: 0; line-height: 1.5; font-size: 0.95rem; }
+.contact-section { display: flex; padding: 5rem 8%; background: white; }
+.contact-info { width: 100%; background: var(--primary-blue); color: white; padding: 4rem; border-radius: 12px; text-align: center;}
+.contact-info h2 { font-size: 2.2rem;margin-bottom: 1rem; }
+.contact-info > p { color: #E2E8F0; line-height: 1.6; max-width: 600px; margin: 0 auto 3.5rem auto; font-size: 1.05rem;}
+.contact-methods {display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: left;}
+.method { background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);}
+.method strong { display: block; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 0.75rem; color: #93C5FD; }
+.method p { margin: 0; line-height: 1.6; font-size: 0.95rem;}
 .small-text { font-size: 0.8rem; color: #94A3B8; }
-
-.contact-form { flex: 1.5; padding: 1rem 0; }
-.contact-form h3 { color: var(--text-dark); margin-bottom: 2rem; font-size: 1.5rem; }
-.form-row { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; }
-.input-group { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
-.input-group label { font-size: 0.75rem; font-weight: bold; color: var(--text-dark); letter-spacing: 1px; }
-.input-group input, .input-group select, .input-group textarea { padding: 0.8rem; border: 1px solid #CBD5E1; border-radius: 6px; font-family: inherit; font-size: 0.95rem; transition: border-color 0.2s; }
-.input-group input:focus, .input-group select:focus, .input-group textarea:focus { outline: none; border-color: var(--primary-blue); }
-.btn-submit { width: 100%; background: #0EA5E9; color: white; border: none; padding: 1rem; font-weight: bold; font-size: 0.95rem; letter-spacing: 1px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-.btn-submit:hover { background: #0284C7; }
