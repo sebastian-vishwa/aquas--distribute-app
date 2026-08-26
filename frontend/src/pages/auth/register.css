@@ -64,3 +64,12 @@
 
 .register-footer { text-align: center; margin-top: 2rem; font-size: 0.85rem; color: #94A3B8; }
 .register-footer .link { color: #0EA5E9; cursor: pointer; }
+
+.circle.completed {
+  background: #10B981; /* Green checkmark for completed steps */
+  color: white;
+}
+
+.line-active {
+  background: #1E3A8A !important; /* Active tracker connecting line */
+}
