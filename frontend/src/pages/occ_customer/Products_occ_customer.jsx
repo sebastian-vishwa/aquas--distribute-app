@@ -1,11 +1,65 @@
-import React,{useState}from 'react';
+import React, { useState } from 'react';
 import './Products_occ_customer.css';
+import { useCart } from '../../components/common/CartContext';
 
 export default function Products() {
   const [viewMode, setViewMode] = useState('grid');
+  const { addToCart } = useCart();
+  
+  // Modal eka wenuwen aluth states
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
+  // Add to cart click karama modal eka open wena function eka
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+    setQuantity(1); // Modal open weddi hama tissema 1n patan ganna
+  };
+
+  // Modal eke confirm karama cart ekata add wena function eka
+  const handleConfirmAddToCart = () => {
+    if (selectedProduct) {
+      addToCart(selectedProduct, quantity);
+      setSelectedProduct(null); // Modal eka close karanawa
+    }
+  };
+
   return (
     <div className="products-wrapper">
-      {/* HERO SECTION - Updated to Default Blue */}
+      
+      {/* MODAL POPUP EKA */}
+      {selectedProduct && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>{selectedProduct.title}</h3>
+            <p className="modal-desc">Select quantity to add to your cart</p>
+            
+            <div className="quantity-controls">
+              <button 
+                onClick={() => setQuantity(prev => (prev > 1 ? prev - 1 : 1))}
+                className="qty-btn"
+              >-</button>
+              <span className="qty-display">{quantity}</span>
+              <button 
+                onClick={() => setQuantity(prev => prev + 1)}
+                className="qty-btn"
+              >+</button>
+            </div>
+            
+            {/* Dynamic Price Calculation */}
+            <div className="modal-total">
+              Total Price: <span>Rs. {selectedProduct.price * quantity}</span>
+            </div>
+
+            <div className="modal-actions">
+              <button className="btn-cancel" onClick={() => setSelectedProduct(null)}>Cancel</button>
+              <button className="btn-confirm" onClick={handleConfirmAddToCart}>Confirm Add</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* HERO SECTION */}
       <header className="products-hero">
         <div className="hero-content">
           <span className="subtitle">Wholesale Bundles</span>
@@ -21,19 +75,13 @@ export default function Products() {
       <section className="bundles-section">
         <div className="section-header">
           <h2>Available Bundles</h2>
-         <div className="view-toggles">
-            <button 
-              className={`icon-btn ${viewMode === 'grid' ? 'active' : ''}`}
-              onClick={() => setViewMode('grid')}
-            >⊞</button>
-            <button 
-              className={`icon-btn ${viewMode === 'list' ? 'active' : ''}`}
-              onClick={() => setViewMode('list')}
-            >≣</button>
+          <div className="view-toggles">
+            <button className={`icon-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}>⊞</button>
+            <button className={`icon-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}>≣</button>
           </div>
         </div>
 
-       <div className={`bundles-grid ${viewMode === 'list' ? 'list-view' : ''}`}>
+        <div className={`bundles-grid ${viewMode === 'list' ? 'list-view' : ''}`}>
           {/* Card 1 */}
           <div className="bundle-card">
             <div className="card-img-placeholder">5-Gallon Jar Image</div>
@@ -42,16 +90,16 @@ export default function Products() {
                 <h3>5-Gallon Jar</h3>
                 <span className="badge">BUNDLE OF 5</span>
               </div>
-              <p>Standard size for office water dispensers. Reverse osmosis purified.</p>
+              <p>Standard size for office water dispensers.</p>
               <div className="price-row">
-                <h2>$34.95</h2>
-                <span className="old-price">$42.50</span>
+                <h2>Rs. 3750</h2>
               </div>
-              <button className="btn-cart" onClick={() => alert('Added to cart!')}>🛒 Add to Cart</button>
+              {/* Button eka change kala handleOpenModal walata */}
+              <button className="btn-cart" onClick={() => handleOpenModal({ id: 1, title: '5-Gallon Jar', price: 3750 })}>🛒 Add to Cart</button>
             </div>
           </div>
 
-          {/* Card 2 (Best Seller) */}
+          {/* Card 2 */}
           <div className="bundle-card best-seller">
             <span className="best-seller-tag">BEST SELLER</span>
             <div className="card-img-placeholder">19L Bottle Image</div>
@@ -62,9 +110,9 @@ export default function Products() {
               </div>
               <p>Premium mineral water enriched with essential electrolytes.</p>
               <div className="price-row">
-                <h2>$28.50</h2>
+                <h2>Rs. 2400</h2>
               </div>
-              <button className="btn-cart" onClick={() => alert('Added to cart!')}>🛒 Add to Cart</button>
+              <button className="btn-cart" onClick={() => handleOpenModal({ id: 2, title: '19L Bottle', price: 2400 })}>🛒 Add to Cart</button>
             </div>
           </div>
 
@@ -78,12 +126,11 @@ export default function Products() {
               </div>
               <p>Perfect for retail resale or large corporate events.</p>
               <div className="price-row">
-                <h2>$12.99</h2>
-                <span className="per-unit">/ case</span>
+                <h2>Rs. 1950</h2>
               </div>
-              <button className="btn-cart" onClick={() => alert('Added to cart!')}>🛒 Add to Cart</button>
+              <button className="btn-cart" onClick={() => handleOpenModal({ id: 3, title: '0.5L Small Bottles', price: 1950 })}>🛒 Add to Cart</button>
             </div>
-          </div>
+          </div> 
 
           {/* Card 4 */}
           <div className="bundle-card">
@@ -95,57 +142,12 @@ export default function Products() {
               </div>
               <p>Ideal for daily hydration needs. BPA-free packaging.</p>
               <div className="price-row">
-                <h2>$14.50</h2>
-                <span className="per-unit">/ case</span>
+                <h2>Rs. 1850</h2>
               </div>
-              <button className="btn-cart" onClick={() => alert('Added to cart!')}>🛒 Add to Cart</button>
+              <button className="btn-cart" onClick={() => handleOpenModal({ id: 4, title: '1.5L Bottles', price: 1850 })}>🛒 Add to Cart</button>
             </div>
           </div>
         </div>
-        <div className="load-more-container">
-          <button className="btn-outline-dark">Load More Products</button>
-        </div>
-      </section>
-
-      {/* SPECS TABLE */}
-      <section className="specs-section">
-        <h2>Pallet Configuration Specs</h2>
-        <table className="specs-table">
-          <thead>
-            <tr>
-              <th>PRODUCT</th>
-              <th>UNITS / BUNDLE</th>
-              <th>BUNDLES / PALLET</th>
-              <th>PALLET WEIGHT (LBS)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>5-Gallon Jar</strong></td>
-              <td>5 Jars</td>
-              <td>40 Bundles</td>
-              <td>1,750</td>
-            </tr>
-            <tr>
-              <td><strong>19L Bottle</strong></td>
-              <td>3 Bottles</td>
-              <td>50 Bundles</td>
-              <td>1,820</td>
-            </tr>
-            <tr>
-              <td><strong>0.5L Small Bottles</strong></td>
-              <td>24 Bottles / Case</td>
-              <td>72 Cases</td>
-              <td>1,850</td>
-            </tr>
-            <tr>
-              <td><strong>1.5L Bottles</strong></td>
-              <td>12 Bottles / Case</td>
-              <td>80 Cases</td>
-              <td>2,450</td>
-            </tr>
-          </tbody>
-        </table>
       </section>
     </div>
   );
