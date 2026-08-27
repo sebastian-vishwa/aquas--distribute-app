@@ -6,7 +6,6 @@ export default function DashboardRegCus() {
       <div className="portal-header">
         <div>
           <h1 className="portal-title">Welcome back, Apex Traders</h1>
-          <p className="portal-subtitle">Here is your wholesale overview for this week.</p>
         </div>
         <button style={{ background: '#0EA5E9', color: 'white', padding: '0.8rem 1.5rem', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>🛒 Quick Reorder</button>
       </div>
@@ -23,6 +22,11 @@ export default function DashboardRegCus() {
           <p style={{ margin: 0, fontSize: '0.9rem', color: '#64748B' }}>vs retail pricing</p>
         </div>
         <div className="portal-card">
+          <p style={{ color: '#64748B', fontWeight: 'bold', fontSize: '0.8rem', margin: 0 }}>EMPTY JUG RETURNS</p>
+           <h2 style={{ fontSize: '2.5rem', color: '#1E3A8A', margin: '0.5rem 0' }}>14 Jugs </h2>
+          <p style={{ margin: 0, fontSize: '0.9rem', color: '#64748B' }}>Ready for driver pickup</p>
+        </div>
+        <div className="portal-card">
           <p style={{ color: '#64748B', fontWeight: 'bold', fontSize: '0.8rem', margin: 0 }}>ACCOUNT DETAILS</p>
           <div style={{ marginTop: '1rem', fontSize: '0.95rem' }}>
             <strong>Company:</strong> Apex Traders LLC<br/>
@@ -30,6 +34,7 @@ export default function DashboardRegCus() {
             <strong>Billing:</strong> 123 Logistics Way, Chicago IL
           </div>
         </div>
+        
       </div>
     </div>
   );
