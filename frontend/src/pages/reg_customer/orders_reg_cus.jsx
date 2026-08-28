@@ -1,6 +1,6 @@
 import React from 'react';
-import {ShoppingBag,BadgeCheck,Truck,CircleX,RefreshCw} from "lucide-react";
-
+import { ShoppingBag, BadgeCheck, Truck, CircleX, RefreshCw, FileText } from "lucide-react";
+import "./portal.css";
 export default function OrdersRegCus() {
   const orders = [
     { id: 'ORD-9021', date: 'Oct 24, 2026', items: '50x 5 Gal Jugs', total: '$375.00', status: 'In Transit', sClass: 'status-blue' },
@@ -18,53 +18,53 @@ export default function OrdersRegCus() {
         </div>
         <button className="refresh-button">
           <RefreshCw size={18} />
-           Refresh Products
+          Refresh Products
         </button>
       </div>
       {/* SUMMARY CARDS */}
-        <section className="summary">
+      <section className="summary">
 
-          <div className="summary-card">
-            <div className="summary-icon blue">
-              <ShoppingBag />
-            </div>
-            <div>
-              <p>Total Orders</p>
-              <h2>24</h2>
-              <small>All time</small>
-            </div>
+        <div className="summary-card">
+          <div className="summary-icon blue">
+            <ShoppingBag />
           </div>
-          <div className="summary-card">
-            <div className="summary-icon green">
-              <BadgeCheck />
-            </div>
-            <div>
-              <p>Delivered</p>
-              <h2 className="green-text">16</h2>
-              <small>This year</small>
-            </div>
+          <div>
+            <p>Total Orders</p>
+            <h2>24</h2>
+            <small>All time</small>
           </div>
-          <div className="summary-card">
-            <div className="summary-icon blue">
-              <Truck />
-            </div>
-            <div>
-              <p>In Transit</p>
-              <h2>5</h2>
-              <small>On the way</small>
-            </div>
+        </div>
+        <div className="summary-card">
+          <div className="summary-icon green">
+            <BadgeCheck />
           </div>
-          <div className="summary-card">
-            <div className="summary-icon orange">
-              <CircleX />
-            </div>
-            <div>
-              <p>Cancelled</p>
-              <h2 className="orange-text">3</h2>
-              <small>This year</small>
-            </div>
+          <div>
+            <p>Delivered</p>
+            <h2 className="green-text">16</h2>
+            <small>This year</small>
           </div>
-        </section>
+        </div>
+        <div className="summary-card">
+          <div className="summary-icon blue">
+            <Truck />
+          </div>
+          <div>
+            <p>In Transit</p>
+            <h2>5</h2>
+            <small>On the way</small>
+          </div>
+        </div>
+        <div className="summary-card">
+          <div className="summary-icon orange">
+            <CircleX />
+          </div>
+          <div>
+            <p>Cancelled</p>
+            <h2 className="orange-text">3</h2>
+            <small>This year</small>
+          </div>
+        </div>
+      </section>
 
       <div className="portal-table-container">
         <table className="portal-table">
@@ -79,12 +79,12 @@ export default function OrdersRegCus() {
                 <td>{o.items}</td>
                 <td><strong>{o.total}</strong></td>
                 <td><span className={`status-pill ${o.sClass}`}>{o.status}</span></td>
-                <td><button style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}>📄</button></td>
+                <td><button className ="invoice-button" title="View Invoice" > <FileText size={19} /> </button></td>
               </tr>
             ))}
-          </tbody>
-        </table>
-      </div>
+        </tbody>
+      </table>
     </div>
+    </div >
   );
 }
