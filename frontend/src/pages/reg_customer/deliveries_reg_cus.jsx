@@ -1,89 +1,89 @@
-import React from 'react';
-import {  Truck, Package, Check, ArrowRight, CalendarDays,Droplets } from "lucide-react";
+import React, { useState } from "react";
+import { Truck, Package, Check, ArrowRight, CalendarDays, Droplets,X,MapPin } from "lucide-react";
 import "./portal.css";
 export default function DeliveriesRegCus() {
-  const deliveries = [
-    {
-      id: "TRK-9021-X",
-      status: "IN TRANSIT",
-      statusClass: "status-transit",
-      eta: "Today, 3:00 PM",
-      items: "50x 5-Gallon Jugs",
+  const [selectedDelivery, setSelectedDelivery] = useState(null);
+  const deliveries = [{
+    id: "TRK-9021-X",
+    status: "IN TRANSIT",
+    statusClass: "status-transit",
+    eta: "Today, 3:00 PM",
+    items: "50x 5-Gallon Jugs",
 
-      steps: [
-        {
-          name: "Ordered",
-          date: "Oct 22, 2026",
+    steps: [
+      {
+        name: "Ordered",
+        date: "Oct 22, 2026",
           time: "10:15 AM",
-          completed: true,
-          icon: <Check size={22} />,
-        },
-        {
-          name: "Dispatched",
-          date: "Oct 23, 2026",
+        completed: true,
+        icon: <Check size={22} />,
+      },
+      {
+        name: "Dispatched",
+        date: "Oct 23, 2026",
           time: "08:40 AM",
-          completed: true,
-          icon: <Check size={22} />,
-        },
-        {
-          name: "In Transit",
-          date: "Oct 24, 2026",
+        completed: true,
+        icon: <Check size={22} />,
+      },
+      {
+        name: "In Transit",
+        date: "Oct 24, 2026",
           time: "01:20 PM",
-          active: true,
-          icon: <Truck size={21} />,
-        },
-        {
-          name: "Delivered",
+        active: true,
+        icon: <Truck size={21} />,
+      },
+      {
+        name: "Delivered",
           date: "—",
           time: "",
-          completed: false,
-          icon: null,
-        },
-      ],
+        completed: false,
+        icon: null,
+      },
+    ],
 
-      productType: "jug",
-    },
+    productType: "jug",
+  },
 
-    {
-      id: "TRK-8842-Y",
-      status: "DISPATCHED",
-      statusClass: "status-dispatched",
-      eta: "Tomorrow, 10:00 AM",
-      items: "2x Industrial Dispensers",
+  {
+    id: "TRK-8842-Y",
+    status: "DISPATCHED",
+    statusClass: "status-dispatched",
+    eta: "Tomorrow, 10:00 AM",
+    items: "2x Industrial Dispensers",
 
-      steps: [
-        {
-          name: "Ordered",
-          date: "Oct 20, 2026",
-          time: "09:30 AM",
-          completed: true,
-          icon: <Check size={22} />,
-        },
-        {
-          name: "Dispatched",
-          date: "Oct 21, 2026",
-          time: "04:15 PM",
-          active: true,
-          icon: <Package size={20} />,
-        },
-        {
-          name: "In Transit",
+    steps: [
+      {
+        name: "Ordered",
+        date: "Oct 22, 2026",
+          time: "10:15 AM",
+        completed: true,
+        icon: <Check size={22} />,
+      },
+      {
+        name: "Dispatched",
+        date: "Oct 23, 2026",
+          time: "08:40 AM",
+        active: true,
+        icon: <Package size={20} />,
+      },
+      {
+        name: "In Transit",
+         date: "—",
+          time: "",
+        completed: false,
+        icon: null,
+      },
+      {
+        name: "Delivered",
           date: "—",
           time: "",
-          completed: false,
-          icon: null,
-        },
-        {
-          name: "Delivered",
-          date: "—",
-          time: "",
-          completed: false,
-          icon: null,
-        },
-      ],
+        completed: false,
+        icon: null,
+      },
+    ],
 
-      productType: "dispenser",
-    },
+    productType: "dispenser",
+  },
   ];
 
   return (
@@ -191,15 +191,6 @@ export default function DeliveriesRegCus() {
                         {step.name}
                       </strong>
 
-                      <span className="step-date">
-                        {step.date}
-                      </span>
-
-                      {step.time && (
-                        <span className="step-time">
-                          {step.time}
-                        </span>
-                      )}
 
                     </div>
 
@@ -231,7 +222,7 @@ export default function DeliveriesRegCus() {
 
             <div className="delivery-actions">
 
-              <button className="details-button">
+              <button className="details-button" onClick={() => setSelectedDelivery(delivery)}>
 
                 <span>
                   View Details
@@ -242,7 +233,7 @@ export default function DeliveriesRegCus() {
               </button>
 
 
-             
+
 
             </div>
 
@@ -251,6 +242,159 @@ export default function DeliveriesRegCus() {
         ))}
 
       </section>
+      {selectedDelivery && (
+        <div
+          className="details-overlay"
+          onClick={() => setSelectedDelivery(null)}
+        >
+
+          <div
+            className="details-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+
+            {/* HEADER */}
+
+            <div className="details-modal-header">
+
+              <div>
+                <span
+                  className={`delivery-status ${selectedDelivery.statusClass}`}
+                >
+                  {selectedDelivery.status}
+                </span>
+
+                <h2>
+                  Delivery Details
+                </h2>
+
+                <p>
+                  {selectedDelivery.id}
+                </p>
+              </div>
+
+
+              <button
+                className="modal-close"
+                onClick={() => setSelectedDelivery(null)}
+              >
+                <X size={20} />
+              </button>
+
+            </div>
+
+
+            {/* DETAILS */}
+
+            <div className="details-modal-content">
+
+              <div className="detail-item">
+                <span>Tracking ID</span>
+                <strong>{selectedDelivery.id}</strong>
+              </div>
+
+
+              <div className="detail-item">
+                <span>Status</span>
+
+                <strong>
+                  {selectedDelivery.status}
+                </strong>
+              </div>
+
+
+              <div className="detail-item">
+                <span>Items</span>
+
+                <strong>
+                  {selectedDelivery.items}
+                </strong>
+              </div>
+
+
+              <div className="detail-item">
+                <span>Estimated Delivery</span>
+
+                <strong className="detail-with-icon">
+                  <CalendarDays size={16} />
+                  {selectedDelivery.eta}
+                </strong>
+              </div>
+
+
+              <div className="detail-item">
+                <span>Delivery Address</span>
+
+                <strong className="detail-with-icon">
+                  <MapPin size={16} />
+                  125 Main Street, Colombo
+                </strong>
+              </div>
+
+
+              {/* DELIVERY PROGRESS */}
+
+              <div className="modal-progress">
+
+                <h3>
+                  Delivery Progress
+                </h3>
+
+                {selectedDelivery.steps.map((step) => (
+
+                  <div
+                    className="modal-progress-step"
+                    key={step.name}
+                  >
+
+                    <div
+                      className={`
+                  modal-step-circle
+                  ${step.completed ? "completed" : ""}
+                  ${step.active ? "active" : ""}
+                `}
+                    >
+                      {step.icon}
+                    </div>
+
+                    <div>
+                      <strong>
+                        {step.name}
+                      </strong>
+
+                      <p>
+                        {step.date}
+
+                        {step.time && ` • ${step.time}`}
+                      </p>
+                    </div>
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            </div>
+
+
+            {/* FOOTER */}
+
+            <div className="details-modal-footer">
+
+              <button
+                className="modal-close-button"
+                onClick={() => setSelectedDelivery(null)}
+              >
+                Close
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
     </div>
   );
 } 
