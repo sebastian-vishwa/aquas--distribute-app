@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Search, Bell, ShoppingCart, User } from 'lucide-react';
+import { Search, Bell, ShoppingCart, X } from 'lucide-react';
 import './navbar_reg_cus.css';
 
 export default function NavbarRegCus() {
@@ -37,18 +37,43 @@ export default function NavbarRegCus() {
         </NavLink>
       </div>
 
-     {/* Right: Pure Icon Group */}
+      {/* Right: Pure Icon Group */}
       <div className="navbar-right">
-        <button className="icon-btn" title="Search">
-          <Search size={20} />
-        </button>
+        {showSearch ? (
+          <div className="navbar-search-wrapper">
+            <input
+              type="text"
+              className="navbar-search-input"
+              placeholder="Search orders, items..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearchSubmit}
+              autoFocus
+            />
+            <button
+              className="icon-btn close-search-btn"
+              onClick={() => { setShowSearch(false); setSearchQuery(''); }}
+              title="Close Search"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        ) : (
+          <button
+            className="icon-btn"
+            title="Search"
+            onClick={() => setShowSearch(true)}
+          >
+            <Search size={20} />
+          </button>
+        )}
         <button className="icon-btn" title="Notifications">
           <Bell size={20} />
         </button>
         <button className="icon-btn" title="Cart">
           <ShoppingCart size={20} />
         </button>
-        <div  className="user-avatar-circle" onClick={() => navigate('/login')}  title="Account / Sign Out">
+        <div className="user-avatar-circle" onClick={() => navigate('/login')} title="Account / Sign Out">
           JD
         </div>
       </div>
