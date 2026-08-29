@@ -2,10 +2,19 @@ import React from 'react';
 
 export default function ProductsRegCus() {
   const products = [
-    { name: 'Premium 5-Gallon Dispenser Jar', price: '$5.50 / unit', img: '💧' },
-    { name: 'Pure Mineral 1L Case (24 Pk)', price: '$12.00 / case', img: '📦' },
-    { name: 'Industrial Hot/Cold Dispenser', price: '$185.00 / unit', img: '🚰' },
-    { name: 'Pallet: 5-Gallon Jars (40 Units)', price: '$200.00 / pallet', img: '🏗️' },
+    { name: 'Industrial Hot/Cold Dispenser', price: '$185.00 / unit', img: '' },
+    { name: 'Premium 5-Gallon Dispenser Jar', price: '$5.50 / unit', img: '' }, 
+    { name: 'Pallet: 5-Gallon Jars (40 Units)', price: '$200.00 / pallet', img: '' },
+    { name: 'Pure Mineral 500ml', price: '$12.00 / unit', img: '' },
+    { name: 'Pure Mineral 1L', price: '$12.00 / unit', img: '' },
+    { name: 'Pure Mineral 1.5L', price: '$12.00 / unit', img: '' },
+    { name: 'Pure Mineral 5L', price: '$12.00 / unit', img: '' },
+    { name: 'Pure Mineral 16L', price: '$12.00 / unit', img: '' },
+    { name: 'Pure Mineral 500ml Case (12 Pk)', price: '$12.00 / case', img: '' },
+    { name: 'Pure Mineral 1L Case (12 Pk)', price: '$12.00 / case', img: '' },
+    { name: 'Pure Mineral 1.5L Case (12 Pk)', price: '$12.00 / case', img: '' },
+    { name: 'Pure Mineral 5L Case (24 Pk)', price: '$12.00 / case', img: '' },
+    { name: 'Pure Mineral 16L Case (3 Pk)', price: '$12.00 / case', img: '' },
   ];
 
   return (
@@ -24,7 +33,7 @@ export default function ProductsRegCus() {
             <h3 style={{ fontSize: '1.1rem', color: '#1E293B', marginBottom: '0.5rem' }}>{p.name}</h3>
             <p style={{ color: '#0EA5E9', fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '1.5rem' }}>{p.price}</p>
             <button style={{ marginTop: 'auto', background: '#1E3A8A', color: 'white', border: 'none', padding: '0.8rem', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}>
-              Add to Order
+              Add to Cart
             </button>
           </div>
         ))}
