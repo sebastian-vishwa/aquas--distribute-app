@@ -27,10 +27,10 @@ export default function NavbarRegCus() {
           Dashboard
         </NavLink>
         <NavLink to="/portal/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
-          Shop Catalogue
+          Catalogue
         </NavLink>
         <NavLink to="/portal/orders" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
-          My Orders
+          Orders
         </NavLink>
         <NavLink to="/portal/deliveries" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
           Deliveries

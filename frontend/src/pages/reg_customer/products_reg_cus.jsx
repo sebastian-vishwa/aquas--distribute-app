@@ -1,42 +1,61 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function ProductsRegCus() {
-  const products = [
-    { name: 'Industrial Hot/Cold Dispenser', price: '$185.00 / unit', img: '' },
-    { name: 'Premium 5-Gallon Dispenser Jar', price: '$5.50 / unit', img: '' }, 
-    { name: 'Pallet: 5-Gallon Jars (40 Units)', price: '$200.00 / pallet', img: '' },
-    { name: 'Pure Mineral 500ml', price: '$12.00 / unit', img: '' },
-    { name: 'Pure Mineral 1L', price: '$12.00 / unit', img: '' },
-    { name: 'Pure Mineral 1.5L', price: '$12.00 / unit', img: '' },
-    { name: 'Pure Mineral 5L', price: '$12.00 / unit', img: '' },
-    { name: 'Pure Mineral 16L', price: '$12.00 / unit', img: '' },
-    { name: 'Pure Mineral 500ml Case (12 Pk)', price: '$12.00 / case', img: '' },
-    { name: 'Pure Mineral 1L Case (12 Pk)', price: '$12.00 / case', img: '' },
-    { name: 'Pure Mineral 1.5L Case (12 Pk)', price: '$12.00 / case', img: '' },
-    { name: 'Pure Mineral 5L Case (24 Pk)', price: '$12.00 / case', img: '' },
-    { name: 'Pure Mineral 16L Case (3 Pk)', price: '$12.00 / case', img: '' },
-  ];
+export default function Catalogue() {
+  const [catalogueData, setCatalogueData] = useState([]);
+
+  const fetchCatalogue = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/products');
+      const data = await response.json();
+      setCatalogueData(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Failed to fetch catalogue:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCatalogue();
+  }, []);
 
   return (
+    // 1. Replaced "catalogue-page" with "portal-page" for correct margins/width
     <div className="portal-page">
+      
+
       <div className="portal-header">
         <div>
           <h1 className="portal-title">Wholesale Catalogue</h1>
-          <p className="portal-subtitle">Order inventory at your partnered corporate rates.</p>
+          
         </div>
       </div>
 
+
       <div className="portal-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
-        {products.map((p, i) => (
-          <div key={i} className="portal-card" style={{ display: 'flex', flexDirection: 'column', textAlign: 'center', padding: '2rem' }}>
-            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>{p.img}</div>
-            <h3 style={{ fontSize: '1.1rem', color: '#1E293B', marginBottom: '0.5rem' }}>{p.name}</h3>
-            <p style={{ color: '#0EA5E9', fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '1.5rem' }}>{p.price}</p>
-            <button style={{ marginTop: 'auto', background: '#1E3A8A', color: 'white', border: 'none', padding: '0.8rem', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}>
-              Add to Cart
-            </button>
-          </div>
-        ))}
+        
+        {catalogueData.length > 0 ? (
+          catalogueData.map((item) => (
+            // 4. Replaced inline card styles with "portal-card"
+            <div key={item._id} className="portal-card" style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+              
+              <h3 style={{ fontSize: '1.1rem', color: '#1E293B', marginBottom: '0.5rem', minHeight: '40px' }}>
+                {item.productName} 
+              </h3>
+              
+              <p style={{ color: '#0EA5E9', fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '1.5rem' }}>
+                ${item.wholesalePrice ? item.wholesalePrice.toFixed(2) : '0.00'} / {item.unit ? item.unit.toLowerCase() : 'unit'}
+              </p>
+              
+              <button style={{ marginTop: 'auto', width: '100%', padding: '0.75rem', background: '#1E3A8A', color: 'white', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}>
+                Add to Cart
+              </button>
+            </div>
+          ))
+        ) : (
+          <p style={{ gridColumn: 'span 4', textAlign: 'center', padding: '2rem' }}>
+            No products available in the catalogue.
+          </p>
+        )}
+        
       </div>
     </div>
   );

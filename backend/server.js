@@ -16,6 +16,9 @@ app.use('/api/drivers', driverRoutes);
 const vehicleRoutes = require('./routes/vehicleRoutes');
 app.use('/api/vehicles', vehicleRoutes);
 
+const productRoutes = require('./routes/productRoutes');
+app.use('/api/products', productRoutes);
+
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log('✅ Connected to Aquas MongoDB!'))
   .catch((err) => console.error('Database connection error:', err));

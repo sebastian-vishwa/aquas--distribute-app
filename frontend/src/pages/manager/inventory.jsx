@@ -1,18 +1,30 @@
-import React, { useState } from "react";
-import { Plus, Pencil, Package } from "lucide-react";
+import React, { useState, useEffect } from 'react';
 import './manager_pages.css';
-import AddProduct from "../../components/manager/Addproduct";
+import AddProduct from "../../components/manager/Addproduct"; // Ensure this path matches your setup
 
 export default function Inventory() {
-  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [isProductModalOpen, setProductModalOpen] = useState(false);
   
-  const inventoryData = [
-    { name: 'Premium 5-Gallon Dispenser Jar', sku: 'AQ-5G-PRM', cat: '5-Gallon', price: '$5.50', stock: '1,245', status: 'In Stock', statusClass: 'status-active' },
-    { name: 'Pure Mineral 1L Case (24 Pk)', sku: 'AQ-1L-CS24', cat: '1L Bottles', price: '$12.00', stock: '42', status: 'Low Stock', statusClass: 'status-pending' },
-    { name: 'Industrial Hot/Cold Dispenser Pro', sku: 'AQ-DSP-HCPRO', cat: 'Dispensers', price: '$185.00', stock: '0', status: 'Out of Stock', statusClass: 'status-inactive' }
-  ];
+  // 1. State for the live database data
+  const [inventoryData, setInventoryData] = useState([]);
 
-  const [products, setProducts] = useState(inventoryData);
+  // 2. Fetch function to pull data from your Express backend
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/products');
+      const data = await response.json();
+      // Safety check: ensure the response is an array before setting state
+      setInventoryData(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      setInventoryData([]);
+    }
+  };
+
+  // 3. Trigger the fetch when the page first loads
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <div>
@@ -21,12 +33,8 @@ export default function Inventory() {
           <h1>Product & Inventory</h1>
           <p>Manage wholesale catalog and monitor stock levels.</p>
         </div>
-        <button 
-          className="btn-action" 
-          onClick={() => setShowAddProduct(true)}
-          style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-        >
-          <Plus size={18} /> Add New Product
+        <button className="btn-action" onClick={() => setProductModalOpen(true)}>
+          + Add New Product
         </button>
       </div>
 
@@ -44,46 +52,49 @@ export default function Inventory() {
             </tr>
           </thead>
           <tbody>
-            {products.map((item, index) => (
-              <tr key={index}>
-                <td style={{ color: '#0A5C99', fontWeight: '600' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Package size={16} color="#0A5C99" />
-                    {item.name}
-                  </div>
-                </td>
-                <td>{item.sku}</td>
-                <td>{item.cat}</td>
-                <td><strong>{item.price}</strong></td>
-                <td style={{ color: item.stock === '0' || item.stock === '42' ? '#DC2626' : 'inherit' }}>
-                  {item.stock}
-                </td>
-                <td><span className={`status-pill ${item.statusClass}`}>{item.status}</span></td>
-                <td>
-                  <button 
-                    style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#64748B', display: 'flex', alignItems: 'center' }} 
-                    onClick={() => alert(`Editing ${item.name}`)}
-                    title="Edit Product"
-                  >
-                    <Pencil size={16} />
-                  </button>
+            {/* 4. Map over your live MongoDB data instead of dummy data */}
+            {inventoryData.length > 0 ? (
+              inventoryData.map((item) => (
+                <tr key={item._id}>
+                  <td style={{ color: '#0A5C99', fontWeight: '600' }}>{item.productName}</td>
+                  <td>{item.sku}</td>
+                  <td>{item.category}</td>
+                  <td><strong>${item.wholesalePrice}</strong></td>
+                  <td style={{ color: item.currentStock === 0 ? '#DC2626' : 'inherit' }}>
+                    {item.currentStock}
+                  </td>
+                  <td>
+                    <span className={`status-pill ${
+                      item.status === 'In Stock' ? 'status-active' : 
+                      item.status === 'Out of Stock' ? 'status-inactive' : 
+                      'status-pending'
+                    }`}>
+                      {item.status}
+                    </span>
+                  </td>
+                  <td>
+                    <button style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: '1.2rem' }} onClick={() => alert(`Editing ${item.productName}`)}>
+                      ✏️
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" style={{ textAlign: 'center', padding: '2rem' }}>
+                  No products in database. Add one!
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
 
-      {showAddProduct && (
-        <AddProduct
-          onClose={() => setShowAddProduct(false)}
-          onAdd={(newProduct) => {
-            setProducts((previousProducts) => [
-              ...previousProducts,
-              newProduct
-            ]);
-            setShowAddProduct(false);
-          }}
+      {/* 5. Render the modal and pass the fetchProducts function to refresh the table after saving */}
+      {isProductModalOpen && (
+        <AddProduct 
+          onClose={() => setProductModalOpen(false)} 
+          onAdd={fetchProducts} 
         />
       )}
     </div>

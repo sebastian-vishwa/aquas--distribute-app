@@ -23,9 +23,10 @@ export default function AddProduct({ onClose, onAdd }) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 1. Validation check
     if (
       !product.name ||
       !product.sku ||
@@ -37,7 +38,32 @@ export default function AddProduct({ onClose, onAdd }) {
       return;
     }
 
-    onAdd(product);
+    try {
+      // 2. Send the data to your Express backend
+      const response = await fetch('http://localhost:5000/api/products/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...product,
+          productName: product.name // Maps the frontend 'name' to the backend 'productName'
+        }), 
+      });
+
+      // 3. Handle success or failure
+      if (response.ok) {
+        alert('✅ Product added successfully!');
+        if (onAdd) onAdd(); // Triggers the parent page to refresh the table
+        onClose(); // Closes the modal
+      } else {
+        const errData = await response.json();
+        alert(`❌ Error adding product: ${errData.message}`);
+      }
+    } catch (error) {
+      console.error('Server error:', error);
+      alert('Server error. Make sure your backend terminal is running!');
+    }
   };
 
   return (
