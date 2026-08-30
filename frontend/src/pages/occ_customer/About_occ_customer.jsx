@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { History, Eye, Target, MapPin, Phone, Mail, CheckCircle2 } from 'lucide-react';
 import './About_occ_customer.css';
 
 export default function About() {
+  const { hash } = useLocation();
+
+  // Smooth scroll to the specific section if the URL contains a hash (e.g., #contact)
+  useEffect(() => {
+    if (hash) {
+      const element = document.getElementById(hash.replace('#', ''));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo(0, 0); // Scroll to top if no hash is present
+    }
+  }, [hash]);
+
   return (
     <div className="about-wrapper">
       {/* HERO SECTION */}
@@ -83,7 +98,7 @@ export default function About() {
       </section>
 
       {/* CONTACT SECTION */}
-      <section className="contact-section">
+      <section id="contact" className="contact-section">
         <div className="contact-info">
           <h2>Initiate Contact</h2>
           <p>Our logistics team is on standby to calculate volume requirements and establish an optimized delivery matrix for your facility.</p>
