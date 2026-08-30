@@ -1,29 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { Plus, Pencil, Package } from "lucide-react";
 import './manager_pages.css';
-import AddProduct from "../../components/manager/Addproduct"; // Ensure this path matches your setup
+import AddProduct from "../../components/manager/Addproduct";
 
 export default function Inventory() {
-  const [isProductModalOpen, setProductModalOpen] = useState(false);
-  
-  // 1. State for the live database data
-  const [inventoryData, setInventoryData] = useState([]);
+  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [products, setProducts] = useState([]);
 
-  // 2. Fetch function to pull data from your Express backend
-  const fetchProducts = async () => {
+  const fetchInventory = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/products');
       const data = await response.json();
-      // Safety check: ensure the response is an array before setting state
-      setInventoryData(Array.isArray(data) ? data : []);
+      setProducts(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error("Failed to fetch products:", error);
-      setInventoryData([]);
+      console.error("Failed to fetch inventory:", error);
     }
   };
 
-  // 3. Trigger the fetch when the page first loads
   useEffect(() => {
-    fetchProducts();
+    fetchInventory();
   }, []);
 
   return (
@@ -33,8 +28,12 @@ export default function Inventory() {
           <h1>Product & Inventory</h1>
           <p>Manage wholesale catalog and monitor stock levels.</p>
         </div>
-        <button className="btn-action" onClick={() => setProductModalOpen(true)}>
-          + Add New Product
+        <button 
+          className="btn-action" 
+          onClick={() => setShowAddProduct(true)}
+          style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+        >
+          <Plus size={18} /> Add New Product
         </button>
       </div>
 
@@ -52,37 +51,41 @@ export default function Inventory() {
             </tr>
           </thead>
           <tbody>
-            {/* 4. Map over your live MongoDB data instead of dummy data */}
-            {inventoryData.length > 0 ? (
-              inventoryData.map((item) => (
+            {products.length > 0 ? (
+              products.map((item) => (
                 <tr key={item._id}>
-                  <td style={{ color: '#0A5C99', fontWeight: '600' }}>{item.productName}</td>
+                  <td style={{ color: '#0A5C99', fontWeight: '600' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Package size={16} color="#0A5C99" />
+                      {item.productName}
+                    </div>
+                  </td>
                   <td>{item.sku}</td>
                   <td>{item.category}</td>
-                  <td><strong>${item.wholesalePrice}</strong></td>
-                  <td style={{ color: item.currentStock === 0 ? '#DC2626' : 'inherit' }}>
+                  <td><strong>Rs. {item.wholesalePrice?.toLocaleString()}</strong></td>
+                  <td style={{ color: item.currentStock <= (item.reorderLevel || 10) ? '#DC2626' : 'inherit' }}>
                     {item.currentStock}
                   </td>
                   <td>
-                    <span className={`status-pill ${
-                      item.status === 'In Stock' ? 'status-active' : 
-                      item.status === 'Out of Stock' ? 'status-inactive' : 
-                      'status-pending'
-                    }`}>
+                    <span className={`status-pill ${item.status === 'In Stock' ? 'status-active' : item.status === 'Low Stock' ? 'status-pending' : 'status-inactive'}`}>
                       {item.status}
                     </span>
                   </td>
                   <td>
-                    <button style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: '1.2rem' }} onClick={() => alert(`Editing ${item.productName}`)}>
-                      ✏️
+                    <button 
+                      style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#64748B', display: 'flex', alignItems: 'center' }} 
+                      onClick={() => alert(`Editing ${item.productName}`)}
+                      title="Edit Product"
+                    >
+                      <Pencil size={16} />
                     </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="7" style={{ textAlign: 'center', padding: '2rem' }}>
-                  No products in database. Add one!
+                <td colSpan="7" style={{ textAlign: 'center', padding: '2rem', color: '#64748B' }}>
+                  No products found in inventory.
                 </td>
               </tr>
             )}
@@ -90,11 +93,10 @@ export default function Inventory() {
         </table>
       </div>
 
-      {/* 5. Render the modal and pass the fetchProducts function to refresh the table after saving */}
-      {isProductModalOpen && (
-        <AddProduct 
-          onClose={() => setProductModalOpen(false)} 
-          onAdd={fetchProducts} 
+      {showAddProduct && (
+        <AddProduct
+          onClose={() => setShowAddProduct(false)}
+          onAdd={fetchInventory}
         />
       )}
     </div>
