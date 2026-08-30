@@ -111,22 +111,7 @@ export default function DeliveriesRegCus() {
             <div className="delivery-info">
 
               {/* PRODUCT IMAGE / ICON */}
-              <div
-                className={`product-image ${delivery.productType}`}
-              >
-
-                {delivery.productType === "jug" ? (
-                  <div className="water-jug">
-                    <Droplets size={45} />
-                  </div>
-                ) : (
-                  <div className="dispensers">
-                    <div className="dispenser black"></div>
-                    <div className="dispenser white"></div>
-                  </div>
-                )}
-
-              </div>
+              
 
 
               {/* TEXT */}

@@ -61,6 +61,13 @@ export default function SidebarManager() {
           </span>
           {isExpanded && <span className="label">Inventory</span>}
         </NavLink>
+        
+        <NavLink to="/manager/orders" className="nav-item">
+          <span className="icon">
+            <Package size={20} />
+          </span>
+          {isExpanded && <span className="label">Orders</span>}
+        </NavLink>
 
         <NavLink to="/manager/fleet" className="nav-item">
           <span className="icon">

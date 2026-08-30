@@ -25,6 +25,7 @@ import ProductsRegCus from './pages/reg_customer/products_reg_cus';
 // 5. Manager Pages
 import ManagerDashboard from './pages/manager/manager_dashboard';
 import Inventory from './pages/manager/inventory';
+import Orders from './pages/manager/orders';
 import FleetManagement from './pages/manager/fleet_management';
 import Customers from './pages/manager/customers';
 import Reports from './pages/manager/reports';
@@ -60,6 +61,7 @@ export default function App() {
           <Route path="/manager" element={<ManagerLayout />}>
             <Route index element={<ManagerDashboard />} />
             <Route path="inventory" element={<Inventory />} />
+            <Route path="orders" element={<Orders />} />
             <Route path="fleet" element={<FleetManagement />} />
             <Route path="customers" element={<Customers />} />
             <Route path="reports" element={<Reports />} />

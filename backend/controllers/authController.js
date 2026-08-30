@@ -22,4 +22,15 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser };
+// --- ADD THE NEW FUNCTION HERE ---
+const getCustomers = async (req, res) => {
+  try {
+    const customers = await User.find({ role: 'customer' });
+    res.status(200).json(customers);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching customers', error: error.message });
+  }
+};
+
+// --- UPDATE THE EXPORTS HERE ---
+module.exports = { registerUser, getCustomers };
