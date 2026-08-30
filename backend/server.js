@@ -4,7 +4,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+
+// 1. CORS Configuration: Mobile phone එක ඇතුළු ඕනෑම device එකකට access ලබා දීම
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 const authRoutes = require('./routes/authRoutes');
@@ -23,6 +30,9 @@ mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log('✅ Connected to Aquas MongoDB!'))
   .catch((err) => console.error('Database connection error:', err));
 
-app.listen(5000, () => {
-  console.log('Server is running on port 5000');
+const PORT = process.env.PORT || 5000;
+
+// 2. Local Network (Wi-Fi) එකේ ඇති Mobile Devices වලට Open කිරීමට '0.0.0.0' එක් කිරීම
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server is running on http://0.0.0.0:${PORT}`);
 });
