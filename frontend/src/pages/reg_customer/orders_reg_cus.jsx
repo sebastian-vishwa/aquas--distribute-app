@@ -1,4 +1,5 @@
 import React from 'react';
+import { FileText, Download, ShoppingBag } from 'lucide-react';
 
 export default function OrdersRegCus() {
   const orders = [
@@ -25,12 +26,37 @@ export default function OrdersRegCus() {
           <tbody>
             {orders.map((o, i) => (
               <tr key={i}>
-                <td style={{ fontWeight: 'bold', color: '#0EA5E9' }}>{o.id}</td>
+                <td style={{ fontWeight: 'bold', color: '#0EA5E9' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <ShoppingBag size={15} color="#0EA5E9" />
+                    {o.id}
+                  </div>
+                </td>
                 <td>{o.date}</td>
                 <td>{o.items}</td>
                 <td><strong>{o.total}</strong></td>
                 <td><span className={`status-pill ${o.sClass}`}>{o.status}</span></td>
-                <td><button style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}>📄</button></td>
+                <td>
+                  <button 
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      cursor: 'pointer', 
+                      color: '#64748B', 
+                      display: 'inline-flex', 
+                      alignItems: 'center', 
+                      gap: '4px',
+                      padding: '4px 8px',
+                      borderRadius: '4px',
+                      transition: '0.2s'
+                    }} 
+                    onClick={() => alert(`Downloading Invoice for ${o.id}`)}
+                    title="Download Invoice PDF"
+                  >
+                    <FileText size={16} />
+                    <Download size={14} />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

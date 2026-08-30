@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { Droplet, Search, Bell, ShoppingCart, X } from 'lucide-react';
 import './navbar_reg_cus.css';
 
 export default function NavbarRegCus() {
@@ -17,8 +18,12 @@ export default function NavbarRegCus() {
     <nav className="navbar-container">
       {/* Left: Brand Logo */}
       <div className="navbar-left">
-        <h2 className="navbar-brand" onClick={() => navigate('/portal')}>
-          💧 AquaPure <span className="navbar-portal-tag">PORTAL</span>
+        <h2 
+          className="navbar-brand" 
+          onClick={() => navigate('/portal')}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
+        >
+          <Droplet size={22} fill="#0A3D91" color="#0A3D91" /> Aquas
         </h2>
       </div>
 
@@ -39,8 +44,8 @@ export default function NavbarRegCus() {
       </div>
 
       {/* Right: Search Icon & User Actions */}
-      <div className="navbar-right">
-        <div className="search-wrapper">
+      <div className="navbar-right" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div className="search-wrapper" style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
           {showSearch && (
             <input
               type="text"
@@ -56,18 +61,34 @@ export default function NavbarRegCus() {
             className="icon-btn"
             title="Search"
             onClick={() => setShowSearch(!showSearch)}
+            style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
           >
-            🔍
+            {showSearch ? <X size={20} color="#64748B" /> : <Search size={20} color="#1E293B" />}
           </span>
         </div>
 
-        <span className="icon-btn" title="Notifications">🔔</span>
-        <span className="icon-btn" title="Cart">🛒</span>
+        <span 
+          className="icon-btn" 
+          title="Notifications"
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+        >
+          <Bell size={20} color="#1E293B" />
+        </span>
+
+        <span 
+          className="icon-btn" 
+          title="Cart"
+          onClick={() => navigate('/portal/products')}
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+        >
+          <ShoppingCart size={20} color="#1E293B" />
+        </span>
 
         <div
           className="user-avatar"
           onClick={() => navigate('/login')}
           title="Sign Out"
+          style={{ cursor: 'pointer' }}
         >
           JD
         </div>
