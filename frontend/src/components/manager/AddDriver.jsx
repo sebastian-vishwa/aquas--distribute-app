@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 export default function AddDriver({ onClose, refreshDrivers }) {
   const [formData, setFormData] = useState({
-    fullName: '', driverId: '', email: '', phone: '', address: ''
+    fullName: '', driverId: '', email: '', password: '', phone: '', address: ''
   });
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,6 +41,13 @@ export default function AddDriver({ onClose, refreshDrivers }) {
             <div style={inputGroupStyle}><label style={labelStyle}>Email *</label><input type="email" name="email" onChange={handleChange} required style={inputStyle} /></div>
             <div style={inputGroupStyle}><label style={labelStyle}>Phone *</label><input type="tel" name="phone" onChange={handleChange} required style={inputStyle} /></div>
           </div>
+
+          {/* 2. New Password Field */}
+            <div style={inputGroupStyle}>
+              <label style={labelStyle}>Password *</label>
+              <input type="password" name="password" onChange={handleChange} required style={inputStyle} />
+            </div>
+
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
             <button type="button" onClick={onClose} style={{ padding: '0.7rem 1.5rem', cursor: 'pointer' }}>Cancel</button>
             <button type="submit" style={{ padding: '0.7rem 1.5rem', background: '#3B82F6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>Save Driver</button>
