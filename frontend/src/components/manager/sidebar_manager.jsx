@@ -29,9 +29,27 @@ export default function SidebarManager() {
       onMouseLeave={() => setIsExpanded(false)}
     >
       <div className="sidebar-header">
-        <h2 className="brand-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Droplet size={24} fill="#0A3D91" color="#0A3D91" /> 
-          {isExpanded ? 'AquaPure' : ''}
+        <h2 className="brand-logo" style={{display: 'flex',alignItems: 'left-align',justifyContent: 'left-align',gap: '8px',width: '100%',fontSize: '34px',color:'#5ED7FF'}}>
+          <svg
+  width="30"
+  height="38"
+  viewBox="0 0 40 48"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient id="aquasGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#5ED7FF" />
+      <stop offset="50%" stopColor="#65BFFF" />
+      <stop offset="100%" stopColor="#A77BFF" />
+    </linearGradient>
+  </defs>
+
+  <path
+    d="M20 2C20 2 5 19 5 29C5 38 11.7 46 20 46C28.3 46 35 38 35 29C35 19 20 2 20 2Z"
+    fill="url(#aquasGradient)"
+  />
+</svg>
+          {isExpanded ? 'Aquas' : ''}
         </h2>
         
         <div className="admin-profile">

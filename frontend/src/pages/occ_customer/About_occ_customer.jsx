@@ -24,7 +24,7 @@ export default function About() {
       <header className="about-hero">
         <div className="hero-content">
           <h1>Engineering Purity for Scale</h1>
-          <p>Since 2010, AquaPure has defined the standard for high-volume, precision-filtered hydration solutions. We supply the infrastructure that keeps industry moving.</p>
+          <p>Since 2010, Aquas has defined the standard for high-volume, precision-filtered hydration solutions. We supply the infrastructure that keeps industry moving.</p>
         </div>
         <div className="hero-image">
           <div className="image-placeholder">Facility Image Here</div>
@@ -40,7 +40,7 @@ export default function About() {
             </span>
             <h2>The Origin</h2>
           </div>
-          <p>AquaPure began with a single observation: industrial hydration was inefficient, inconsistent, and lacked the rigorous quality control demanded by modern enterprises. Founded by logistics engineers, our approach was systematically different from day one.</p>
+          <p>Aquas began with a single observation: industrial hydration was inefficient, inconsistent, and lacked the rigorous quality control demanded by modern enterprises. Founded by logistics engineers, our approach was systematically different from day one.</p>
           <p>We didn't just want to bottle water; we aimed to build a distribution matrix capable of delivering flawless purity at massive scale. Today, our 7-step reverse osmosis process and automated fleet management represent the pinnacle of B2B hydration logistics.</p>
           
           <div className="stats-row">

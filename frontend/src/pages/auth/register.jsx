@@ -107,7 +107,7 @@ export default function Register() {
       <div className="register-container">
         <div className="register-header">
           <h1>Regular Partner Registration</h1>
-          <p>Join the AquaPure wholesale network for reliable, high-volume water delivery.</p>
+          <p>Join the Aquas wholesale network for reliable, high-volume water delivery.</p>
         </div>
 
         {/* Dynamic Progress Tracker */}
