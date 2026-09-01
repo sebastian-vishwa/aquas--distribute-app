@@ -48,7 +48,7 @@ export default function App() {
           {/* AUTH ROUTES */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
+          
           {/* REGISTERED CUSTOMER PORTAL */}
           <Route path="/portal" element={<CustomerLayout />}>
             <Route index element={<DashboardRegCus />} />

@@ -74,6 +74,12 @@
 }
 
 /* Tables */
+.action-column {
+  width: 60px;
+  text-align: center;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
 .manager-table-container {
   background: white;
   border: 1px solid #E2E8F0;
