@@ -4,7 +4,8 @@ import {
   Droplet, 
   UserCheck, 
   LayoutDashboard, 
-  Package, 
+  Package,
+  ShoppingCart, 
   Truck, 
   Users, 
   BarChart3, 
@@ -82,7 +83,7 @@ export default function SidebarManager() {
         
         <NavLink to="/manager/orders" className="nav-item">
           <span className="icon">
-            <Package size={20} />
+            <ShoppingCart size={20} />
           </span>
           {isExpanded && <span className="label">Orders</span>}
         </NavLink>
