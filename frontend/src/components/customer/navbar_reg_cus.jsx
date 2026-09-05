@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef  } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../../components/common/CartContext';
 import { Search, Bell, ShoppingCart, X, User, Settings, History, Tag, ArrowLeft,ArrowRight, Plus, Minus,Trash2, CreditCard } from 'lucide-react';
@@ -11,6 +11,7 @@ export default function NavbarRegCus() {
   const [showProfile, setShowProfile] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
+  const profileRef = useRef(null);
 
   // Logged-in user data
   const [user, setUser] = useState(null);
@@ -94,6 +95,17 @@ export default function NavbarRegCus() {
       console.error('Checkout error:', error);
     }
   };
+
+  useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (profileRef.current && !profileRef.current.contains(event.target)) {
+      setShowProfile(false);
+    }
+  };
+
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => document.removeEventListener('mousedown', handleClickOutside);
+}, []);
 
   return (
     <>
@@ -207,24 +219,24 @@ export default function NavbarRegCus() {
           )}
         </div>
 
-        <div className="profile-wrapper">
+        <div className="profile-wrapper" ref={profileRef}>
           <button
             className="user-avatar-circle"
             onClick={() => setShowProfile(!showProfile)}
             title="Account"
           >
-            JD
+            {initials}
           </button>
 
           {showProfile && (
             <div className="profile-dropdown">
 
               <div className="profile-dropdown-header">
-                <div className="profile-avatar">JD</div>
+                <div className="profile-avatar">{initials}</div>
 
                 <div>
-                  <strong>John Doe</strong>
-                  <span>john@example.com</span>
+                  <strong>{displayName}</strong>
+                  <span>{displayEmail}</span>
                 </div>
               </div>
 
