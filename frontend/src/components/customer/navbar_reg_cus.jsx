@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Search, Bell, ShoppingCart, X } from 'lucide-react';
+import { Search, Bell, ShoppingCart, X,User, Settings, History, Tag, ArrowLeft } from 'lucide-react';
 import './navbar_reg_cus.css';
 
 export default function NavbarRegCus() {
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleSearchSubmit = (e) => {
     if (e.key === 'Enter' && searchQuery.trim()) {
@@ -73,9 +74,61 @@ export default function NavbarRegCus() {
         <button className="icon-btn" title="Cart">
           <ShoppingCart size={20} />
         </button>
-        <div className="user-avatar-circle" onClick={() => navigate('/login')} title="Account / Sign Out">
-          JD
+        <div className="profile-wrapper">
+  <button
+    className="user-avatar-circle"
+    onClick={() => setShowProfile(!showProfile)}
+    title="Account"
+  >
+    JD
+  </button>
+
+  {showProfile && (
+    <div className="profile-dropdown">
+
+      <div className="profile-dropdown-header">
+        <div className="profile-avatar">JD</div>
+
+        <div>
+          <strong>John Doe</strong>
+          <span>john@example.com</span>
         </div>
+      </div>
+
+      <div className="profile-divider"></div>
+<button className="profile-menu-item">
+  <User size={18} />
+  Profile
+</button>
+
+<button className="profile-menu-item">
+  <Settings size={18} />
+  Settings
+</button>
+
+<button className="profile-menu-item">
+  <History size={18} />
+  Order History
+</button>
+
+<button className="profile-menu-item">
+  <Tag size={18} />
+  Offers
+</button>
+
+      <div className="profile-divider"></div>
+
+      <button
+  className="profile-menu-item logout"
+  onClick={() => navigate('/login')}
+>
+  <ArrowLeft size={18} />
+  Sign Out
+</button>
+
+    </div>
+  )}
+</div>
       </div>
     </nav>
   );
