@@ -7,7 +7,6 @@ export default function DashboardRegCus() {
         <div>
           <h1 className="portal-title">Welcome back, Apex Traders</h1>
         </div>
-        <button style={{ background: '#0EA5E9', color: 'white', padding: '0.8rem 1.5rem', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>🛒 Quick Reorder</button>
       </div>
 
       <div className="portal-grid">
