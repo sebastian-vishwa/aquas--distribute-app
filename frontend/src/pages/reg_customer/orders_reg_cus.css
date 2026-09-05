@@ -1,0 +1,209 @@
+/* ---- Shared portal layout ---- */
+
+.portal-page {
+    padding: 3rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+}
+
+.portal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.5rem;
+}
+
+.portal-title {
+    font-size: 2rem;
+    color: #1E293B;
+    margin-bottom: 0.5rem;
+}
+
+.portal-subtitle {
+    color: #64748B;
+    font-size: 1rem;
+}
+
+/* Tables */
+.portal-table-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    overflow: hidden;
+}
+
+.portal-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.portal-table th {
+    background: #F8FAFC;
+    padding: 1rem 1.5rem;
+    color: #475569;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.portal-table td {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid #F1F5F9;
+    color: #1E293B;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 850px) {
+    .portal-page {
+        padding: 35px 25px;
+    }
+}
+
+@media (max-width: 600px) {
+    .portal-page {
+        padding: 25px 16px;
+    }
+
+    .portal-title {
+        font-size: 27px;
+    }
+
+    .portal-subtitle {
+        font-size: 13px;
+    }
+}
+
+/* ---- Summary cards ---- */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.summary-card {
+    background: white;
+    min-height: 145px;
+    border: 1px solid #e0e8f2;
+    border-radius: 17px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    box-shadow: 0 8px 25px rgba(32, 76, 120, 0.07);
+}
+
+.summary-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.summary-icon.blue {
+    background: #e8f3ff;
+    color: #0875e2;
+}
+
+.summary-icon.green {
+    background: #e8f9eb;
+    color: #16a35f;
+}
+
+.summary-icon.orange {
+    background: #fff0df;
+    color: #e87908;
+}
+
+.summary-card p {
+    margin: 0 0 7px;
+    color: #63758e;
+    font-size: 14px;
+}
+
+.summary-card h2 {
+    margin: 0 0 6px;
+    font-size: 30px;
+    color: #0870df;
+}
+
+.summary-card small {
+    color: #71839b;
+    font-size: 13px;
+}
+
+.green-text {
+    color: #13a25e !important;
+}
+
+.orange-text {
+    color: #e87708 !important;
+}
+
+/* ---- Refresh button ---- */
+
+.refresh-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid #d7e3ef;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #0874df;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.refresh-button:hover {
+    background: #eef6ff;
+    border-color: #b9d7f7;
+}
+
+.refresh-button:hover svg {
+    transform: rotate(180deg);
+}
+
+.refresh-button svg {
+    transition: transform 0.3s ease;
+}
+
+/* ---- Status pills ---- */
+
+.status-pill {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-green {
+    background: #D1FAE5;
+    color: #059669;
+}
+
+.status-blue {
+    background: #E0F2FE;
+    color: #0284C7;
+}
+
+.status-orange {
+    background: #FEF3C7;
+    color: #D97706;
+}
+
+/* ---- Invoice button ---- */
+
+.invoice-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #0EA5E9;
+}

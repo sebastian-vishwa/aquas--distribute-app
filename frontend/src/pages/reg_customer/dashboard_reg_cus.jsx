@@ -1,4 +1,5 @@
 import React from 'react';
+import "./dashboard_reg_cus.css";
 
 export default function DashboardRegCus() {
   return (

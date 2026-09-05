@@ -1,6 +1,6 @@
 import React from 'react';
 import { ShoppingBag, BadgeCheck, Truck, CircleX, RefreshCw, FileText } from "lucide-react";
-import "./portal.css";
+import "./orders_reg_cus.css";
 export default function OrdersRegCus() {
   const orders = [
     { id: 'ORD-9021', date: 'Oct 24, 2026', items: '50x 5 Gal Jugs', total: '$375.00', status: 'In Transit', sClass: 'status-blue' },
