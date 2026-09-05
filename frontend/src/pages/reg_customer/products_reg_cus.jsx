@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../components/common/CartContext';
 import "./products_reg_cus.css";
 
 export default function Catalogue() {
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [catalogueData, setCatalogueData] = useState([]);
+  const [addingId, setAddingId] = useState(null);
 
   const fetchCatalogue = async () => {
     try {
@@ -17,6 +22,19 @@ export default function Catalogue() {
   useEffect(() => {
     fetchCatalogue();
   }, []);
+
+  const handleAddToCart = async (item) => {
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+      return;
+    }
+    setAddingId(item._id);
+    try {
+      await addToCart(item);
+    } finally {
+      setAddingId(null);
+    }
+  };
 
   return (
     // 1. Replaced "catalogue-page" with "portal-page" for correct margins/width
@@ -46,8 +64,22 @@ export default function Catalogue() {
                 ${item.wholesalePrice ? item.wholesalePrice.toFixed(2) : '0.00'} / {item.unit ? item.unit.toLowerCase() : 'unit'}
               </p>
               
-              <button style={{ marginTop: 'auto', width: '100%', padding: '0.75rem', background: '#1E3A8A', color: 'white', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}>
-                Add to Cart
+              <button
+                onClick={() => handleAddToCart(item)}
+                disabled={addingId === item._id}
+                style={{
+                  marginTop: 'auto',
+                  width: '100%',
+                  padding: '0.75rem',
+                  background: addingId === item._id ? '#94a3b8' : '#1E3A8A',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontWeight: 'bold',
+                  cursor: addingId === item._id ? 'default' : 'pointer',
+                }}
+              >
+                {addingId === item._id ? 'Adding...' : 'Add to Cart'}
               </button>
             </div>
           ))
