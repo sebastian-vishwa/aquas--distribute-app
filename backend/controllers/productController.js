@@ -31,12 +31,13 @@ const getProductById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const updated = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,          // return the updated doc, not the old one
-      runValidators: true, // still enforce schema rules (e.g. required fields) on update
-    });
-    if (!updated) return res.status(404).json({ message: 'Product not found' });
-    res.status(200).json({ message: '✅ Product updated', product: updated });
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+
+    Object.assign(product, req.body);
+    await product.save(); // triggers pre('save'), recalculating status
+
+    res.status(200).json({ message: '✅ Product updated', product });
   } catch (error) {
     res.status(500).json({ message: 'Error updating product', error: error.message });
   }
