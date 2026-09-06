@@ -200,10 +200,7 @@
 }
 
 /* ---- Invoice button ---- */
-
-.invoice-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #0EA5E9;
+.invoice-button:disabled {
+  color: #94a3b8;
+  cursor: not-allowed;
 }
