@@ -29,6 +29,9 @@ app.use('/api/products', productRoutes);
 const cartRoutes = require('./routes/cartRoutes');
 app.use('/api/cart', cartRoutes);
 
+const orderRoutes = require('./routes/orderRoutes');
+app.use('/api/orders', orderRoutes);
+
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log('✅ Connected to Aquas MongoDB!'))
   .catch((err) => console.error('Database connection error:', err));
