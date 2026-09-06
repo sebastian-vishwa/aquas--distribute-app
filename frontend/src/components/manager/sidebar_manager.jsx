@@ -10,7 +10,8 @@ import {
   Users, 
   BarChart3, 
   HelpCircle, 
-  LogOut 
+  LogOut,
+  Tag
 } from 'lucide-react';
 import './sidebar_manager.css';
 
@@ -88,6 +89,13 @@ export default function SidebarManager() {
           {isExpanded && <span className="label">Orders</span>}
         </NavLink>
 
+        <NavLink to="/manager/promotions" className="nav-item">
+          <span className="icon">
+            <Tag size={20} />
+          </span>
+          {isExpanded && <span className="label">Promotions</span>}
+        </NavLink>
+        
         <NavLink to="/manager/fleet" className="nav-item">
           <span className="icon">
             <Truck size={20} />

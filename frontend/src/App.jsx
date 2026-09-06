@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CartProvider } from './components/common/CartContext'; 
 import Checkout from './pages/occ_customer/Checkout';
+
 // 1. Auth Pages
 import Login from './pages/auth/login';
 import Register from './pages/auth/register';
@@ -29,6 +30,7 @@ import Orders from './pages/manager/orders';
 import FleetManagement from './pages/manager/fleet_management';
 import Customers from './pages/manager/customers';
 import Reports from './pages/manager/reports';
+import Promotions from './pages/manager/promotions';
 
 export default function App() {
   return (
@@ -65,6 +67,7 @@ export default function App() {
             <Route path="fleet" element={<FleetManagement />} />
             <Route path="customers" element={<Customers />} />
             <Route path="reports" element={<Reports />} />
+            <Route path="/manager/promotions"element={<Promotions />}/>
           </Route>
 
           {/* Fallback */}

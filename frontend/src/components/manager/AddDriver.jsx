@@ -48,7 +48,7 @@ export default function AddDriver({ onClose, refreshDrivers }) {
               <input type="password" name="password" onChange={handleChange} required style={inputStyle} />
             </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem',marginTop:'2rem' }}>
             <button type="button" onClick={onClose} style={{ padding: '0.7rem 1.5rem', cursor: 'pointer' }}>Cancel</button>
             <button type="submit" style={{ padding: '0.7rem 1.5rem', background: '#3B82F6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>Save Driver</button>
           </div>
