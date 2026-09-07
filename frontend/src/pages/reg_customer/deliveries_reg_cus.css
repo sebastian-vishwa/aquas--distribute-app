@@ -1,3 +1,5 @@
+/* ---- Shared portal layout ---- */
+
 .portal-page {
     padding: 3rem 5%;
     max-width: 1400px;
@@ -23,249 +25,28 @@
     font-size: 1rem;
 }
 
-/* Grid Cards */
-.portal-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
+@media (max-width: 850px) {
+    .portal-page {
+        padding: 35px 25px;
+    }
 }
 
-.portal-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid #E2E8F0;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+@media (max-width: 600px) {
+    .portal-page {
+        padding: 25px 16px;
+    }
+
+    .portal-title {
+        font-size: 27px;
+    }
+
+    .portal-subtitle {
+        font-size: 13px;
+    }
 }
 
-/* Tables */
-.portal-table-container {
-    background: white;
-    border-radius: 12px;
-    border: 1px solid #E2E8F0;
-    overflow: hidden;
-}
+/* ---- Delivery list & cards ---- */
 
-.portal-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.portal-table th {
-    background: #F8FAFC;
-    padding: 1rem 1.5rem;
-    color: #475569;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    border-bottom: 1px solid #E2E8F0;
-}
-
-.portal-table td {
-    padding: 1.2rem 1.5rem;
-    border-bottom: 1px solid #F1F5F9;
-    color: #1E293B;
-    font-size: 0.95rem;
-}
-
-/* Aliexpress Style Tracking */
-.tracking-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid #E2E8F0;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.tracking-info h3 {
-    margin: 0 0 0.5rem 0;
-    color: #1E3A8A;
-}
-
-.tracking-steps {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex: 1;
-    max-width: 600px;
-}
-
-.step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    position: relative;
-    flex: 1;
-}
-
-.step-circle {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: #E2E8F0;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    z-index: 2;
-}
-
-.step.active .step-circle {
-    background: #0EA5E9;
-}
-
-.step.completed .step-circle {
-    background: #10B981;
-}
-
-.step-label {
-    font-size: 0.8rem;
-    color: #64748B;
-    text-align: center;
-    font-weight: 600;
-}
-
-.step-line {
-    position: absolute;
-    top: 15px;
-    left: 50%;
-    width: 100%;
-    height: 3px;
-    background: #E2E8F0;
-    z-index: 1;
-}
-
-.step.completed .step-line {
-    background: #10B981;
-}
-
-.status-pill {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-.status-green {
-    background: #D1FAE5;
-    color: #059669;
-}
-
-.status-blue {
-    background: #E0F2FE;
-    color: #0284C7;
-}
-
-.status-orange {
-    background: #FEF3C7;
-    color: #D97706;
-}
-
-
-/* my order */
-.summary {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    margin-bottom: 28px;
-}
-
-.summary-card {
-    background: white;
-    min-height: 145px;
-    border: 1px solid #e0e8f2;
-    border-radius: 17px;
-    padding: 25px;
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    box-shadow: 0 8px 25px rgba(32, 76, 120, 0.07);
-}
-
-.summary-icon {
-    width: 58px;
-    height: 58px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.summary-icon.blue {
-    background: #e8f3ff;
-    color: #0875e2;
-}
-
-.summary-icon.green {
-    background: #e8f9eb;
-    color: #16a35f;
-}
-
-.summary-icon.orange {
-    background: #fff0df;
-    color: #e87908;
-}
-
-.summary-card p {
-    margin: 0 0 7px;
-    color: #63758e;
-    font-size: 14px;
-}
-
-.summary-card h2 {
-    margin: 0 0 6px;
-    font-size: 30px;
-    color: #0870df;
-}
-
-.summary-card small {
-    color: #71839b;
-    font-size: 13px;
-}
-
-.green-text {
-    color: #13a25e !important;
-}
-
-.orange-text {
-    color: #e87708 !important;
-}
-
-.refresh-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    border: 1px solid #d7e3ef;
-    border-radius: 9px;
-    background: #ffffff;
-    color: #0874df;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.refresh-icon-button:hover {
-    background: #eef6ff;
-    border-color: #b9d7f7;
-}
-
-.refresh-icon-button:hover svg {
-    transform: rotate(180deg);
-}
-
-.refresh-icon-button svg {
-    transition: transform 0.3s ease;
-}
-
-/*Deliveries*/
 .delivery-list {
     display: flex;
     flex-direction: column;
@@ -293,7 +74,6 @@
     transform: translateY(-1px);
 }
 
-
 .delivery-info {
     display: flex;
     align-items: center;
@@ -316,11 +96,9 @@
     background: #eaf7ff;
 }
 
-
 .product-image.dispenser {
     background: #f1f5f9;
 }
-
 
 .water-jug {
     width: 70px;
@@ -357,7 +135,6 @@
     height: 52px;
 }
 
-
 .delivery-details {
     min-width: 0;
 }
@@ -384,12 +161,10 @@
     color: #0284c7;
 }
 
-
 .status-dispatched {
     background: #eef2ff;
     color: #4f46e5;
 }
-
 
 .eta {
     display: flex;
@@ -403,13 +178,14 @@
     color: #0ea5e9;
 }
 
-
 .delivery-items {
     margin: 9px 0 0;
     color: #334155;
     font-size: 14px;
     font-weight: 600;
 }
+
+/* ---- Progress tracker ---- */
 
 .progress-section {
     width: 100%;
@@ -445,13 +221,11 @@
     z-index: 2;
 }
 
-
 .progress-step.completed .step-circle {
     background: #10b981;
     color: #ffffff;
     box-shadow: 0 0 0 1px #10b981;
 }
-
 
 .progress-step.active .step-circle {
     background: #0ea5e9;
@@ -499,6 +273,8 @@
 .progress-connector.connector-active {
     background: #10b981;
 }
+
+/* ---- Actions ---- */
 
 .delivery-actions {
     display: flex;
@@ -560,8 +336,9 @@
     color: #087cdf;
 }
 
-@media (max-width: 1200px) {
+/* ---- Responsive: delivery cards ---- */
 
+@media (max-width: 1200px) {
     .delivery-card {
         grid-template-columns: 250px 1fr;
         gap: 25px;
@@ -571,15 +348,9 @@
         grid-column: 1 / -1;
         justify-content: flex-end;
     }
-
 }
 
 @media (max-width: 850px) {
-
-    .portal-page {
-        padding: 35px 25px;
-    }
-
     .delivery-card {
         grid-template-columns: 1fr;
         gap: 25px;
@@ -598,23 +369,9 @@
     .progress-line {
         min-width: 520px;
     }
-
 }
 
 @media (max-width: 600px) {
-
-    .portal-page {
-        padding: 25px 16px;
-    }
-
-    .portal-title {
-        font-size: 27px;
-    }
-
-    .portal-subtitle {
-        font-size: 13px;
-    }
-
     .delivery-card {
         padding: 20px;
         border-radius: 13px;
@@ -646,6 +403,7 @@
     }
 }
 
+/* ---- Details modal ---- */
 
 .details-overlay {
     position: fixed;
@@ -658,7 +416,6 @@
     z-index: 1000;
 }
 
-
 .details-modal {
     width: 100%;
     max-width: 560px;
@@ -668,7 +425,6 @@
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(15, 40, 70, 0.25);
 }
-
 
 .details-modal-header {
     display: flex;
@@ -710,11 +466,9 @@
     color: #1E293B;
 }
 
-
 .details-modal-content {
     padding: 10px 28px 25px;
 }
-
 
 .detail-item {
     min-height: 55px;
@@ -736,7 +490,6 @@
     text-align: right;
 }
 
-
 .detail-with-icon {
     display: flex;
     align-items: center;
@@ -749,7 +502,6 @@
     flex-shrink: 0;
 }
 
-
 .modal-progress {
     padding-top: 25px;
 }
@@ -759,7 +511,6 @@
     color: #173F82;
     font-size: 17px;
 }
-
 
 .modal-progress-step {
     display: flex;
@@ -826,7 +577,6 @@
 }
 
 @media (max-width: 600px) {
-
     .details-overlay {
         padding: 15px;
     }
@@ -854,12 +604,4 @@
     .detail-item strong {
         text-align: left;
     }
-
-}
-
-.invoice-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #0EA5E9;
 }

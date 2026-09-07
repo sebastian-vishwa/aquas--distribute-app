@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Truck, Package, Check, ArrowRight, CalendarDays, Droplets,X,MapPin } from "lucide-react";
-import "./portal.css";
+import { Truck, Package, Check, ArrowRight, CalendarDays,X,MapPin } from "lucide-react";
+import "./deliveries_reg_cus.css";
 export default function DeliveriesRegCus() {
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const deliveries = [{
