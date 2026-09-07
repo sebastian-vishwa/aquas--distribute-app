@@ -8,38 +8,44 @@ export default function Promotions() {
   // Backend URL
   const API_URL = `http://${window.location.hostname}:5000`;
 
-  // States
+  // Creating States
   const [showPromotionForm, setShowPromotionForm] = useState(false);
   const [promotions, setPromotions] = useState([]);
 
 
-  // ==========================================
+  
   // GET PROMOTIONS FROM DATABASE
-  // ==========================================
+  
 
   useEffect(() => {
 
     const fetchPromotions = async () => {
 
       try {
+ //Sending GET Request
 
         const response = await fetch(
           `${API_URL}/api/promotions`
         );
 
+//Checking the Response
         if (!response.ok) {
           throw new Error('Failed to fetch promotions');
         }
 
+       //Converting Response to JSON
         const data = await response.json();
 
+        // Displaying Data in Console
         console.log(
           'Promotions from database:',
           data
         );
 
+        //Storing Promotions
         setPromotions(data);
 
+        //Storing Promotions
       } catch (error) {
 
         console.error(
@@ -51,27 +57,29 @@ export default function Promotions() {
 
     };
 
+    //actually calls the function
     fetchPromotions();
 
   }, []);
 
 
-  // ==========================================
+  
   // DELETE PROMOTION
-  // ==========================================
-
+ 
   const handleDelete = async (id) => {
 
+//Confirmation Before Delete
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this promotion?'
     );
-
+//If User Clicks Cancel
     if (!confirmDelete) {
       return;
     }
 
     try {
 
+      //Sending DELETE Request
       const response = await fetch(
         `${API_URL}/api/promotions/${id}`,
         {
@@ -93,6 +101,7 @@ export default function Promotions() {
         )
       );
 
+      //Success Message
       alert(
         'Promotion deleted successfully!'
       );
@@ -157,7 +166,7 @@ export default function Promotions() {
 
     }
 
-    return `$${Number(
+    return `Rs. ${Number(
       promotion.discountValue
     ).toLocaleString()}`;
 
@@ -165,7 +174,7 @@ export default function Promotions() {
 
 
   // ==========================================
-  // DISPLAY PRODUCTS
+  // DISPLAY  EligiblePRODUCTS
   // ==========================================
 
   const displayProducts = (promotion) => {
@@ -333,9 +342,10 @@ export default function Promotions() {
                       {/* PROMOTION ID */}
 
                       <td>
-
+{/*displays the promotion ID from MongoDB.*/}
                         <strong>
-                          {promotion.promotionId}
+                          {promotion.promotionId} 
+                          
                         </strong>
 
                       </td>
@@ -367,7 +377,7 @@ export default function Promotions() {
 
                       <td>
 
-                        $
+                        Rs. 
                         {Number(
                           promotion.minimumOrderValue
                         ).toLocaleString()}
