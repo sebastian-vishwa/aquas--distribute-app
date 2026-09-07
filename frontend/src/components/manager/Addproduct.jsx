@@ -4,7 +4,7 @@ import "./AddProduct.css";
 
 export default function AddProduct({ onClose, onAdd }) {
   const [product, setProduct] = useState({
-    name: "",
+    productName: "",
     sku: "",
     category: "",
     wholesalePrice: "",
@@ -13,6 +13,7 @@ export default function AddProduct({ onClose, onAdd }) {
     unit: "",
     description: "",
     status: "In Stock",
+    image: "",
   });
 
   const handleChange = (e) => {
@@ -23,11 +24,22 @@ export default function AddProduct({ onClose, onAdd }) {
     }));
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProduct((prev) => ({ ...prev, image: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
-      !product.name ||
+      !product.productName ||
       !product.sku ||
       !product.category ||
       !product.wholesalePrice ||
@@ -38,36 +50,27 @@ export default function AddProduct({ onClose, onAdd }) {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/products/add', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/api/products/add", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json"
+          // No Authorization header needed
         },
-        body: JSON.stringify({
-          productName: product.name,
-          sku: product.sku,
-          category: product.category,
-          wholesalePrice: Number(product.wholesalePrice),
-          currentStock: Number(product.currentStock),
-          reorderLevel: product.reorderLevel ? Number(product.reorderLevel) : 0,
-          unit: product.unit,
-          description: product.description,
-          status: product.status
-        }), 
+        body: JSON.stringify(product)
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert('Product added successfully!');
-        if (onAdd) onAdd(data.product);
+        alert("✅ Product added successfully!");
+        if (onAdd) onAdd();
         onClose();
       } else {
-        alert(`Error adding product: ${data.message || data.error}`);
+        alert(`❌ Error adding product: ${data.message}`);
       }
     } catch (error) {
-      console.error('Server error:', error);
-      alert('Server error. Make sure your backend terminal is running!');
+      console.error("Submission error:", error);
+      alert("Server error. Check if your backend server is running.");
     }
   };
 
@@ -96,9 +99,9 @@ export default function AddProduct({ onClose, onAdd }) {
                 <label>Product Name <span>*</span></label>
                 <input
                   type="text"
-                  name="name"
+                  name="productName"
                   placeholder="e.g. 5-Gallon Dispenser Jar"
-                  value={product.name}
+                  value={product.productName}
                   onChange={handleChange}
                   required
                 />
@@ -197,6 +200,19 @@ export default function AddProduct({ onClose, onAdd }) {
                   <option value="Low Stock">Low Stock</option>
                   <option value="Out of Stock">Out of Stock</option>
                 </select>
+              </div>
+
+              <div className="product-form-group full-width">
+                <label>Product Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  style={{ marginBottom: '10px' }}
+                />
+                {product.image && (
+                  <img src={product.image} alt="Preview" style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'contain', display: 'block', borderRadius: '4px', border: '1px solid #ccc' }} />
+                )}
               </div>
 
               <div className="product-form-group full-width">

@@ -7,24 +7,76 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="home-wrapper">
+    <div className="home-wrapper" style={{ padding: '2rem 5%' }}>
       
       {/* HERO SECTION */}
-      <header className="hero-section">
-        <div className="hero-content">
-          <span className="subtitle">PURE & REFRESHING</span>
-          <h1>Premium Mineral Water Delivered To Your Door</h1>
-          <p>Stay hydrated with our multi-stage purified drinking water. Perfect for homes, offices, and events. Quick delivery and flexible monthly packages tailored just for you.</p>
+      <header 
+        className="hero-section"
+        style={{
+          backgroundColor: '#0A3D91',
+          borderRadius: '12px',
+          padding: '4rem',
+          marginBottom: '3rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '2rem'
+        }}
+      >
+        <div className="hero-content" style={{ flex: 1 }}>
+          <span 
+            className="subtitle"
+            style={{
+              color: '#93C5FD',
+              fontSize: '0.85rem',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              fontWeight: 700,
+              display: 'inline-block'
+            }}
+          >
+            PURE & REFRESHING
+          </span>
+          <h1 style={{ fontSize: '2.5rem', margin: '0.8rem 0', lineHeight: 1.2, color: '#ffffff' }}>
+            Enterprise Hydration, Delivered Seamlessly.
+          </h1>
+          <p 
+            style={{
+              color: '#E0F2FE',
+              fontSize: '1.05rem',
+              maxWidth: '500px',
+              lineHeight: 1.6,
+              marginBottom: '2rem'
+            }}
+          >
+            Power your workplace with our multi-stage purified water. From smart fleet logistics to flexible corporate subscriptions, we ensure your business never runs dry.
+          </p>
           <div className="hero-buttons">
             <button className="btn-primary" onClick={() => navigate('/products')}>
               Order Now <ArrowRight size={18} style={{ marginLeft: '6px', verticalAlign: 'middle' }} />
             </button>
-            <button className="btn-outline"onClick={() => navigate('/about#contact')}>
-            <Mail size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} /> Contact Us </button>
+            <button className="btn-outline" onClick={() => navigate('/about#contact')}>
+              <Mail size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} /> Contact Us
+            </button>
           </div>
         </div>
-        <div className="hero-image">
-          <div className="image-placeholder">Hero Image Here</div>
+        <div 
+          className="hero-image"
+          style={{
+            flex: 1,
+            display: 'flex',
+            overflow: 'hidden',
+            borderRadius: '12px',
+            minHeight: '250px',
+            height: '320px',
+            border: 'none'
+          }}
+        >
+          <img 
+            src="https://images.unsplash.com/photo-1550508122-38d5a1b32d56?auto=format&fit=crop&w=800&q=80" 
+            alt="Fresh Water Delivery" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }} 
+          />
         </div>
       </header>
 

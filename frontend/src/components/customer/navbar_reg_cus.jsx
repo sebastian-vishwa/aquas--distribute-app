@@ -2,6 +2,7 @@ import React, { useState, useEffect,useRef  } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../../components/common/CartContext';
 import { Search, Bell, ShoppingCart, X, User, Settings, History, Tag, ArrowLeft,ArrowRight, Plus, Minus,Trash2, CreditCard } from 'lucide-react';
+import logoImg from '../../assets/logo.png';
 import './navbar_reg_cus.css';
 
 export default function NavbarRegCus() {
@@ -111,8 +112,12 @@ export default function NavbarRegCus() {
     <>
     <nav className="navbar-container">
       {/* Left: Brand Logo */}
-      <div className="navbar-left">
-        <h2 className="navbar-brand" onClick={() => navigate('/portal')}>💧 AQUAS </h2>
+      <div className="navbar-left" onClick={() => navigate('/portal')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+        <img 
+          src={logoImg} 
+          alt="Aquas Logo" 
+          style={{ height: '45px', objectFit: 'contain', cursor: 'pointer' }} 
+        />
       </div>
 
       {/* Middle: Navigation Links */}

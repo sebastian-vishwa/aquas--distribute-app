@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
-import { Droplet, ShoppingCart, User } from 'lucide-react';
+import { ShoppingCart, User } from 'lucide-react';
+import logoImg from '../../assets/logo.png';
 import './Navbar_occ_cus.css';
 
 export default function NavbarOccCus() {
@@ -12,10 +13,12 @@ export default function NavbarOccCus() {
   return (
     <nav className="navbar">
       {/* Logo */}
-      <div className="logo-container" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-        <h2 className="logo-text" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Droplet size={24} fill="#0A3D91" color="#0A3D91" /> Aquas
-        </h2>
+      <div className="logo-container" onClick={() => navigate('/')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+        <img 
+          src={logoImg} 
+          alt="Aquas Logo" 
+          style={{ height: '45px', objectFit: 'contain', cursor: 'pointer' }} 
+        />
       </div>
       
       {/* Navigation Links */}

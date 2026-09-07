@@ -9,13 +9,14 @@ export default function Inventory() {
 
  const [editingProduct, setEditingProduct] = useState(null);
 
- const [editData, setEditData] = useState({
+  const [editData, setEditData] = useState({
     productName: '',
     sku: '',
     category: '',
     wholesalePrice: '',
     currentStock: '',
-    status: ''
+    status: '',
+    image: ''
   });
 
   const fetchInventory = async () => {
@@ -29,63 +30,93 @@ export default function Inventory() {
   };
 
   const handleEdit = (product) => {
-  setEditingProduct(product);
+    setEditingProduct(product);
     setEditData({
-      productName: product.productName,
-      sku: product.sku,
-      category: product.category,
-      wholesalePrice: product.wholesalePrice,
-      currentStock: product.currentStock,
-      status: product.status
+      productName: product.productName || '',
+      sku: product.sku || '',
+      category: product.category || '',
+      wholesalePrice: product.wholesalePrice || '',
+      currentStock: product.currentStock || '',
+      status: product.status || 'In Stock',
+      image: product.image || ''
     });
   };
 
   const handleEditChange = (e) => {
-      setEditData({
-        ...editData,
-        [e.target.name]: e.target.value
-      });
+    setEditData({
+      ...editData,
+      [e.target.name]: e.target.value
+    });
   };
 
-  const handleSave = () => {
-  setProducts(
-    products.map((product) =>
-      product._id === editingProduct._id
-        ? {
-            ...product,
-            productName: editData.productName,
-            sku: editData.sku,
-            category: editData.category,
-            wholesalePrice: Number(editData.wholesalePrice),
-            currentStock: Number(editData.currentStock),
-            status: editData.status
-          }
-        : product
-    )
-  );
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditData((prev) => ({ ...prev, image: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-  setEditingProduct(null);
-};
+  const handleSubmit = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!editingProduct) return;
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/products/${editingProduct._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...editData,
+          wholesalePrice: Number(editData.wholesalePrice),
+          currentStock: Number(editData.currentStock),
+          image: editData.image
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('✅ Product updated successfully!');
+        setProducts((prev) =>
+          prev.map((item) =>
+            item._id === editingProduct._id
+              ? (data.product || { ...item, ...editData })
+              : item
+          )
+        );
+        setEditingProduct(null);
+      } else {
+        alert(`❌ Error updating product: ${data.message || 'Failed to update'}`);
+      }
+    } catch (error) {
+      console.error('Error updating product:', error);
+      alert('Server error. Check if your backend server is running.');
+    }
+  };
+
+  const handleSave = handleSubmit;
 
   const handleDelete = async (id) => {
-  try {
-    const response = await fetch(`http://localhost:5000/api/products/${id}`, {
-      method: 'DELETE',
-    });
-    
-    if (response.ok) {
-      // 1. The browser pauses here and shows the popup
-      alert('✅ Product deleted successfully!'); 
+    try {
+      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+        method: 'DELETE',
+      });
       
-      // 2. Once you click "OK", this line instantly removes the item from the screen
-      setInventoryData(prevData => prevData.filter(item => item._id !== id)); 
-    } else {
-      alert('Failed to delete product');
+      if (response.ok) {
+        alert('✅ Product deleted successfully!'); 
+        setProducts(prevData => prevData.filter(item => item._id !== id)); 
+      } else {
+        alert('Failed to delete product');
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
     }
-  } catch (error) {
-    console.error("Error deleting product:", error);
-  }
-};
+  };
 
   useEffect(() => {
     fetchInventory();
@@ -226,6 +257,8 @@ export default function Inventory() {
       style={{
         background: '#fff',
         width: '450px',
+        maxHeight: '90vh',
+        overflowY: 'auto',
         padding: '30px',
         borderRadius: '12px',
         boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
@@ -433,6 +466,41 @@ export default function Inventory() {
       </div>
 
 
+      {/* Product Image */}
+      <div style={{ marginBottom: '20px' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>
+          Product Image
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          style={{
+            width: '100%',
+            padding: '8px 0',
+            boxSizing: 'border-box'
+          }}
+        />
+        {editData.image && (
+          <div style={{ marginTop: '10px' }}>
+            <img
+              src={editData.image}
+              alt="Preview"
+              style={{
+                maxWidth: '150px',
+                maxHeight: '150px',
+                objectFit: 'contain',
+                display: 'block',
+                borderRadius: '6px',
+                border: '1px solid #ddd',
+                padding: '4px'
+              }}
+            />
+          </div>
+        )}
+      </div>
+
+
       {/* Buttons */}
 
       <div
@@ -458,7 +526,7 @@ export default function Inventory() {
 
 
         <button
-          onClick={handleSave}
+          onClick={handleSubmit}
           className="btn-action"
           style={{
             padding: '10px 20px'

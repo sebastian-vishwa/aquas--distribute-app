@@ -55,7 +55,13 @@ export default function Catalogue() {
           catalogueData.map((item) => (
             // 4. Replaced inline card styles with "portal-card"
             <div key={item._id} className="portal-card" style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
-              
+              {item.image ? (
+                <img src={item.image} alt={item.productName} style={{ width: '100%', height: '180px', objectFit: 'cover', borderRadius: '6px', marginBottom: '1rem' }} />
+              ) : (
+                <div style={{ width: '100%', height: '180px', backgroundColor: '#e2e8f0', borderRadius: '6px', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
+                  No Image
+                </div>
+              )}
               <h3 style={{ fontSize: '1.1rem', color: '#1E293B', marginBottom: '0.5rem', minHeight: '40px' }}>
                 {item.productName} 
               </h3>

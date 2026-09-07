@@ -101,12 +101,27 @@ export default function ProductsOccCustomer() {
       {/* HERO SECTION */}
       <header className="products-hero">
         <div className="hero-content">
-          <span className="subtitle">Wholesale Bundles</span>
-          <h1>Bulk Hydration Solutions For Your Business</h1>
-          <p>Streamline your supply chain with our high-volume water bundles. Designed for corporate offices, retail distributors, and industrial facilities.</p>
+          <span className="subtitle">PREMIUM CATALOGUE</span>
+          <h1>Wholesale Bundles Built for Business.</h1>
+          <p>Streamline your supply chain with our high-volume water bundles and advanced dispensers. Secure corporate pricing and automate your reorders instantly.</p>
         </div>
-        <div className="hero-image">
-          <div className="image-placeholder">Pallet Image Here</div>
+        <div 
+          className="hero-image"
+          style={{
+            flex: 1,
+            display: 'flex',
+            overflow: 'hidden',
+            borderRadius: '12px',
+            minHeight: '250px',
+            height: '320px',
+            border: 'none'
+          }}
+        >
+          <img 
+            src="https://images.unsplash.com/photo-1626546366620-80cbf8b849e7?auto=format&fit=crop&w=800&q=80" 
+            alt="Wholesale Water Pallets" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }} 
+          />
         </div>
       </header>
 
@@ -138,7 +153,11 @@ export default function ProductsOccCustomer() {
           {catalogueData.length > 0 ? (
             catalogueData.map((item) => (
               <div key={item._id} className="bundle-card">
-                <div className="card-img-placeholder">{item.productName} Image</div>
+                {item.image ? (
+                  <img src={item.image} alt={item.productName} className="card-img-placeholder" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                ) : (
+                  <div className="card-img-placeholder">{item.productName} Image</div>
+                )}
                 <div className="card-content">
                   <div className="card-title-row">
                     <h3>{item.productName}</h3>
