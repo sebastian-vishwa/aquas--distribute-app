@@ -67,19 +67,25 @@ export default function Inventory() {
   setEditingProduct(null);
 };
 
-  const handleDelete = (productId) => {
-  const confirmDelete = window.confirm(
-    'Are you sure you want to delete this product?'
-  );
-
-    if (confirmDelete) {
-      setProducts(
-        products.filter(
-          (product) => product._id !== productId
-        )
-      );
+  const handleDelete = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      method: 'DELETE',
+    });
+    
+    if (response.ok) {
+      // 1. The browser pauses here and shows the popup
+      alert('✅ Product deleted successfully!'); 
+      
+      // 2. Once you click "OK", this line instantly removes the item from the screen
+      setInventoryData(prevData => prevData.filter(item => item._id !== id)); 
+    } else {
+      alert('Failed to delete product');
     }
-  };
+  } catch (error) {
+    console.error("Error deleting product:", error);
+  }
+};
 
   useEffect(() => {
     fetchInventory();
@@ -162,7 +168,6 @@ export default function Inventory() {
                   </td>
                   <td className="action-column">
                     <button
-                      onClick={() => handleDelete(item._id)}
                       style={{
                         border: 'none',
                         background: 'none',
@@ -173,6 +178,7 @@ export default function Inventory() {
                         justifyContent: 'center',
                         margin: 'auto'
                       }}
+                      onClick={() => handleDelete(item._id)}
                       title="Delete Product"
                     >
                       <Trash2 size={18} />
