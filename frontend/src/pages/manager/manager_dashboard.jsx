@@ -187,7 +187,7 @@ export default function ManagerDashboard() {
         {/* Fleet Tracking Map & Table */}
         <div className="manager-table-container" style={{ flex: 2 }}>
           <h3 style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <MapPin size={18} color="#0A3D91" /> Live Fleet Tracking
+            <MapPin size={18} color="#0A3D91" /> Live Drivers Tracking
           </h3>
 
           {/* Render Fleet Map with Yellow Lorry Icon */}
