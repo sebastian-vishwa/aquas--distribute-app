@@ -31,6 +31,8 @@ app.use('/api/cart', cartRoutes);
 
 const orderRoutes = require('./routes/orderRoutes');
 app.use('/api/orders', orderRoutes);
+const promotionRoutes = require('./routes/promotionRoutes');
+app.use('/api/promotions', promotionRoutes);
 
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log('✅ Connected to Aquas MongoDB!'))

@@ -11,4 +11,6 @@ router.post('/add', auth, requireManager, addProduct);
 router.put('/:id', auth, requireManager, updateProduct);
 router.delete('/:id', auth, requireManager, deleteProduct);
 
+router.delete('/:id', deleteProduct);
+
 module.exports = router;
