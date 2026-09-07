@@ -19,9 +19,8 @@ export default function Home() {
             <button className="btn-primary" onClick={() => navigate('/products')}>
               Order Now <ArrowRight size={18} style={{ marginLeft: '6px', verticalAlign: 'middle' }} />
             </button>
-            <button className="btn-outline">
-              <Mail size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} /> Contact Us
-            </button>
+            <button className="btn-outline"onClick={() => navigate('/about#contact')}>
+            <Mail size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} /> Contact Us </button>
           </div>
         </div>
         <div className="hero-image">

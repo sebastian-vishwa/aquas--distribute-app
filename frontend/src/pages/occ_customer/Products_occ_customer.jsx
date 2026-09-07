@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useCart } from '../../components/common/CartContext';
+import { ShoppingCart, LayoutGrid, List, Plus, Minus, X, Check } from 'lucide-react';
+import './Products_occ_customer.css';
 
 export default function ProductsOccCustomer() {
   const [catalogueData, setCatalogueData] = useState([]);
+  const [viewMode, setViewMode] = useState('grid');
+  const { addToCart } = useCart();
 
-  // Fetch live products from your Express backend
+  // Modal Control States
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
+  // Fetch live products from backend
   const fetchCatalogue = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/products');
@@ -18,73 +27,145 @@ export default function ProductsOccCustomer() {
     fetchCatalogue();
   }, []);
 
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+    setQuantity(1);
+  };
+
+  const handleConfirmAddToCart = () => {
+    if (selectedProduct) {
+      const itemToAdd = {
+        id: selectedProduct._id,
+        title: selectedProduct.productName,
+        price: selectedProduct.wholesalePrice || 0
+      };
+      addToCart(itemToAdd, quantity);
+      setSelectedProduct(null);
+    }
+  };
+
   return (
-    <div style={{ padding: '2rem 5%', backgroundColor: '#F8FAFC', minHeight: '100vh' }}>
+    <div className="products-wrapper">
       
-      {/* Hero Banner Section */}
-      <div style={{ backgroundColor: '#0A3D91', color: 'white', padding: '4rem', borderRadius: '12px', marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', gap: '2rem' }}>
-        <div style={{ flex: 1 }}>
-          <p style={{ color: '#93C5FD', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
-            Wholesale Bundles
-          </p>
-          <h1 style={{ fontSize: '2.8rem', margin: '1rem 0', lineHeight: '1.2' }}>
-            Bulk Hydration Solutions For Your Business
-          </h1>
-          <p style={{ lineHeight: '1.6', color: '#E0F2FE', fontSize: '1.05rem', maxWidth: '500px' }}>
-            Streamline your supply chain with our high-volume water bundles. Designed for corporate offices, retail distributors, and industrial facilities.
-          </p>
-        </div>
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', border: '2px dashed rgba(255,255,255,0.2)', borderRadius: '12px', minHeight: '250px' }}>
-           <p style={{ color: '#93C5FD', fontSize: '0.9rem' }}>Pallet Image Here</p>
-        </div>
-      </div>
-
-      {/* Dynamic Products Grid */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h2 style={{ color: '#1E293B', fontSize: '1.5rem' }}>Available Bundles</h2>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <span style={{ padding: '4px', cursor: 'pointer' }}>▤</span>
-        </div>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
-        {catalogueData.length > 0 ? (
-          catalogueData.map((item) => (
-            <div key={item._id} style={{ backgroundColor: 'white', border: '1px solid #E2E8F0', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-              
-              {/* Product Image Placeholder */}
-              <div style={{ backgroundColor: '#F1F5F9', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ color: '#94A3B8', fontSize: '0.9rem' }}>{item.productName} Image</span>
-              </div>
-              
-              {/* Product Details */}
-              <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-                  <h3 style={{ fontSize: '1.1rem', color: '#1E293B', margin: 0, fontWeight: '700' }}>
-                    {item.productName}
-                  </h3>
-                  <span style={{ backgroundColor: '#E0F2FE', color: '#0284C7', padding: '3px 8px', borderRadius: '4px', fontSize: '0.65rem', fontWeight: 'bold', textTransform: 'uppercase' }}>
-                    {item.category}
-                  </span>
-                </div>
-                
-                <p style={{ color: '#0EA5E9', fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '1.5rem', marginTop: '0.5rem' }}>
-                  ${item.wholesalePrice ? item.wholesalePrice.toFixed(2) : '0.00'} 
-                  <span style={{ fontSize: '0.85rem', color: '#64748B', fontWeight: 'normal' }}> / {item.unit ? item.unit.toLowerCase() : 'unit'}</span>
-                </p>
-                
-                <button style={{ marginTop: 'auto', width: '100%', padding: '0.8rem', border: '2px solid #0A3D91', color: '#0A3D91', backgroundColor: 'transparent', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.2s' }}>
-                  View Details
-                </button>
-              </div>
+      {/* QUANTITY POPUP MODAL */}
+      {selectedProduct && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>{selectedProduct.productName}</h3>
+            <p className="modal-desc">Select quantity to add to your cart</p>
+            
+            <div className="quantity-controls">
+              <button 
+                type="button"
+                onClick={() => setQuantity(prev => (prev > 1 ? prev - 1 : 1))}
+                className="qty-btn"
+              >
+                <Minus size={18} />
+              </button>
+              <span className="qty-display">{quantity}</span>
+              <button 
+                type="button"
+                onClick={() => setQuantity(prev => prev + 1)}
+                className="qty-btn"
+              >
+                <Plus size={18} />
+              </button>
             </div>
-          ))
-        ) : (
-          <p style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#64748B', backgroundColor: 'white', borderRadius: '12px', border: '1px solid #E2E8F0' }}>
-            No bundles available at the moment.
-          </p>
-        )}
-      </div>
+            
+            <div className="modal-total">
+              Total Price: <span>Rs. {((selectedProduct.wholesalePrice || 0) * quantity).toLocaleString()}</span>
+            </div>
+
+            <div className="modal-actions">
+              <button 
+                type="button" 
+                className="btn-cancel" 
+                onClick={() => setSelectedProduct(null)}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+              >
+                <X size={16} /> Cancel
+              </button>
+              <button 
+                type="button" 
+                className="btn-confirm" 
+                onClick={handleConfirmAddToCart}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+              >
+                <Check size={16} /> Confirm Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* HERO SECTION */}
+      <header className="products-hero">
+        <div className="hero-content">
+          <span className="subtitle">Wholesale Bundles</span>
+          <h1>Bulk Hydration Solutions For Your Business</h1>
+          <p>Streamline your supply chain with our high-volume water bundles. Designed for corporate offices, retail distributors, and industrial facilities.</p>
+        </div>
+        <div className="hero-image">
+          <div className="image-placeholder">Pallet Image Here</div>
+        </div>
+      </header>
+
+      {/* BUNDLES SECTION */}
+      <section className="bundles-section">
+        <div className="section-header">
+          <h2>Available Bundles</h2>
+          <div className="view-toggles">
+            <button 
+              type="button"
+              className={`icon-btn ${viewMode === 'grid' ? 'active' : ''}`} 
+              onClick={() => setViewMode('grid')}
+              title="Grid View"
+            >
+              <LayoutGrid size={18} />
+            </button>
+            <button 
+              type="button"
+              className={`icon-btn ${viewMode === 'list' ? 'active' : ''}`} 
+              onClick={() => setViewMode('list')}
+              title="List View"
+            >
+              <List size={18} />
+            </button>
+          </div>
+        </div>
+
+        <div className={`bundles-grid ${viewMode === 'list' ? 'list-view' : ''}`}>
+          {catalogueData.length > 0 ? (
+            catalogueData.map((item) => (
+              <div key={item._id} className="bundle-card">
+                <div className="card-img-placeholder">{item.productName} Image</div>
+                <div className="card-content">
+                  <div className="card-title-row">
+                    <h3>{item.productName}</h3>
+                    <span className="badge">{item.category || 'WHOLESALE'}</span>
+                  </div>
+                  <p>{item.description || 'Pure, high-quality filtered hydration solution.'}</p>
+                  <div className="price-row">
+                    <h2>Rs. {item.wholesalePrice ? item.wholesalePrice.toLocaleString() : '0'}</h2>
+                  </div>
+                  <button 
+                    type="button"
+                    className="btn-cart" 
+                    onClick={() => handleOpenModal(item)}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                  >
+                    <ShoppingCart size={18} /> Add to Cart
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#64748B' }}>
+              No bundles available at the moment.
+            </p>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

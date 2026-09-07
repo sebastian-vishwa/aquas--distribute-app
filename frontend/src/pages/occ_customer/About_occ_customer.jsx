@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { History, Eye, Target, MapPin, Phone, Mail, CheckCircle2 } from 'lucide-react';
 import './About_occ_customer.css';
 
 export default function About() {
+  const { hash } = useLocation();
+
+  // Smooth scroll to the specific section if the URL contains a hash (e.g., #contact)
+  useEffect(() => {
+    if (hash) {
+      const element = document.getElementById(hash.replace('#', ''));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo(0, 0); // Scroll to top if no hash is present
+    }
+  }, [hash]);
+
   return (
     <div className="about-wrapper">
       {/* HERO SECTION */}
       <header className="about-hero">
         <div className="hero-content">
           <h1>Engineering Purity for Scale</h1>
-          <p>Since 2010, AquaPure has defined the standard for high-volume, precision-filtered hydration solutions. We supply the infrastructure that keeps industry moving.</p>
+          <p>Since 2010, Aquas has defined the standard for high-volume, precision-filtered hydration solutions. We supply the infrastructure that keeps industry moving.</p>
         </div>
         <div className="hero-image">
           <div className="image-placeholder">Facility Image Here</div>
@@ -25,7 +40,7 @@ export default function About() {
             </span>
             <h2>The Origin</h2>
           </div>
-          <p>AquaPure began with a single observation: industrial hydration was inefficient, inconsistent, and lacked the rigorous quality control demanded by modern enterprises. Founded by logistics engineers, our approach was systematically different from day one.</p>
+          <p>Aquas began with a single observation: industrial hydration was inefficient, inconsistent, and lacked the rigorous quality control demanded by modern enterprises. Founded by logistics engineers, our approach was systematically different from day one.</p>
           <p>We didn't just want to bottle water; we aimed to build a distribution matrix capable of delivering flawless purity at massive scale. Today, our 7-step reverse osmosis process and automated fleet management represent the pinnacle of B2B hydration logistics.</p>
           
           <div className="stats-row">
@@ -83,7 +98,7 @@ export default function About() {
       </section>
 
       {/* CONTACT SECTION */}
-      <section className="contact-section">
+      <section id="contact" className="contact-section">
         <div className="contact-info">
           <h2>Initiate Contact</h2>
           <p>Our logistics team is on standby to calculate volume requirements and establish an optimized delivery matrix for your facility.</p>

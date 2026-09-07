@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import NavbarRegCus from '../components/customer/navbar_reg_cus';
 import FooterRegCus from '../components/common/footer_reg_cus';
-import '../pages/reg_customer/portal.css'; // We will create this next!
+import '../pages/reg_customer/portal.css'; 
 
 export default function CustomerLayout() {
   return (
@@ -11,7 +11,6 @@ export default function CustomerLayout() {
       <main style={{ flex: 1 }}>
         <Outlet />
       </main>
-      <FooterRegCus />
     </div>
   );
 }
