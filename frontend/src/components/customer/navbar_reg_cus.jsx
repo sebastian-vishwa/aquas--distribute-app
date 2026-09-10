@@ -26,11 +26,8 @@ export default function NavbarRegCus() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) { setUserLoading(false); return; }
       try {
         const res = await fetch('http://localhost:5000/api/auth/me', {
-          headers: { Authorization: `Bearer ${token}` },
         });
         if (res.ok) setUser(await res.json());
       } catch (error) {
@@ -79,7 +76,6 @@ export default function NavbarRegCus() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           items: cartItems,
