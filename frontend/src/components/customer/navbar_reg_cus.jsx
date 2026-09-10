@@ -14,9 +14,8 @@ export default function NavbarRegCus() {
   const [showCheckout, setShowCheckout] = useState(false);
   const profileRef = useRef(null);
 
-  // Logged-in user data
-  const [user, setUser] = useState(null);
-  const [userLoading, setUserLoading] = useState(true);
+  // Dynamic customer data
+  const [customerData, setCustomerData] = useState(null);
 
   const handleSearchSubmit = (e) => {
     if (e.key === 'Enter' && searchQuery.trim()) {
@@ -25,32 +24,26 @@ export default function NavbarRegCus() {
   };
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchCustomer = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/auth/me', {
-        });
-        if (res.ok) setUser(await res.json());
+        const res = await fetch('http://localhost:5000/api/auth/customers');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setCustomerData(data[0]);
+          }
+        }
       } catch (error) {
-        console.error('Failed to fetch user:', error);
-      } finally {
-        setUserLoading(false);
+        console.error('Failed to fetch customer data:', error);
       }
     };
-    fetchUser();
+    fetchCustomer();
   }, []);
-
-  const getInitials = (name) => {
-    if (!name) return 'U';
-    return name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
-  };
-  const displayName = user?.companyName || user?.name || (userLoading ? 'Loading...' : 'Guest');
-  const displayEmail = user?.email || '';
-  const initials = userLoading ? '…' : getInitials(user?.companyName || user?.name);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
-    setUser(null);
+    setCustomerData(null);
     navigate('/login');
   };
 
@@ -105,38 +98,53 @@ export default function NavbarRegCus() {
   return () => document.removeEventListener('mousedown', handleClickOutside);
 }, []);
 
+  const getNavLinkStyle = ({ isActive }) => ({
+    color: isActive ? '#FFFFFF' : '#E2E8F0',
+    borderBottom: isActive ? '2px solid #FFFFFF' : '2px solid transparent',
+    textDecoration: 'none',
+    paddingBottom: '4px',
+    transition: 'color 0.2s ease, border-color 0.2s ease',
+  });
+
   return (
     <>
-    <nav className="navbar-container">
+    <nav className="navbar-container navbar" style={{ background: '#0A3D91', borderBottom: 'none' }}>
       {/* Left: Brand Logo */}
-      <div className="navbar-left" onClick={() => navigate('/portal')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+      <div className="navbar-left logo-container" onClick={() => navigate('/portal')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
         <img 
           src={logoImg} 
           alt="Aquas Logo" 
-          style={{ height: '45px', objectFit: 'contain', cursor: 'pointer' }} 
+          style={{ height: '45px', objectFit: 'contain', cursor: 'pointer', filter: 'brightness(0) invert(1)' }} 
         />
       </div>
 
       {/* Middle: Navigation Links */}
-      <div className="navbar-center">
-        <NavLink to="/portal" end className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+      <div className="navbar-center nav-links">
+        <NavLink to="/portal" end className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} style={getNavLinkStyle}>
           Dashboard
         </NavLink>
-        <NavLink to="/portal/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+        <NavLink to="/portal/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} style={getNavLinkStyle}>
           Catalogue
         </NavLink>
-        <NavLink to="/portal/orders" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+        <NavLink to="/portal/orders" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} style={getNavLinkStyle}>
           Orders
         </NavLink>
-        <NavLink to="/portal/deliveries" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+        <NavLink to="/portal/deliveries" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} style={getNavLinkStyle}>
           Deliveries
         </NavLink>
       </div>
 
       {/* Right: Pure Icon Group */}
-      <div className="navbar-right">
+      <div className="navbar-right nav-icons">
         {showSearch ? (
-          <div className="navbar-search-wrapper">
+          <div 
+            className="navbar-search-wrapper" 
+            style={{ 
+              background: 'rgba(255, 255, 255, 0.15)', 
+              border: '1px solid rgba(255, 255, 255, 0.25)', 
+              borderRadius: '8px' 
+            }}
+          >
             <input
               type="text"
               className="navbar-search-input"
@@ -145,13 +153,15 @@ export default function NavbarRegCus() {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearchSubmit}
               autoFocus
+              style={{ color: '#FFFFFF' }}
             />
             <button
               className="icon-btn close-search-btn"
               onClick={() => { setShowSearch(false); setSearchQuery(''); }}
               title="Close Search"
+              style={{ color: '#FFFFFF' }}
             >
-              <X size={18} />
+              <X size={18} color="#FFFFFF" stroke="#FFFFFF" />
             </button>
           </div>
         ) : (
@@ -159,12 +169,13 @@ export default function NavbarRegCus() {
             className="icon-btn"
             title="Search"
             onClick={() => setShowSearch(true)}
+            style={{ color: '#FFFFFF' }}
           >
-            <Search size={20} />
+            <Search size={20} color="#FFFFFF" stroke="#FFFFFF" />
           </button>
         )}
-        <button className="icon-btn" title="Notifications">
-          <Bell size={20} />
+        <button className="icon-btn" title="Notifications" style={{ color: '#FFFFFF' }}>
+          <Bell size={20} color="#FFFFFF" stroke="#FFFFFF" />
         </button>
         {/* CART */}
         <div 
@@ -176,8 +187,9 @@ export default function NavbarRegCus() {
             className="icon-btn cart-button"
             title="Cart"
             onClick={() => navigate('/portal/checkout')}
+            style={{ color: '#FFFFFF' }}
           >
-            <ShoppingCart size={20} />
+            <ShoppingCart size={20} color="#FFFFFF" stroke="#FFFFFF" />
             {cartCount > 0 && <span className="cart-badge-red">{cartCount}</span>}
           </button>
 
@@ -248,19 +260,24 @@ export default function NavbarRegCus() {
             className="user-avatar-circle"
             onClick={() => setShowProfile(!showProfile)}
             title="Account"
+            style={{ backgroundColor: '#FFFFFF', color: '#0A3D91', fontWeight: 700 }}
           >
-            {initials}
+            {customerData?.name ? customerData.name.charAt(0).toUpperCase() : 'U'}
           </button>
 
           {showProfile && (
             <div className="profile-dropdown">
 
               <div className="profile-dropdown-header">
-                <div className="profile-avatar">{initials}</div>
+                <div className="profile-avatar">
+                  {customerData?.name ? customerData.name.charAt(0).toUpperCase() : 'U'}
+                </div>
 
                 <div>
-                  <strong>{displayName}</strong>
-                  <span>{displayEmail}</span>
+                  <strong>{customerData?.name || 'Guest'}</strong>
+                  <span style={{ fontSize: '0.75rem', color: '#64748B' }}>
+                    {customerData?.email}
+                  </span>
                 </div>
               </div>
 
@@ -289,7 +306,7 @@ export default function NavbarRegCus() {
 
               <button
                 className="profile-menu-item logout"
-                onClick={() => navigate('/login')}
+                onClick={handleLogout}
               >
                 <ArrowLeft size={18} />
                 Sign Out
@@ -336,7 +353,7 @@ export default function NavbarRegCus() {
                             <div className="checkout-product-icon">💧</div>
                             <div className="checkout-product-info">
                               <strong>{item.name}</strong>
-                              <span>${item.price.toFixed(2)} each</span>
+                              <span>Rs. {Number(item.price || 0).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} each</span>
                             </div>
     
                             <div className="quantity-control">
@@ -350,7 +367,7 @@ export default function NavbarRegCus() {
                             </div>
     
                             <strong className="checkout-item-price">
-                              ${(item.price * item.quantity).toFixed(2)}
+                              Rs. {(Number(item.price || 0) * Number(item.quantity || 1)).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </strong>
     
                             <button
@@ -371,19 +388,19 @@ export default function NavbarRegCus() {
     
                     <div className="summary-row">
                       <span>Subtotal</span>
-                      <strong>${subtotal.toFixed(2)}</strong>
+                      <strong>Rs. {Number(subtotal || 0).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
                     </div>
     
                     <div className="summary-row">
                       <span>Delivery</span>
-                      <strong>${deliveryFee.toFixed(2)}</strong>
+                      <strong>Rs. {Number(deliveryFee || 0).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
                     </div>
     
                     <div className="summary-divider"></div>
     
                     <div className="summary-total">
                       <span>Total</span>
-                      <strong>${getTotal().toFixed(2)}</strong>
+                      <strong>Rs. {Number(getTotal() || 0).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
                     </div>
     
                     <button
