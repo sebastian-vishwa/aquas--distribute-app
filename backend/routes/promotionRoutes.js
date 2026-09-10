@@ -216,5 +216,104 @@ router.delete('/:id', async (req, res) => {
 
 });
 
+// ==========================================
+// UPDATE PROMOTION
+// ==========================================
 
+router.put('/:id', async (req, res) => {
+
+  try {
+
+    const {
+      promotionName,
+      discountType,
+      discountValue,
+      minimumOrderValue,
+      eligibleProducts,
+      startDate,
+      endDate,
+      scheduledDate
+    } = req.body;
+
+
+    // Determine status
+
+    const now = new Date();
+
+    const start = new Date(startDate);
+
+    const end = new Date(endDate);
+
+
+    let status = 'Scheduled';
+
+
+    if (now >= start && now <= end) {
+      status = 'Active';
+    }
+
+
+    if (now > end) {
+      status = 'Expired';
+    }
+
+
+    const updatedPromotion =
+      await Promotion.findByIdAndUpdate(
+
+        req.params.id,
+
+        {
+          promotionName,
+          discountType,
+          discountValue,
+          minimumOrderValue,
+          eligibleProducts,
+          startDate,
+          endDate,
+          scheduledDate,
+          status
+        },
+
+        {
+          new: true,
+          runValidators: true
+        }
+
+      ).populate('eligibleProducts');
+
+
+    if (!updatedPromotion) {
+
+      return res.status(404).json({
+        message: 'Promotion not found'
+      });
+
+    }
+
+
+    res.json(updatedPromotion);
+
+
+  } catch (error) {
+
+    console.error(
+      'Error updating promotion:',
+      error
+    );
+
+
+    res.status(500).json({
+
+      message:
+        'Failed to update promotion',
+
+      error:
+        error.message
+
+    });
+
+  }
+
+});
 module.exports = router;

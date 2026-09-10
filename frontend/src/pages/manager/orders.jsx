@@ -10,14 +10,14 @@ export default function Orders() {
       id: '#ORD-1001',
       customer: 'Apex Traders',
       date: 'Oct 28, 2026',
-      total: '$450.00',
+      total: 'Rs. 450.00',
       status: 'Pending'
     },
     {
       id: '#ORD-1002',
       customer: 'Global Retail',
       date: 'Oct 27, 2026',
-      total: '$1,200.00',
+      total: 'Rs. 1,200.00',
       status: 'Dispatched'
     }
   ]);
@@ -127,9 +127,9 @@ export default function Orders() {
       customer: newOrder.customer,
       product: '',
       date: newOrder.date,
-      total: newOrder.total.startsWith('$')
+      total: newOrder.total.startsWith('Rs. ')
         ? newOrder.total
-        : `$${newOrder.total}`,
+        : `Rs. ${newOrder.total}`,
       status: newOrder.status
     };
 
