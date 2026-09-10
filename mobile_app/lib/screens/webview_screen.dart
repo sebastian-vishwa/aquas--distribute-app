@@ -23,9 +23,9 @@ class _WebDashboardScreenState extends State<WebDashboardScreen> {
   void initState() {
     super.initState();
 
-    // 1. Controller එක initialize කර URL එක Load කිරීම
+    //  Controller එක initialize කර URL එක Load කිරීම
     _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted) // React App එක වැඩ කිරීමට JavaScript අවශ්‍යයි
+      ..setJavaScriptMode(JavaScriptMode.unrestricted) // React App එක වැඩ කිරීමට JavaScript
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(

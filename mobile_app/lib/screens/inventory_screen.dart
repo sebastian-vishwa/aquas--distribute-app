@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 
 class InventoryScreen extends StatelessWidget {
-  const InventoryScreen({super.key});
+  final String driverId;
+
+  const InventoryScreen({
+    super.key,
+    this.driverId = "",
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF0040A1),
-        title: const Text('Truck Inventory', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Truck Inventory', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
+            Text('Vehicle Unit #402 • Driver ID: $driverId', style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          ],
+        ),
         actions: [IconButton(icon: const Icon(Icons.notifications_none, color: Colors.white), onPressed: () {})],
       ),
       body: ListView(
