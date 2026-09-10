@@ -30,6 +30,9 @@ export default function Checkout() {
     console.log('Guest Order Details:', { customer: formData, items: cartItems, total: cartTotal });
     alert('Order details submitted successfully! (Connecting to payment gateway...)');
     setShowGuestForm(false);
+    
+    // Alert eka OK kalama Under Development page ekata yanna
+    navigate('/payment');
   };
 
   return (
