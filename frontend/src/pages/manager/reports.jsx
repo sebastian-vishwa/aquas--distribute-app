@@ -31,7 +31,7 @@ export default function Reports() {
             Total Revenue
             <DollarSign size={18} color="#059669" />
           </div>
-          <div className="stat-value">$2.4M</div>
+          <div className="stat-value">Rs.2.4M</div>
         </div>
 
         <div className="stat-card">

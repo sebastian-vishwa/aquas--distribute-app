@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
+import 'main_navigation_screen.dart';
 import 'webview_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,40 +11,79 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isPasswordVisible = false;
+  final TextEditingController _driverIdController = TextEditingController();
+  bool _isLoading = false;
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     String email = _emailController.text.trim().toLowerCase();
+    String driverId = _driverIdController.text.trim();
 
-    // 1. Testing සඳහා Email එක අනුව Role එක තීරණය කිරීම
-    if (email.contains("manager")) {
-      // Manager Web Dashboard එකට යැවීම
+    // Field Validation
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('කරුණාකර Email එක ඇතුළත් කරන්න.')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Mock Delay to simulate real login process
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (!mounted) return;
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    // 1. Manager Login
+    if (email == "manager@gmail.com") {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const WebDashboardScreen(
             title: "Manager Portal",
-            webUrl: "https://hurulumart.com/admin/login.php", // මෙතැනට ඔබේ Manager React Web Link එක ලබා දෙන්න
+            webUrl: "https://hurulumart.com/admin/login.php",
           ),
         ),
       );
-    } else if (email.contains("customer")) {
-      // Customer Web Dashboard එකට යැවීම
+    }
+    // 2. Customer Login
+    else if (email == "customer@gmail.com") {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const WebDashboardScreen(
             title: "Customer Dashboard",
-            webUrl: "https://hurulumart.com/register/c_login.php", // මෙතැනට ඔබේ Customer React Web Link එක ලබා දෙන්න
+            webUrl: "https://hurulumart.com/register/c_login.php",
           ),
         ),
       );
-    } else {
-      // Rider / Driver Native Dashboard එකට යැවීම
+    }
+    // 3. Rider Login
+    else if (email == "rider@gmail.com") {
+      String finalDriverId = driverId.isEmpty ? "RIDER-101" : driverId;
+
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
+        MaterialPageRoute(
+          builder: (context) => MainNavigationScreen(
+            name: "Rider User",
+            email: email,
+            driverId: finalDriverId,
+          ),
+        ),
+      );
+    }
+    // 4. Invalid Email Handling
+    else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Wrong Email එකකි. (rider@gmail.com, manager@gmail.com, customer@gmail.com භාවිත කරන්න)'),
+        ),
       );
     }
   }
@@ -60,7 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // App Logo Header
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -84,8 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-
-                // Card Container for Inputs
                 Card(
                   elevation: 2,
                   shape: RoundedRectangleBorder(
@@ -97,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Welcome Back',
+                          'Driver Sign In',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -106,12 +142,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 4),
                         const Text(
-                          'Please sign in to continue',
+                          'Enter your Email & Driver Password provided by Manager',
                           style: TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                         const SizedBox(height: 20),
-
-                        // Email Field
                         TextField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
@@ -124,35 +158,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const SizedBox(height: 16),
-
-                        // Password Field
                         TextField(
-                          controller: _passwordController,
-                          obscureText: !_isPasswordVisible,
+                          controller: _driverIdController,
                           decoration: InputDecoration(
                             labelText: 'Password',
-                            prefixIcon: const Icon(Icons.lock_outline, color: Color(0xFF0040A1)),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _isPasswordVisible
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
-                                color: Colors.grey,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _isPasswordVisible = !_isPasswordVisible;
-                                });
-                              },
-                            ),
+                            prefixIcon: const Icon(Icons.badge_outlined, color: Color(0xFF0040A1)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
                         ),
                         const SizedBox(height: 24),
-
-                        // Login Button
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -164,8 +180,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            onPressed: _handleLogin,
-                            child: const Text(
+                            onPressed: _isLoading ? null : _handleLogin,
+                            child: _isLoading
+                                ? const CircularProgressIndicator(color: Colors.white)
+                                : const Text(
                               'LOGIN',
                               style: TextStyle(
                                 fontSize: 16,
