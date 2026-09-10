@@ -1,6 +1,6 @@
 import React, { useState, useEffect,useRef  } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useCart } from '../../components/common/CartContext';
+import { useRegCart } from '../../context/RegCartContext';
 import { Search, Bell, ShoppingCart, X, User, Settings, History, Tag, ArrowLeft,ArrowRight, Plus, Minus,Trash2, CreditCard } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
 import './navbar_reg_cus.css';
@@ -58,7 +58,7 @@ export default function NavbarRegCus() {
   };
 
 
-  // Cart data + actions — from context, not owned here
+  // Registered customer cart data + actions from RegCartContext
   const {
     cartItems,
     increaseQuantity,
@@ -67,7 +67,8 @@ export default function NavbarRegCus() {
     clearCart,
     cartCount,
     subtotal,
-  } = useCart();
+    cartTotal,
+  } = useRegCart();
 
   const deliveryFee = cartItems.length > 0 ? 15 : 0;
   const getTotal = () => subtotal + deliveryFee;
@@ -170,21 +171,25 @@ export default function NavbarRegCus() {
           <Bell size={20} />
         </button>
         {/* CART */}
-        <div className="cart-wrapper" onMouseEnter={() => setShowCart(true)} onMouseLeave={() => setShowCart(false)}>
+        <div 
+          className="cart-wrapper" 
+          onMouseEnter={() => setShowCart(true)} 
+          onMouseLeave={() => setShowCart(false)}
+        >
           <button
             className="icon-btn cart-button"
             title="Cart"
-            onClick={() => setShowCart((prev) => !prev)}
+            onClick={() => navigate('/portal/checkout')}
           >
             <ShoppingCart size={20} />
-            {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+            {cartCount > 0 && <span className="cart-badge-red">{cartCount}</span>}
           </button>
 
           {showCart && (
             <div className="cart-preview">
               <div className="cart-preview-header">
                 <h3>Your Cart</h3>
-                <span>{cartCount} items</span>
+                <span>{cartCount} item{cartCount !== 1 ? 's' : ''}</span>
               </div>
 
               {cartItems.length === 0 ? (
@@ -195,27 +200,45 @@ export default function NavbarRegCus() {
               ) : (
                 <>
                   <div className="cart-preview-items">
-                    {cartItems.map((item) => (
-                      <div className="cart-preview-item" key={item.id}>
+                    {cartItems.map((item, index) => (
+                      <div className="cart-preview-item" key={item.id || item._id || index}>
+                        {item.image ? (
+                          <img 
+                            src={item.image} 
+                            alt={item.name || item.title} 
+                            className="cart-item-thumb" 
+                          />
+                        ) : (
+                          <div className="cart-item-thumb-placeholder">
+                            <ShoppingCart size={16} />
+                          </div>
+                        )}
                         <div className="cart-item-info">
-                          <strong>{item.name}</strong>
-                          <span>Qty: {item.quantity}</span>
+                          <strong className="cart-item-title">{item.name || item.title}</strong>
+                          <span className="cart-item-qty">
+                            Qty: {item.quantity} × Rs. {Number(item.price || 0).toLocaleString()}
+                          </span>
                         </div>
-                        <strong>${(item.price * item.quantity).toFixed(2)}</strong>
+                        <strong className="cart-item-price">
+                          Rs. {(Number(item.price || 0) * Number(item.quantity || 1)).toLocaleString()}
+                        </strong>
                       </div>
                     ))}
                   </div>
 
                   <div className="cart-preview-total">
                     <span>Subtotal</span>
-                    <strong>${subtotal.toFixed(2)}</strong>
+                    <strong>Rs. {Number(cartTotal || subtotal || 0).toLocaleString()}</strong>
                   </div>
 
                   <button
                     className="checkout-preview-button"
-                    onClick={() => { setShowCheckout(true); setShowCart(false); }}
+                    onClick={() => { 
+                      setShowCart(false); 
+                      navigate('/portal/checkout'); 
+                    }}
                   >
-                    View Cart & Checkout
+                    View Checkout
                     <ArrowRight size={17} />
                   </button>
                 </>

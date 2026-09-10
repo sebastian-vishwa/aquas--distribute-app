@@ -1,41 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, BadgeCheck, Truck, CircleX, RefreshCw, FileText } from "lucide-react";
 import "./orders_reg_cus.css";
+
 const API_URL = 'http://localhost:5000/api/orders';
 
-// Maps backend status strings to the CSS classes your status-pill already supports
+// Maps backend status strings to the CSS classes supported by status-pill
 const statusClassMap = {
-  'Ordered': 'status-blue',
-  'Dispatched': 'status-blue',
-  'In Transit': 'status-blue',
   'Delivered': 'status-green',
+  'In Transit': 'status-blue',
   'Cancelled': 'status-orange',
 };
 
 export default function OrdersRegCus() {
   const [orders, setOrders] = useState([]);
-  const [summary, setSummary] = useState({ total: 0, delivered: 0, inTransit: 0, cancelled: 0 });
   const [loading, setLoading] = useState(true);
-  const [invoiceLoadingId, setInvoiceLoadingId] = useState(null);
+  const [error, setError] = useState(null);
 
-  const authHeaders = () => ({
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  });
-
+  // Fetch orders from backend
   const fetchOrders = async () => {
     setLoading(true);
+    setError(null);
     try {
-      const [ordersRes, summaryRes] = await Promise.all([
-        fetch(API_URL, { headers: authHeaders() }),
-        fetch(`${API_URL}/summary`, { headers: authHeaders() }),
-      ]);
-      const ordersData = await ordersRes.json();
-      const summaryData = await summaryRes.json();
-      setOrders(Array.isArray(ordersData) ? ordersData : []);
-      setSummary(summaryData);
-    } catch (error) {
-      console.error('Failed to fetch orders:', error);
+      const res = await fetch(API_URL);
+      if (!res.ok) {
+        throw new Error(`Failed to fetch orders (Status: ${res.status})`);
+      }
+      const data = await res.json();
+      setOrders(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('Failed to fetch orders:', err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -45,38 +39,29 @@ export default function OrdersRegCus() {
     fetchOrders();
   }, []);
 
-  const formatItems = (items) =>
-    items.map((i) => `${i.quantity}x ${i.productName}`).join(', ');
+  // Calculate dynamic stats from the fetched orders array
+  const stats = {
+    total: orders.length,
+    delivered: orders.filter((o) => o.status === 'Delivered').length,
+    inTransit: orders.filter((o) => o.status === 'In Transit').length,
+    cancelled: orders.filter((o) => o.status === 'Cancelled').length,
+  };
 
-  const formatDate = (dateStr) =>
-    new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const formatDate = (dateValue) => {
+    if (!dateValue) return 'N/A';
+    return new Date(dateValue).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  };
 
-  const handleViewInvoice = async (orderId) => {
-    setInvoiceLoadingId(orderId);
-    try {
-      const res = await fetch(`${API_URL}/${orderId}/invoice`, { headers: authHeaders() });
-      if (res.ok) {
-        const invoice = await res.json();
-        // Simple approach for now — open a printable view in a new tab.
-        // Swap this for a proper invoice modal/PDF later if needed.
-        const win = window.open('', '_blank');
-        win.document.write(`
-          <h2>Invoice ${invoice.invoiceNumber}</h2>
-          <p>Bill to: ${invoice.billTo.company} (${invoice.billTo.email})</p>
-          <p>Address: ${invoice.billTo.address || 'N/A'}</p>
-          <ul>${invoice.items.map((i) => `<li>${i.quantity}x ${i.productName} — $${i.unitPrice.toFixed(2)} each</li>`).join('')}</ul>
-          <p>Subtotal: $${invoice.subtotal.toFixed(2)}</p>
-          <p>Delivery: $${invoice.deliveryFee.toFixed(2)}</p>
-          <h3>Total: $${invoice.total.toFixed(2)}</h3>
-        `);
-      } else {
-        console.error('Failed to load invoice');
-      }
-    } catch (error) {
-      console.error('Invoice error:', error);
-    } finally {
-      setInvoiceLoadingId(null);
+  const handleViewInvoice = (invoiceLink, orderId) => {
+    if (!invoiceLink || invoiceLink === '#') {
+      alert(`Invoice for order #${orderId} is being prepared.`);
+      return;
     }
+    window.open(invoiceLink, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -86,84 +71,116 @@ export default function OrdersRegCus() {
           <h1 className="portal-title">Order History</h1>
           <p className="portal-subtitle">Review and download invoices for past orders.</p>
         </div>
-        <button className="refresh-button" onClick={fetchOrders}>
+        <button className="refresh-button" onClick={fetchOrders} title="Refresh Orders">
           <RefreshCw size={18} />
-          Refresh Products
+          Refresh Orders
         </button>
       </div>
-      {/* SUMMARY CARDS */}
-      <section className="summary">
 
+      {/* SUMMARY STATS CARDS */}
+      <section className="summary">
         <div className="summary-card">
           <div className="summary-icon blue">
             <ShoppingBag />
           </div>
           <div>
             <p>Total Orders</p>
-            <h2>{summary.total}</h2>
+            <h2>{stats.total}</h2>
             <small>All time</small>
           </div>
         </div>
+
         <div className="summary-card">
           <div className="summary-icon green">
             <BadgeCheck />
           </div>
           <div>
             <p>Delivered</p>
-            <h2 className="green-text">{summary.delivered}</h2>
+            <h2 className="green-text">{stats.delivered}</h2>
             <small>This year</small>
           </div>
         </div>
+
         <div className="summary-card">
           <div className="summary-icon blue">
             <Truck />
           </div>
           <div>
             <p>In Transit</p>
-            <h2>{summary.inTransit}</h2>
+            <h2>{stats.inTransit}</h2>
             <small>On the way</small>
           </div>
         </div>
+
         <div className="summary-card">
           <div className="summary-icon orange">
             <CircleX />
           </div>
           <div>
             <p>Cancelled</p>
-            <h2 className="orange-text">{summary.cancelled}</h2>
+            <h2 className="orange-text">{stats.cancelled}</h2>
             <small>This year</small>
           </div>
         </div>
       </section>
 
+      {/* ORDERS DATA TABLE */}
       <div className="portal-table-container">
-        <table className="portal-table">
+        <table className="portal-table manager-table">
           <thead>
-            <tr><th>Order ID</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Invoice</th></tr>
+            <tr>
+              <th>ORDER ID</th>
+              <th>DATE</th>
+              <th>ITEMS</th>
+              <th>TOTAL</th>
+              <th>STATUS</th>
+              <th>INVOICE</th>
+            </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem' }}>Loading orders...</td></tr>
+              <tr>
+                <td colSpan={6} style={{ textAlign: 'center', padding: '2.5rem', color: '#64748B' }}>
+                  Loading orders...
+                </td>
+              </tr>
+            ) : error ? (
+              <tr>
+                <td colSpan={6} style={{ textAlign: 'center', padding: '2.5rem', color: '#EF4444' }}>
+                  {error}. Please check that the server is running on http://localhost:5000.
+                </td>
+              </tr>
             ) : orders.length === 0 ? (
-              <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem' }}>No orders yet.</td></tr>
+              <tr>
+                <td colSpan={6} style={{ textAlign: 'center', padding: '2rem' }}>
+                  No orders yet.
+                </td>
+              </tr>
             ) : (
               orders.map((o) => (
-                <tr key={o._id}>
-                  <td style={{ fontWeight: 'bold', color: '#0EA5E9' }}>
-                    ORD-{o._id.slice(-4).toUpperCase()}
+                <tr key={o._id || o.orderId}>
+                  <td style={{ fontWeight: '600', color: '#0EA5E9' }}>
+                    #{o.orderId}
                   </td>
-                  <td>{formatDate(o.createdAt)}</td>
-                  <td>{formatItems(o.items)}</td>
-                  <td><strong>${o.total.toFixed(2)}</strong></td>
-                  <td><span className={`status-pill ${statusClassMap[o.status] || 'status-blue'}`}>{o.status}</span></td>
+                  <td>{formatDate(o.date || o.createdAt)}</td>
+                  <td>{o.items} Units</td>
+                  <td>
+                    <strong>
+                      ${Number(o.total || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </strong>
+                  </td>
+                  <td>
+                    <span className={`status-pill ${statusClassMap[o.status] || 'status-blue'}`}>
+                      {o.status}
+                    </span>
+                  </td>
                   <td>
                     <button
                       className="invoice-button"
                       title="View Invoice"
-                      onClick={() => handleViewInvoice(o._id)}
-                      disabled={invoiceLoadingId === o._id}
+                      onClick={() => handleViewInvoice(o.invoiceLink, o.orderId)}
                     >
-                      <FileText size={19} />
+                      <FileText size={18} />
                     </button>
                   </td>
                 </tr>
@@ -172,6 +189,6 @@ export default function OrdersRegCus() {
           </tbody>
         </table>
       </div>
-    </div >
+    </div>
   );
 }

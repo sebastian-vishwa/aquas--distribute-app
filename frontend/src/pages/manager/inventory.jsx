@@ -4,10 +4,10 @@ import './manager_pages.css';
 import AddProduct from "../../components/manager/Addproduct";
 
 export default function Inventory() {
- const [showAddProduct, setShowAddProduct] = useState(false);
- const [products, setProducts] = useState([]);
+  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [products, setProducts] = useState([]);
 
- const [editingProduct, setEditingProduct] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   const [editData, setEditData] = useState({
     productName: '',
@@ -106,10 +106,10 @@ export default function Inventory() {
       const response = await fetch(`http://localhost:5000/api/products/${id}`, {
         method: 'DELETE',
       });
-      
+
       if (response.ok) {
-        alert('✅ Product deleted successfully!'); 
-        setProducts(prevData => prevData.filter(item => item._id !== id)); 
+        alert('✅ Product deleted successfully!');
+        setProducts(prevData => prevData.filter(item => item._id !== id));
       } else {
         alert('Failed to delete product');
       }
@@ -129,16 +129,16 @@ export default function Inventory() {
           <h1>Product & Inventory</h1>
           <p>Manage wholesale catalog and monitor stock levels.</p>
         </div>
-        
+
       </div>
 
       <div className="manager-table-container">
 
         <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-          <button 
-            className="btn-action" 
+          <button
+            className="btn-action"
             onClick={() => setShowAddProduct(true)}
-            style={{ display: 'flex', alignItems: 'center', gap: '6px', margin: '20px 0 18px 0'}}
+            style={{ display: 'flex', alignItems: 'center', gap: '6px', margin: '20px 0 18px 0' }}
           >
             <Plus size={18} /> Add New Product
           </button>
@@ -176,7 +176,7 @@ export default function Inventory() {
                   <td>
                     <span className={`status-pill ${item.status === 'In Stock' ? 'status-active' : item.status === 'Low Stock' ? 'status-pending' : 'status-inactive'}`}>
                       {item.status}
-                    </span>                  
+                    </span>
                   </td>
 
                   <td className="action-column">
@@ -235,312 +235,312 @@ export default function Inventory() {
           onAdd={fetchInventory}
         />
       )}
-      
-      
+
+
       {editingProduct && (
-  <div
-    style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      background: 'rgba(0, 0, 0, 0.4)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 1000
-    }}
-  >
-
-    <div
-      style={{
-        background: '#fff',
-        width: '450px',
-        maxHeight: '90vh',
-        overflowY: 'auto',
-        padding: '30px',
-        borderRadius: '12px',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
-      }}
-    >
-
-      {/* Header */}
-
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '20px'
-        }}
-      >
-
-        <h2>
-          Edit Product
-        </h2>
-
-        <button
-          onClick={() => setEditingProduct(null)}
+        <div
           style={{
-            border: 'none',
-            background: 'none',
-            cursor: 'pointer'
-          }}
-        >
-          <X size={22} />
-        </button>
-
-      </div>
-
-
-      {/* Product Name */}
-
-      <div style={{ marginBottom: '15px' }}>
-
-        <label>
-          Product Name
-        </label>
-
-        <input
-          type="text"
-          name="productName"
-          value={editData.productName}
-          onChange={handleEditChange}
-          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
             width: '100%',
-            padding: '10px',
-            marginTop: '5px',
-            border: '1px solid #ddd',
-            borderRadius: '6px',
-            boxSizing: 'border-box'
-          }}
-        />
-
-      </div>
-
-
-      {/* SKU */}
-
-      <div style={{ marginBottom: '15px' }}>
-
-        <label>
-          SKU
-        </label>
-
-        <input
-          type="text"
-          name="sku"
-          value={editData.sku}
-          onChange={handleEditChange}
-          style={{
-            width: '100%',
-            padding: '10px',
-            marginTop: '5px',
-            border: '1px solid #ddd',
-            borderRadius: '6px',
-            boxSizing: 'border-box'
-          }}
-        />
-
-      </div>
-
-
-      {/* Category */}
-
-      <div style={{ marginBottom: '15px' }}>
-
-        <label>
-          Category
-        </label>
-
-        <input
-          type="text"
-          name="category"
-          value={editData.category}
-          onChange={handleEditChange}
-          style={{
-            width: '100%',
-            padding: '10px',
-            marginTop: '5px',
-            border: '1px solid #ddd',
-            borderRadius: '6px',
-            boxSizing: 'border-box'
-          }}
-        />
-
-      </div>
-
-
-      {/* Wholesale Price */}
-
-      <div style={{ marginBottom: '15px' }}>
-
-        <label>
-          Wholesale Price
-        </label>
-
-        <input
-          type="number"
-          name="wholesalePrice"
-          value={editData.wholesalePrice}
-          onChange={handleEditChange}
-          min="0"
-          step="0.01"
-          style={{
-            width: '100%',
-            padding: '10px',
-            marginTop: '5px',
-            border: '1px solid #ddd',
-            borderRadius: '6px',
-            boxSizing: 'border-box'
-          }}
-        />
-
-      </div>
-
-
-      {/* Current Stock */}
-
-      <div style={{ marginBottom: '15px' }}>
-
-        <label>
-          Current Stock
-        </label>
-
-        <input
-          type="number"
-          name="currentStock"
-          value={editData.currentStock}
-          onChange={handleEditChange}
-          min="0"
-          style={{
-            width: '100%',
-            padding: '10px',
-            marginTop: '5px',
-            border: '1px solid #ddd',
-            borderRadius: '6px',
-            boxSizing: 'border-box'
-          }}
-        />
-
-      </div>
-
-
-      {/* Status */}
-
-      <div style={{ marginBottom: '20px' }}>
-
-        <label>
-          Status
-        </label>
-
-        <select
-          name="status"
-          value={editData.status}
-          onChange={handleEditChange}
-          style={{
-            width: '100%',
-            padding: '10px',
-            marginTop: '5px',
-            border: '1px solid #ddd',
-            borderRadius: '6px',
-            boxSizing: 'border-box'
+            height: '100%',
+            background: 'rgba(0, 0, 0, 0.4)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000
           }}
         >
 
-          <option value="In Stock">
-            In Stock
-          </option>
+          <div
+            style={{
+              background: '#fff',
+              width: '450px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              padding: '30px',
+              borderRadius: '12px',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+            }}
+          >
 
-          <option value="Low Stock">
-            Low Stock
-          </option>
+            {/* Header */}
 
-          <option value="Out of Stock">
-            Out of Stock
-          </option>
-
-        </select>
-
-      </div>
-
-
-      {/* Product Image */}
-      <div style={{ marginBottom: '20px' }}>
-        <label style={{ display: 'block', marginBottom: '5px' }}>
-          Product Image
-        </label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          style={{
-            width: '100%',
-            padding: '8px 0',
-            boxSizing: 'border-box'
-          }}
-        />
-        {editData.image && (
-          <div style={{ marginTop: '10px' }}>
-            <img
-              src={editData.image}
-              alt="Preview"
+            <div
               style={{
-                maxWidth: '150px',
-                maxHeight: '150px',
-                objectFit: 'contain',
-                display: 'block',
-                borderRadius: '6px',
-                border: '1px solid #ddd',
-                padding: '4px'
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '20px'
               }}
-            />
+            >
+
+              <h2>
+                Edit Product
+              </h2>
+
+              <button
+                onClick={() => setEditingProduct(null)}
+                style={{
+                  border: 'none',
+                  background: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                <X size={22} />
+              </button>
+
+            </div>
+
+
+            {/* Product Name */}
+
+            <div style={{ marginBottom: '15px' }}>
+
+              <label>
+                Product Name
+              </label>
+
+              <input
+                type="text"
+                name="productName"
+                value={editData.productName}
+                onChange={handleEditChange}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  marginTop: '5px',
+                  border: '1px solid #ddd',
+                  borderRadius: '6px',
+                  boxSizing: 'border-box'
+                }}
+              />
+
+            </div>
+
+
+            {/* SKU */}
+
+            <div style={{ marginBottom: '15px' }}>
+
+              <label>
+                SKU
+              </label>
+
+              <input
+                type="text"
+                name="sku"
+                value={editData.sku}
+                onChange={handleEditChange}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  marginTop: '5px',
+                  border: '1px solid #ddd',
+                  borderRadius: '6px',
+                  boxSizing: 'border-box'
+                }}
+              />
+
+            </div>
+
+
+            {/* Category */}
+
+            <div style={{ marginBottom: '15px' }}>
+
+              <label>
+                Category
+              </label>
+
+              <input
+                type="text"
+                name="category"
+                value={editData.category}
+                onChange={handleEditChange}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  marginTop: '5px',
+                  border: '1px solid #ddd',
+                  borderRadius: '6px',
+                  boxSizing: 'border-box'
+                }}
+              />
+
+            </div>
+
+
+            {/* Wholesale Price */}
+
+            <div style={{ marginBottom: '15px' }}>
+
+              <label>
+                Wholesale Price
+              </label>
+
+              <input
+                type="number"
+                name="wholesalePrice"
+                value={editData.wholesalePrice}
+                onChange={handleEditChange}
+                min="0"
+                step="0.01"
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  marginTop: '5px',
+                  border: '1px solid #ddd',
+                  borderRadius: '6px',
+                  boxSizing: 'border-box'
+                }}
+              />
+
+            </div>
+
+
+            {/* Current Stock */}
+
+            <div style={{ marginBottom: '15px' }}>
+
+              <label>
+                Current Stock
+              </label>
+
+              <input
+                type="number"
+                name="currentStock"
+                value={editData.currentStock}
+                onChange={handleEditChange}
+                min="0"
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  marginTop: '5px',
+                  border: '1px solid #ddd',
+                  borderRadius: '6px',
+                  boxSizing: 'border-box'
+                }}
+              />
+
+            </div>
+
+
+            {/* Status */}
+
+            <div style={{ marginBottom: '20px' }}>
+
+              <label>
+                Status
+              </label>
+
+              <select
+                name="status"
+                value={editData.status}
+                onChange={handleEditChange}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  marginTop: '5px',
+                  border: '1px solid #ddd',
+                  borderRadius: '6px',
+                  boxSizing: 'border-box'
+                }}
+              >
+
+                <option value="In Stock">
+                  In Stock
+                </option>
+
+                <option value="Low Stock">
+                  Low Stock
+                </option>
+
+                <option value="Out of Stock">
+                  Out of Stock
+                </option>
+
+              </select>
+
+            </div>
+
+
+            {/* Product Image */}
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', marginBottom: '5px' }}>
+                Product Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                style={{
+                  width: '100%',
+                  padding: '8px 0',
+                  boxSizing: 'border-box'
+                }}
+              />
+              {editData.image && (
+                <div style={{ marginTop: '10px' }}>
+                  <img
+                    src={editData.image}
+                    alt="Preview"
+                    style={{
+                      maxWidth: '150px',
+                      maxHeight: '150px',
+                      objectFit: 'contain',
+                      display: 'block',
+                      borderRadius: '6px',
+                      border: '1px solid #ddd',
+                      padding: '4px'
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+
+
+            {/* Buttons */}
+
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: '10px'
+              }}
+            >
+
+              <button
+                onClick={() => setEditingProduct(null)}
+                style={{
+                  padding: '10px 18px',
+                  border: '1px solid #ccc',
+                  background: '#fff',
+                  borderRadius: '6px',
+                  cursor: 'pointer'
+                }}
+              >
+                Cancel
+              </button>
+
+
+              <button
+                onClick={handleSubmit}
+                className="btn-action"
+                style={{
+                  padding: '10px 20px'
+                }}
+              >
+                Save Changes
+              </button>
+
+            </div>
+
           </div>
-        )}
-      </div>
 
-
-      {/* Buttons */}
-
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          gap: '10px'
-        }}
-      >
-
-        <button
-          onClick={() => setEditingProduct(null)}
-          style={{
-            padding: '10px 18px',
-            border: '1px solid #ccc',
-            background: '#fff',
-            borderRadius: '6px',
-            cursor: 'pointer'
-          }}
-        >
-          Cancel
-        </button>
-
-
-        <button
-          onClick={handleSubmit}
-          className="btn-action"
-          style={{
-            padding: '10px 20px'
-          }}
-        >
-          Save Changes
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-)}
+        </div>
+      )}
 
     </div>
   );

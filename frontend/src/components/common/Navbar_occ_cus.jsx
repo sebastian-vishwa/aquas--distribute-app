@@ -7,7 +7,7 @@ import './Navbar_occ_cus.css';
 
 export default function NavbarOccCus() {
   const navigate = useNavigate();
-  const { cartItems } = useCart(); 
+  const { cartItems, cartTotal, cartCount } = useCart(); 
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -43,8 +43,8 @@ export default function NavbarOccCus() {
             style={{ cursor: 'pointer', position: 'relative', display: 'flex', alignItems: 'center' }}
           >
             <ShoppingCart size={22} color="#1E293B" />
-            {cartItems.length > 0 && (
-              <span className="cart-badge">{cartItems.length}</span>
+            {cartCount > 0 && (
+              <span className="cart-badge">{cartCount}</span>
             )}
           </span>
 
@@ -53,18 +53,24 @@ export default function NavbarOccCus() {
             <div className="cart-popup">
               <h4>Your Cart</h4>
               {cartItems.length === 0 ? (
-                <p style={{ fontSize: '0.8rem', color: '#666' }}>Cart is empty</p>
+                <p style={{ fontSize: '0.85rem', color: '#64748b', padding: '0.5rem 0', margin: 0 }}>Cart is empty</p>
               ) : (
-                <div className="popup-items">
-                  {cartItems.map((item, index) => (
-                    <div key={index} className="popup-item">
-                      <span className="item-name">{item.title} (x{item.quantity})</span>
-                      <span className="item-price">Rs.{item.price * item.quantity}</span>
-                    </div>
-                  ))}
-                </div>
+                <>
+                  <div className="popup-items">
+                    {cartItems.map((item, index) => (
+                      <div key={item.id || index} className="popup-item">
+                        <span className="item-name">{item.name || item.title} (x{item.quantity})</span>
+                        <span className="item-price">Rs. {((item.price || 0) * item.quantity).toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="popup-subtotal" style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderTop: '1px solid #e2e8f0', marginBottom: '10px', fontWeight: 600, fontSize: '0.9rem', color: '#1e293b' }}>
+                    <span>Subtotal:</span>
+                    <span>Rs. {cartTotal.toLocaleString()}</span>
+                  </div>
+                </>
               )}
-              <button className="popup-checkout-btn" onClick={() => navigate('/checkout')}>
+              <button className="popup-checkout-btn" onClick={() => { setIsHovered(false); navigate('/checkout'); }}>
                 View Checkout
               </button>
             </div>

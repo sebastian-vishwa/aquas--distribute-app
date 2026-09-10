@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { History, Eye, Target, MapPin, Phone, Mail, CheckCircle2 } from 'lucide-react';
 import './About_occ_customer.css';
+import heroImage from '../../assets/bottles_cat.png';
 
 export default function About() {
   const { hash } = useLocation();
@@ -19,63 +20,68 @@ export default function About() {
   }, [hash]);
 
   return (
-    <div className="about-wrapper" style={{ padding: '2rem 5%' }}>
+    <div className="about-wrapper">
       {/* HERO SECTION */}
       <header
         className="about-hero"
         style={{
+          width: '100%',
+          minHeight: 'calc(100vh - 75px)',
           backgroundColor: '#0A3D91',
-          borderRadius: '12px',
-          padding: '4rem',
-          marginBottom: '3rem',
+          borderRadius: '0',
+          padding: '0 8%',
+          margin: 0,
+          color: '#ffffff',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          gap: '2rem'
+          gap: '4rem',
+          boxSizing: 'border-box'
         }}
       >
-        <div className="hero-content" style={{ flex: 1 }}>
+        <div className="hero-content" style={{ flex: 1, maxWidth: '550px' }}>
           <span
             className="subtitle"
             style={{
               color: '#93C5FD',
               fontSize: '0.85rem',
               textTransform: 'uppercase',
-              letterSpacing: '1px',
-              fontWeight: 700,
+              letterSpacing: '2px',
+              fontWeight: 600,
               display: 'inline-block'
             }}
           >
-            OUR MISSION
+            ABOUT AQUAS
           </span>
-          <h1 style={{ fontSize: '2.5rem', margin: '0.8rem 0', lineHeight: 1.2, color: '#ffffff' }}>
+          <h1 style={{ fontSize: '3rem', margin: '0.8rem 0', lineHeight: 1.2, fontWeight: 800, color: '#ffffff' }}>
             Engineering Purity for Scale.
           </h1>
           <p
             style={{
               color: '#E0F2FE',
               fontSize: '1.05rem',
-              maxWidth: '500px',
+              maxWidth: '520px',
               lineHeight: 1.6
             }}
           >
-            Aquas bridges the gap between state-of-the-art water filtration and intelligent logistics. We deliver sustainable, 100% certified safe hydration solutions designed for modern enterprises.
+            Founded to redefine enterprise hydration, Aquas delivers multi-stage purified water backed by certified filtration and automated distribution logistics to keep modern workplaces running seamlessly.
           </p>
         </div>
         <div
           className="hero-image"
           style={{
             flex: 1,
-            display: 'flex',
-            overflow: 'hidden',
-            borderRadius: '12px',
-            minHeight: '250px',
             height: '320px',
-            border: 'none'
+            minHeight: '280px',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden'
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+            src={heroImage}
             alt="Water Purification Facility"
             style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }}
           />
@@ -83,7 +89,7 @@ export default function About() {
       </header>
 
       {/* ORIGIN & VISION SECTION */}
-      <section className="origin-vision-section">
+      <section className="origin-vision-section" style={{ padding: '5rem 8%' }}>
         <div className="origin-left">
           <div className="title-row" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span className="icon" style={{ color: '#0A3D91', display: 'flex', alignItems: 'center' }}>
