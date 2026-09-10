@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logoImg from '../../assets/logo.png';
 import './login.css';
 
 export default function Login() {
@@ -14,7 +15,16 @@ export default function Login() {
       {/* Left Side */}
       <div className="login-sidebar">
         <div className="login-brand">
-          <h2>💧 Aquas</h2>
+          <img 
+            src={logoImg} 
+            alt="Aquas Logo" 
+            style={{ 
+              height: '80px', 
+              marginBottom: '1rem', 
+              objectFit: 'contain', 
+              filter: 'brightness(0) invert(1)' 
+            }} 
+          />
           <h1>Wholesale Logistics Platform</h1>
           <p>Streamlining commercial water delivery, inventory management, and fleet coordination with crystalline efficiency.</p>
         </div>

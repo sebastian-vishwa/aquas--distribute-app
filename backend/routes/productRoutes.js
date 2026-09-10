@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { addProduct, getProducts } = require('../controllers/productController');
+const { addProduct, getProducts, getProductById, updateProduct, deleteProduct } = require('../controllers/productController');
 
-// POST request to add a product
-router.post('/add', addProduct);
-
-// GET request to fetch all products for your inventory table
 router.get('/', getProducts);
+router.get('/:id', getProductById);
+
+router.post('/add', addProduct);
+router.put('/:id', updateProduct);
+router.delete('/:id', deleteProduct);
 
 module.exports = router;

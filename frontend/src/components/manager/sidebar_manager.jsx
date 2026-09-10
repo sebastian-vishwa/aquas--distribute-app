@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { 
-  Droplet, 
   UserCheck, 
   LayoutDashboard, 
   Package,
@@ -13,6 +12,8 @@ import {
   LogOut,
   Tag
 } from 'lucide-react';
+import logoImg from '../../assets/logo.png';
+import iconLogo from '../../assets/Code_Generated_Image_2.png';
 import './sidebar_manager.css';
 
 export default function SidebarManager() {
@@ -31,27 +32,40 @@ export default function SidebarManager() {
       onMouseLeave={() => setIsExpanded(false)}
     >
       <div className="sidebar-header">
-        <h2 className="brand-logo" style={{display: 'flex',alignItems: 'left-align',justifyContent: 'left-align',gap: '8px',width: '100%',fontSize: '34px',color:'#5ED7FF'}}>
-          <svg
-  width="30"
-  height="38"
-  viewBox="0 0 40 48"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <defs>
-    <linearGradient id="aquasGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor="#5ED7FF" />
-      <stop offset="50%" stopColor="#65BFFF" />
-      <stop offset="100%" stopColor="#A77BFF" />
-    </linearGradient>
-  </defs>
-
-  <path
-    d="M20 2C20 2 5 19 5 29C5 38 11.7 46 20 46C28.3 46 35 38 35 29C35 19 20 2 20 2Z"
-    fill="url(#aquasGradient)"
-  />
-</svg>
-          {isExpanded ? 'Aquas' : ''}
+        <h2 
+          className="brand-logo" 
+          onClick={() => navigate('/manager')}
+          style={{ 
+            display: 'flex', 
+            justifyContent: isExpanded ? 'flex-start' : 'center',
+            alignItems: 'center', 
+            cursor: 'pointer', 
+            overflow: 'hidden',
+            height: '50px',
+            margin: '0 0 1.5rem 0',
+            transition: 'all 0.3s ease'
+          }}
+        >
+          {isExpanded ? (
+            <img 
+              src={logoImg} 
+              alt="Aquas Logo" 
+              style={{ 
+                height: '45px', 
+                maxWidth: '160px', 
+                objectFit: 'contain', 
+                objectPosition: 'left center',
+                filter: 'brightness(0) invert(1)',
+                display: 'block'
+              }} 
+            />
+          ) : (
+            <img 
+              src={iconLogo} 
+              alt="A Logo" 
+              style={{ height: '28px', width: '28px', objectFit: 'contain' }} 
+            />
+          )}
         </h2>
         
         <div className="admin-profile">
@@ -60,8 +74,7 @@ export default function SidebarManager() {
           </div>
           {isExpanded && (
             <div className="profile-info">
-              <h4>Admin Console</h4>
-              <span>Wholesale Manager</span>
+              <h4>Manager Portal</h4>
             </div>
           )}
         </div>
