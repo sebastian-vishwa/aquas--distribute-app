@@ -36,7 +36,7 @@ class DashboardScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome, $name',
+              'Welcome, Dhananjana',
               style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -85,7 +85,7 @@ class DashboardScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "Driver: $name | ID: #$driverId",
+                              "Driver: Dhananjana | ID: #$driverId",
                               style: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 12,

@@ -18,7 +18,7 @@ class DeliveriesScreen extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('$name ($driverId)', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
+            Text('Dhananjana ($driverId)', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
             const Text('North District Route', style: TextStyle(color: Colors.white70, fontSize: 12)),
           ],
         ),

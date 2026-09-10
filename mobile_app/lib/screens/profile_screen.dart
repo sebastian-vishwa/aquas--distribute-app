@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
                   child: Icon(Icons.person, size: 50, color: Colors.white),
                 ),
                 const SizedBox(height: 12),
-                Text(name, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                Text("Dhananjana", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 4),
                 Text('Senior Fleet Driver • ID: $driverId', style: const TextStyle(color: Colors.grey, fontSize: 14)),
               ],
