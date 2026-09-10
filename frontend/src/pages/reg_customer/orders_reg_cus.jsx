@@ -166,7 +166,7 @@ export default function OrdersRegCus() {
                   <td>{o.items} Units</td>
                   <td>
                     <strong>
-                      ${Number(o.total || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      Rs. {Number(o.total || 0).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </strong>
                   </td>
                   <td>

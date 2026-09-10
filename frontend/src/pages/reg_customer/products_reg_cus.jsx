@@ -66,7 +66,7 @@ export default function Catalogue() {
             </div>
 
             <div className="modal-total">
-              Subtotal: <span>Rs. {((selectedProduct.wholesalePrice || selectedProduct.price || 0) * quantity).toLocaleString()}</span>
+              Subtotal: <span>Rs. {((selectedProduct.wholesalePrice || selectedProduct.price || 0) * quantity).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             </div>
 
             <div className="modal-actions">
@@ -114,7 +114,7 @@ export default function Catalogue() {
               </h3>
               
               <p style={{ color: '#0EA5E9', fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '1.5rem' }}>
-                Rs. {item.wholesalePrice ? item.wholesalePrice.toLocaleString() : '0.00'} / {item.unit ? item.unit.toLowerCase() : 'unit'}
+                Rs. {item.wholesalePrice ? item.wholesalePrice.toLocaleString('en-LK', { minimumFractionDigits: 2 }) : '0.00'} / {item.unit ? item.unit.toLowerCase() : 'unit'}
               </p>
               
               <button
