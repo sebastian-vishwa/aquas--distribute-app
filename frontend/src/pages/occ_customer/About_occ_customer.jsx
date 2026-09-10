@@ -143,7 +143,7 @@ export default function About() {
           <p>The engineering and logistical minds directing AquaPure's operational capacity.</p>
         </div>
         <div className="team-grid">
-          {['Robert Vance', 'Elena Rostova', 'Marcus Chen', 'Dr. Sarah Jenkins'].map((name, index) => (
+          {['Wishwa Yashoda', 'Dhananjana SEnevirathne','Uvini Amaya', 'Gagani Tharusha'].map((name, index) => (
             <div className="team-card" key={index}>
               <div className="avatar-placeholder">Avatar</div>
               <h3>{name}</h3>
@@ -164,13 +164,13 @@ export default function About() {
               <strong style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <MapPin size={16} color="#0A3D91" /> CENTRAL HUB
               </strong>
-              <p>700 Aqua Matrix Blvd.<br />Industrial Sector 4<br />Chicago, IL 60607</p>
+              <p>no 101 Thalawathugoda <br />Kottawa <br />Pannipitiya</p>
             </div>
             <div className="method">
               <strong style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <Phone size={16} color="#0A3D91" /> DIRECT LINE
               </strong>
-              <p>1-800-AQUA-B2B<br /><span className="small-text">(0800 - 1800 CST)</span></p>
+              <p>076555485</p>
             </div>
             <div className="method">
               <strong style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>

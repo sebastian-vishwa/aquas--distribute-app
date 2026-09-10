@@ -1,23 +1,24 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { CartProvider } from './components/common/CartContext'; 
-import Checkout from './pages/occ_customer/Checkout';
 
-// 1. Auth Pages
+// Auth Pages
 import Login from './pages/auth/login';
 import Register from './pages/auth/register';
 
-// 2. Layouts
+// Layouts
 import PublicLayout from './layouts/guest_layouts'; 
 import ManagerLayout from './layouts/manager_layout';
 import CustomerLayout from './layouts/customer_layout'; 
 
-// 3. Occasional / Guest Pages
+// Occasional / Guest Pages
 import HomeOccCustomer from './pages/occ_customer/Home_occ_customer';
 import ProductsOccCustomer from './pages/occ_customer/Products_occ_customer';
 import AboutOccCustomer from './pages/occ_customer/About_occ_customer';
+import Checkout from './pages/occ_customer/Checkout';
+import UnderDevelopment from './pages/occ_customer/UnderDevelopment';
 
-// 4. Regular Customer Portal Pages
+// Regular Customer Portal Pages
 import DashboardRegCus from './pages/reg_customer/dashboard_reg_cus';
 import DeliveriesRegCus from './pages/reg_customer/deliveries_reg_cus';
 import OrdersRegCus from './pages/reg_customer/orders_reg_cus';
@@ -25,7 +26,7 @@ import ProductsRegCus from './pages/reg_customer/products_reg_cus';
 import CheckoutRegCus from './pages/reg_customer/checkout_reg_cus';
 import { RegCartProvider } from './context/RegCartContext';
 
-// 5. Manager Pages
+// Manager Pages
 import ManagerDashboard from './pages/manager/manager_dashboard';
 import Inventory from './pages/manager/inventory';
 import Orders from './pages/manager/orders';
@@ -38,22 +39,22 @@ export default function App() {
   return (
     <CartProvider>
       <BrowserRouter>
-        {/* METHANATA <Routes> TAG EKA ADD KARANNA */}
         <Routes>
           
-          {/* GUEST ROUTES */}
+          {/* Guest Routes */}
           <Route element={<PublicLayout />}>
             <Route path="/" element={<HomeOccCustomer />} />
             <Route path="/products" element={<ProductsOccCustomer />} />
             <Route path="/about" element={<AboutOccCustomer />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/payment" element={<UnderDevelopment />} />
           </Route>
 
-          {/* AUTH ROUTES */}
+          {/* Auth Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           
-          {/* REGISTERED CUSTOMER PORTAL */}
+          {/* Registered Customer Portal Routes */}
           <Route
             path="/portal"
             element={
@@ -69,7 +70,7 @@ export default function App() {
             <Route path="checkout" element={<CheckoutRegCus />} />
           </Route>
 
-          {/* MANAGER ADMIN CONSOLE */}
+          {/* Manager Admin Console Routes */}
           <Route path="/manager" element={<ManagerLayout />}>
             <Route index element={<ManagerDashboard />} />
             <Route path="inventory" element={<Inventory />} />
@@ -77,14 +78,13 @@ export default function App() {
             <Route path="fleet" element={<FleetManagement />} />
             <Route path="customers" element={<Customers />} />
             <Route path="reports" element={<Reports />} />
-            <Route path="/manager/promotions"element={<Promotions />}/>
+            <Route path="/manager/promotions" element={<Promotions />}/>
           </Route>
 
-          {/* Fallback */}
+          {/* Fallback Route */}
           <Route path="*" element={<Navigate to="/" replace />} />
           
         </Routes>
-        {/* METHANIN <Routes> EKA CLOSE KARANNA */}
       </BrowserRouter>
     </CartProvider>
   );
