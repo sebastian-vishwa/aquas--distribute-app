@@ -9,7 +9,8 @@ const productSchema = new mongoose.Schema({
   reorderLevel: { type: Number },
   unit: { type: String },
   status: { type: String, default: 'In Stock' },
-  description: { type: String }
+  description: { type: String },
+  image: { type: String }
 }, { timestamps: true });
 
 function calculateStatus(currentStock, reorderLevel) {
@@ -18,9 +19,8 @@ function calculateStatus(currentStock, reorderLevel) {
   return 'In Stock';
 }
 
-productSchema.pre('save', function (next) {
+productSchema.pre('save', function () {
   this.status = calculateStatus(this.currentStock, this.reorderLevel);
-  next();
 });
 
 module.exports = mongoose.model('Product', productSchema);

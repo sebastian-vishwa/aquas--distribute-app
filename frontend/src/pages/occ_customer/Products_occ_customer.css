@@ -1,62 +1,78 @@
 /* Container & Wrapper */
 .products-wrapper {
-  padding: 2rem 5%;
+  padding: 0;
   background-color: #F8FAFC;
   min-height: 100vh;
   font-family: inherit;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* Hero Section */
 .products-hero {
+  width: 100%;
+  min-height: calc(100vh - 75px);
   background-color: #0A3D91;
   color: white;
-  padding: 3.5rem 3rem;
-  border-radius: 12px;
-  margin-bottom: 2.5rem;
+  padding: 0 8%;
+  border-radius: 0;
+  margin: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
+  gap: 4rem;
+  box-sizing: border-box;
 }
 
 .hero-content {
   flex: 1;
+  max-width: 550px;
+  text-align: left;
 }
 
 .hero-content .subtitle {
   color: #93C5FD;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  display: inline-block;
 }
 
 .hero-content h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin: 0.8rem 0;
   line-height: 1.2;
+  font-weight: 800;
+  color: #ffffff;
 }
 
 .hero-content p {
   line-height: 1.6;
   color: #E0F2FE;
-  font-size: 1rem;
+  font-size: 1.05rem;
   max-width: 520px;
 }
 
 .hero-image {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px dashed rgba(255, 255, 255, 0.25);
+  height: 320px;
+  min-height: 280px;
   border-radius: 12px;
-  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .image-placeholder {
   color: #93C5FD;
   font-size: 0.95rem;
+}
+
+.bundles-section {
+  padding: 5rem 8%;
 }
 
 /* Section Header */

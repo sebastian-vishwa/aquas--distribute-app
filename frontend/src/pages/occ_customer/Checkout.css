@@ -77,13 +77,118 @@
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: 600;
-  padding: 0;
-  transition: color 0.2s;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
 }
 
 .btn-remove-item:hover {
   color: #b91c1c;
-  text-decoration: underline;
+  background: #fee2e2;
+}
+
+/* Cart Table Styles */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.checkout-cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.checkout-cart-table th {
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #64748b;
+  border-bottom: 2px solid #e2e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.checkout-cart-table td {
+  padding: 16px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.95rem;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.item-title-text {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 1rem;
+}
+
+.table-qty-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.btn-qty-mini {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.btn-qty-mini:hover {
+  background: #e2e8f0;
+  color: #0A3D91;
+}
+
+.qty-val {
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.table-footer-row td {
+  border-top: 2px solid #e2e8f0;
+  border-bottom: none;
+}
+
+.empty-cart-card {
+  background: #ffffff;
+  padding: 4rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.btn-browse-products {
+  background: #0A3D91;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.6rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-browse-products:hover {
+  background: #082f70;
 }
 
 /* Order Summary Box */

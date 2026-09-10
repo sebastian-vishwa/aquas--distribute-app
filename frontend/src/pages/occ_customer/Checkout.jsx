@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../components/common/CartContext';
-import { CreditCard, User, Lock, Trash2, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { CreditCard, User, Lock, Trash2, ArrowLeft, Plus, Minus, CheckCircle2 } from 'lucide-react';
 import './Checkout.css';
 
 export default function Checkout() {
-  const { cartItems, removeFromCart } = useCart();
+  const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity, cartTotal, cartCount } = useCart();
   const navigate = useNavigate();
 
   // Modal Control States
@@ -21,15 +21,13 @@ export default function Checkout() {
     location: ''
   });
 
-  const totalAmount = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleGuestSubmit = (e) => {
     e.preventDefault();
-    console.log('Guest Order Details:', { customer: formData, items: cartItems, total: totalAmount });
+    console.log('Guest Order Details:', { customer: formData, items: cartItems, total: cartTotal });
     alert('Order details submitted successfully! (Connecting to payment gateway...)');
     setShowGuestForm(false);
   };
@@ -39,39 +37,104 @@ export default function Checkout() {
       <h1 className="checkout-title">Checkout</h1>
       
       {cartItems.length === 0 ? (
-        <p className="empty-cart-msg">Your cart is empty. Go back to products and add some items!</p>
+        <div className="empty-cart-card">
+          <p className="empty-cart-msg">Your cart is empty. Go back to products and add some items!</p>
+          <button 
+            type="button" 
+            onClick={() => navigate(window.location.pathname.startsWith('/portal') ? '/portal/products' : '/products')} 
+            className="btn-browse-products"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginTop: '1.2rem' }}
+          >
+            <ArrowLeft size={16} /> Return to Products
+          </button>
+        </div>
       ) : (
         <div className="checkout-grid">
           
-          {/* Cart Items List */}
+          {/* Cart Items Table */}
           <div className="checkout-items-list">
-            {cartItems.map((item) => (
-              <div key={item.id} className="checkout-item">
-                <div>
-                  <h3 className="checkout-item-title">{item.title}</h3>
-                  <p className="checkout-item-qty">Quantity: {item.quantity}</p>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <h4 className="checkout-item-price">Rs. {item.price * item.quantity}</h4>
-                  <button 
-                    type="button"
-                    onClick={() => removeFromCart(item.id)} 
-                    className="btn-remove-item"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-                  >
-                    <Trash2 size={14} /> Remove
-                  </button>
-                </div>
-              </div>
-            ))}
+            <div className="table-responsive">
+              <table className="checkout-cart-table">
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left' }}>Item Name</th>
+                    <th style={{ textAlign: 'center' }}>Quantity</th>
+                    <th style={{ textAlign: 'right' }}>Unit Price</th>
+                    <th style={{ textAlign: 'right' }}>Total Price</th>
+                    <th style={{ textAlign: 'center' }}>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cartItems.map((item) => (
+                    <tr key={item.id || item._id}>
+                      <td className="table-item-name">
+                        <span className="item-title-text">{item.name || item.title}</span>
+                      </td>
+                      <td style={{ textAlign: 'center' }}>
+                        <div className="table-qty-controls">
+                          <button 
+                            type="button"
+                            onClick={() => decreaseQuantity(item.id)} 
+                            className="btn-qty-mini"
+                            title="Decrease quantity"
+                          >
+                            <Minus size={14} />
+                          </button>
+                          <span className="qty-val">{item.quantity}</span>
+                          <button 
+                            type="button"
+                            onClick={() => increaseQuantity(item.id)} 
+                            className="btn-qty-mini"
+                            title="Increase quantity"
+                          >
+                            <Plus size={14} />
+                          </button>
+                        </div>
+                      </td>
+                      <td style={{ textAlign: 'right' }}>
+                        Rs. {Number(item.price || 0).toLocaleString()}
+                      </td>
+                      <td style={{ textAlign: 'right', fontWeight: 600, color: '#0A3D91' }}>
+                        Rs. {(Number(item.price || 0) * Number(item.quantity || 1)).toLocaleString()}
+                      </td>
+                      <td style={{ textAlign: 'center' }}>
+                        <button 
+                          type="button"
+                          onClick={() => removeFromCart(item.id)} 
+                          className="btn-remove-item"
+                          title="Remove item"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr className="table-footer-row">
+                    <td colSpan="3" style={{ textAlign: 'right', fontWeight: 700, fontSize: '1.05rem', paddingTop: '1.2rem' }}>
+                      Grand Total:
+                    </td>
+                    <td style={{ textAlign: 'right', fontWeight: 800, fontSize: '1.2rem', color: '#0A3D91', paddingTop: '1.2rem' }}>
+                      Rs. {cartTotal.toLocaleString()}
+                    </td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
           </div>
 
           {/* Order Summary Box */}
           <div className="checkout-summary-box">
             <h2>Order Summary</h2>
+            <div className="summary-row" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.8rem', color: '#64748b' }}>
+              <span>Total Items:</span>
+              <span>{cartCount}</span>
+            </div>
             <div className="summary-total-row">
-              <span>Total:</span>
-              <span>Rs. {totalAmount}</span>
+              <span>Grand Total:</span>
+              <span>Rs. {cartTotal.toLocaleString()}</span>
             </div>
             <button 
               type="button"

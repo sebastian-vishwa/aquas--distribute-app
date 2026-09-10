@@ -1,10 +1,58 @@
-.about-wrapper { width: 100%; overflow-x: hidden; }
+.about-wrapper { 
+  width: 100%; 
+  overflow-x: hidden; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
 
 /* Hero */
-.about-hero { display: flex; background-color: var(--primary-blue); color: white; padding: 5rem 8%; align-items: center; gap: 4rem; }
-.about-hero h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; }
-.about-hero p { color: #E2E8F0; line-height: 1.6; font-size: 1.1rem; max-width: 500px; }
-.about-hero .hero-image { flex: 1; height: 350px; background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.about-hero {
+  width: 100%;
+  min-height: calc(100vh - 75px);
+  display: flex;
+  background-color: var(--primary-blue);
+  color: white;
+  padding: 0 8%;
+  border-radius: 0;
+  margin: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  box-sizing: border-box;
+}
+.about-hero .subtitle {
+  color: #93C5FD;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  display: inline-block;
+}
+.about-hero h1 { 
+  font-size: 3rem; 
+  line-height: 1.2; 
+  margin: 0.8rem 0; 
+  font-weight: 800; 
+  color: #ffffff;
+}
+.about-hero p { 
+  color: #E0F2FE; 
+  line-height: 1.6; 
+  font-size: 1.05rem; 
+  max-width: 520px; 
+}
+.about-hero .hero-image { 
+  flex: 1; 
+  height: 320px;
+  min-height: 280px; 
+  border-radius: 12px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  overflow: hidden;
+  background: transparent; 
+}
+.about-hero .image-placeholder { color: #93C5FD; font-size: 0.95rem; }
 
 /* Origin & Vision */
 .origin-vision-section { display: flex; padding: 5rem 8%; gap: 4rem; background: white; }

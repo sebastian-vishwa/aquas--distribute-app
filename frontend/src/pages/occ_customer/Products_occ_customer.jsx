@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useCart } from '../../components/common/CartContext';
 import { ShoppingCart, LayoutGrid, List, Plus, Minus, X, Check } from 'lucide-react';
 import './Products_occ_customer.css';
+import heroImage from '../../assets/bottles_cat.png';
 
 export default function ProductsOccCustomer() {
   const [catalogueData, setCatalogueData] = useState([]);
@@ -35,9 +36,11 @@ export default function ProductsOccCustomer() {
   const handleConfirmAddToCart = () => {
     if (selectedProduct) {
       const itemToAdd = {
-        id: selectedProduct._id,
-        title: selectedProduct.productName,
-        price: selectedProduct.wholesalePrice || 0
+        id: selectedProduct._id || selectedProduct.id,
+        name: selectedProduct.productName || selectedProduct.name,
+        title: selectedProduct.productName || selectedProduct.name,
+        price: selectedProduct.wholesalePrice || selectedProduct.price || 0,
+        image: selectedProduct.imageUrl || selectedProduct.image || heroImage
       };
       addToCart(itemToAdd, quantity);
       setSelectedProduct(null);
@@ -46,16 +49,16 @@ export default function ProductsOccCustomer() {
 
   return (
     <div className="products-wrapper">
-      
+
       {/* QUANTITY POPUP MODAL */}
       {selectedProduct && (
         <div className="modal-overlay">
           <div className="modal-content">
             <h3>{selectedProduct.productName}</h3>
             <p className="modal-desc">Select quantity to add to your cart</p>
-            
+
             <div className="quantity-controls">
-              <button 
+              <button
                 type="button"
                 onClick={() => setQuantity(prev => (prev > 1 ? prev - 1 : 1))}
                 className="qty-btn"
@@ -63,7 +66,7 @@ export default function ProductsOccCustomer() {
                 <Minus size={18} />
               </button>
               <span className="qty-display">{quantity}</span>
-              <button 
+              <button
                 type="button"
                 onClick={() => setQuantity(prev => prev + 1)}
                 className="qty-btn"
@@ -71,23 +74,23 @@ export default function ProductsOccCustomer() {
                 <Plus size={18} />
               </button>
             </div>
-            
+
             <div className="modal-total">
               Total Price: <span>Rs. {((selectedProduct.wholesalePrice || 0) * quantity).toLocaleString()}</span>
             </div>
 
             <div className="modal-actions">
-              <button 
-                type="button" 
-                className="btn-cancel" 
+              <button
+                type="button"
+                className="btn-cancel"
                 onClick={() => setSelectedProduct(null)}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
               >
                 <X size={16} /> Cancel
               </button>
-              <button 
-                type="button" 
-                className="btn-confirm" 
+              <button
+                type="button"
+                className="btn-confirm"
                 onClick={handleConfirmAddToCart}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
               >
@@ -99,33 +102,88 @@ export default function ProductsOccCustomer() {
       )}
 
       {/* HERO SECTION */}
-      <header className="products-hero">
-        <div className="hero-content">
-          <span className="subtitle">Wholesale Bundles</span>
-          <h1>Bulk Hydration Solutions For Your Business</h1>
-          <p>Streamline your supply chain with our high-volume water bundles. Designed for corporate offices, retail distributors, and industrial facilities.</p>
+      <header
+        className="products-hero"
+        style={{
+          width: '100%',
+          minHeight: 'calc(100vh - 75px)',
+          backgroundColor: '#0A3D91',
+          borderRadius: '0',
+          padding: '0 8%',
+          margin: 0,
+          color: '#ffffff',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '4rem',
+          boxSizing: 'border-box'
+        }}
+      >
+        <div className="hero-content" style={{ flex: 1, maxWidth: '550px' }}>
+          <span
+            className="subtitle"
+            style={{
+              color: '#93C5FD',
+              fontSize: '0.85rem',
+              textTransform: 'uppercase',
+              letterSpacing: '2px',
+              fontWeight: 600,
+              display: 'inline-block'
+            }}
+          >
+            WHOLESALE CATALOGUE
+          </span>
+          <h1 style={{ fontSize: '3rem', margin: '0.8rem 0', lineHeight: 1.2, fontWeight: 800, color: '#ffffff' }}>
+            Pure Hydration at Commercial Rates.
+          </h1>
+          <p
+            style={{
+              color: '#E0F2FE',
+              fontSize: '1.05rem',
+              maxWidth: '520px',
+              lineHeight: 1.6
+            }}
+          >
+            Browse our complete lineup of multi-stage purified bottles, bulk pallets, and modern dispensers tailored for retail distributors and workplaces.
+          </p>
         </div>
-        <div className="hero-image">
-          <div className="image-placeholder">Pallet Image Here</div>
+        <div
+          className="hero-image"
+          style={{
+            flex: 1,
+            height: '320px',
+            minHeight: '280px',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden'
+          }}
+        >
+          <img
+            src={heroImage}
+            alt="Wholesale Water Pallets"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px' }}
+          />
         </div>
       </header>
 
       {/* BUNDLES SECTION */}
-      <section className="bundles-section">
+      <section className="bundles-section" style={{ padding: '5rem 8%' }}>
         <div className="section-header">
           <h2>Available Bundles</h2>
           <div className="view-toggles">
-            <button 
+            <button
               type="button"
-              className={`icon-btn ${viewMode === 'grid' ? 'active' : ''}`} 
+              className={`icon-btn ${viewMode === 'grid' ? 'active' : ''}`}
               onClick={() => setViewMode('grid')}
               title="Grid View"
             >
               <LayoutGrid size={18} />
             </button>
-            <button 
+            <button
               type="button"
-              className={`icon-btn ${viewMode === 'list' ? 'active' : ''}`} 
+              className={`icon-btn ${viewMode === 'list' ? 'active' : ''}`}
               onClick={() => setViewMode('list')}
               title="List View"
             >
@@ -138,7 +196,11 @@ export default function ProductsOccCustomer() {
           {catalogueData.length > 0 ? (
             catalogueData.map((item) => (
               <div key={item._id} className="bundle-card">
-                <div className="card-img-placeholder">{item.productName} Image</div>
+                {item.image ? (
+                  <img src={item.image} alt={item.productName} className="card-img-placeholder" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                ) : (
+                  <div className="card-img-placeholder">{item.productName} Image</div>
+                )}
                 <div className="card-content">
                   <div className="card-title-row">
                     <h3>{item.productName}</h3>
@@ -148,9 +210,9 @@ export default function ProductsOccCustomer() {
                   <div className="price-row">
                     <h2>Rs. {item.wholesalePrice ? item.wholesalePrice.toLocaleString() : '0'}</h2>
                   </div>
-                  <button 
+                  <button
                     type="button"
-                    className="btn-cart" 
+                    className="btn-cart"
                     onClick={() => handleOpenModal(item)}
                     style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                   >

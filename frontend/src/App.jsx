@@ -22,6 +22,8 @@ import DashboardRegCus from './pages/reg_customer/dashboard_reg_cus';
 import DeliveriesRegCus from './pages/reg_customer/deliveries_reg_cus';
 import OrdersRegCus from './pages/reg_customer/orders_reg_cus';
 import ProductsRegCus from './pages/reg_customer/products_reg_cus';
+import CheckoutRegCus from './pages/reg_customer/checkout_reg_cus';
+import { RegCartProvider } from './context/RegCartContext';
 
 // 5. Manager Pages
 import ManagerDashboard from './pages/manager/manager_dashboard';
@@ -52,11 +54,19 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           
           {/* REGISTERED CUSTOMER PORTAL */}
-          <Route path="/portal" element={<CustomerLayout />}>
+          <Route
+            path="/portal"
+            element={
+              <RegCartProvider>
+                <CustomerLayout />
+              </RegCartProvider>
+            }
+          >
             <Route index element={<DashboardRegCus />} />
             <Route path="products" element={<ProductsRegCus />} />
             <Route path="orders" element={<OrdersRegCus />} />
             <Route path="deliveries" element={<DeliveriesRegCus />} />
+            <Route path="checkout" element={<CheckoutRegCus />} />
           </Route>
 
           {/* MANAGER ADMIN CONSOLE */}

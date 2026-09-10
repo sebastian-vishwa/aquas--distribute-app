@@ -1,30 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const {
-  createOrder,
-  getMyOrders,
-  getActiveOrders,
-  getOrderSummary,
-  getOrderById,
-  getInvoice,
-  cancelOrder,
-  updateOrderStatus,
-} = require('../controllers/orderController');
-const auth = require('../middleware/auth');
-const requireManager = require('../middleware/requireManager');
+const { getOrders, seedOrders } = require('../controllers/orderController');
 
-router.use(auth);
+// GET /api/orders - Fetch all orders
+router.get('/', getOrders);
 
-// specific paths before '/:id'
-router.get('/active', getActiveOrders);
-router.get('/summary', getOrderSummary);
+// POST /api/orders/seed - Seed realistic dummy wholesale water orders
+router.post('/seed', seedOrders);
 
-router.post('/', createOrder);
-router.get('/', getMyOrders);
-router.get('/:id', getOrderById);
-router.get('/:id/invoice', getInvoice);
-
-router.patch('/:id/cancel', cancelOrder);
-router.patch('/:id/status', requireManager, updateOrderStatus);
+// GET /api/orders/seed - Convenience endpoint for direct browser testing
+router.get('/seed', seedOrders);
 
 module.exports = router;
