@@ -2,7 +2,7 @@ const User = require('../models/User');
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, businessType } = req.body;
     
     // 1. Check if user already exists in the database
     const userExists = await User.findOne({ email });
@@ -11,7 +11,12 @@ const registerUser = async (req, res) => {
     }
 
     // 2. Create the new user using your blueprint
-    const newUser = new User({ name, email, password });
+    const newUser = new User({ 
+      name, 
+      email, 
+      password, 
+      businessType: businessType || 'Wholesale / Distribution' 
+    });
     
     // 3. Save them to MongoDB Atlas
     await newUser.save();
@@ -22,7 +27,6 @@ const registerUser = async (req, res) => {
   }
 };
 
-// --- ADD THE NEW FUNCTION HERE ---
 const getCustomers = async (req, res) => {
   try {
     const customers = await User.find({ role: 'customer' });
@@ -32,5 +36,16 @@ const getCustomers = async (req, res) => {
   }
 };
 
-// --- UPDATE THE EXPORTS HERE ---
-module.exports = { registerUser, getCustomers };
+const deleteCustomer = async (req, res) => {
+  try {
+    const deletedCustomer = await User.findByIdAndDelete(req.params.id);
+    if (!deletedCustomer) {
+      return res.status(404).json({ message: 'Customer not found' });
+    }
+    res.status(200).json({ message: '✅ Customer deleted successfully!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting customer', error: error.message });
+  }
+};
+
+module.exports = { registerUser, getCustomers, deleteCustomer };

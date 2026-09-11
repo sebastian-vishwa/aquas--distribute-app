@@ -7,13 +7,24 @@ const orderSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    date: {
-      type: Date,
-      default: Date.now,
+    customerName: {
+      type: String,
+      required: true,
+      default: 'Valued Customer',
     },
-    items: {
+    productName: {
+      type: String,
+      required: true,
+    },
+    quantity: {
       type: Number,
       required: true,
+      default: 1,
+    },
+    unitPrice: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     total: {
       type: Number,
@@ -21,8 +32,16 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Delivered', 'In Transit', 'Cancelled'],
-      default: 'In Transit',
+      enum: ['Pending', 'Dispatched', 'Delivered', 'Cancelled', 'In Transit'],
+      default: 'Pending',
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+    // Optional helper fields for backwards compatibility
+    items: {
+      type: Number,
     },
     invoiceLink: {
       type: String,

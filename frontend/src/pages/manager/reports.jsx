@@ -16,9 +16,9 @@ export default function Reports() {
           <h1>Reports & Analytics</h1>
           <p>Comprehensive overview of wholesale operations and financial performance.</p>
         </div>
-        <button 
-          className="btn-action" 
-          style={{ background: '#1E3A8A', display: 'flex', alignItems: 'center', gap: '8px' }} 
+        <button
+          className="btn-action"
+          style={{ background: '#1E3A8A', display: 'flex', alignItems: 'center', gap: '8px' }}
           onClick={() => alert('Exporting PDF...')}
         >
           <Download size={18} /> Export PDF/CSV
@@ -31,7 +31,7 @@ export default function Reports() {
             Total Revenue
             <DollarSign size={18} color="#059669" />
           </div>
-          <div className="stat-value">Rs.2.4M</div>
+          <div className="stat-value">Rs. 5.5 M</div>
         </div>
 
         <div className="stat-card">

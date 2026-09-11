@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { addDriver, getDrivers, driverLogin } = require('../controllers/driverController');
+const { addDriver, getDrivers, driverLogin, deleteDriver, updateDriver } = require('../controllers/driverController');
 
-// POST request to add a driver: /api/drivers/add
-router.post('/add', addDriver);
-
-// GET request to fetch all drivers: /api/drivers
+// 1. GET request to fetch all drivers: /api/drivers
 router.get('/', getDrivers);
 
-// POST request for Mobile App Driver Login: /api/drivers/app-login
+// 2. Specific routes
+router.post('/add', addDriver);
 router.post('/app-login', driverLogin);
+
+// 3. Parameterized routes
+router.put('/:id', updateDriver);
+router.delete('/:id', deleteDriver);
 
 module.exports = router;

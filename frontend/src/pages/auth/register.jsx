@@ -72,7 +72,8 @@ export default function Register() {
           name: formData.fullName,
           email: formData.email,
           password: formData.password,
-          role: 'customer'
+          role: 'customer',
+          businessType: formData.businessType
         }),
       });
 

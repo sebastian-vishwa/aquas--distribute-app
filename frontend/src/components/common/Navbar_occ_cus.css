@@ -24,6 +24,14 @@
   color: #1E293B;
   font-weight: 500;
   padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-bottom 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #0A3D91;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
 }
 
 .nav-links a.active {
@@ -36,6 +44,12 @@
   gap: 1.5rem;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+.nav-icons span:hover svg,
+.nav-icons .cart-icon:hover svg {
+  stroke: #0A3D91 !important;
+  transition: stroke 0.2s ease;
 }
 
 /* Cart Hover Popup Styles */

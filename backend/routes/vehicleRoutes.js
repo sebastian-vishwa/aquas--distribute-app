@@ -1,12 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { addVehicle, getVehicles } = require('../controllers/vehicleController');
+const { addVehicle, getVehicles, deleteVehicle, updateVehicle } = require('../controllers/vehicleController');
 
-// POST request to add a vehicle
-router.post('/add', addVehicle);
-
-// GET request to fetch all vehicles
+// 1. GET request to fetch all vehicles: /api/vehicles
 router.get('/', getVehicles);
 
-// THIS IS THE LINE THAT PREVENTS THE CRASH:
+// 2. Specific routes
+router.post('/add', addVehicle);
+
+// 3. Parameterized routes
+router.put('/:id', updateVehicle);
+router.delete('/:id', deleteVehicle);
+
 module.exports = router;

@@ -5,22 +5,7 @@ import { Pencil, Trash2, Eye, X } from 'lucide-react';
 export default function Orders() {
 
   // Order table data
-  const [ordersData, setOrdersData] = useState([
-    {
-      id: '#ORD-1001',
-      customer: 'Apex Traders',
-      date: 'Oct 28, 2026',
-      total: 'Rs. 450.00',
-      status: 'Pending'
-    },
-    {
-      id: '#ORD-1002',
-      customer: 'Global Retail',
-      date: 'Oct 27, 2026',
-      total: 'Rs. 1,200.00',
-      status: 'Dispatched'
-    }
-  ]);
+  const [ordersData, setOrdersData] = useState([]);
 
   // Edit popup
   const [editingOrder, setEditingOrder] = useState(null);
@@ -39,12 +24,12 @@ export default function Orders() {
 
   // Create form
   const [newOrder, setNewOrder] = useState({
-  customer: '',
-  product: '',
-  date: '',
-  total: '',
-  status: 'Pending'
-   });
+    customer: '',
+    product: '',
+    date: '',
+    total: '',
+    status: 'Pending'
+  });
 
 
   // ==========================================
@@ -79,12 +64,12 @@ export default function Orders() {
       ordersData.map((order) =>
         order.id === editingOrder.id
           ? {
-              ...order,
-              customer: editData.customer,
-              date: editData.date,
-              total: editData.total,
-              status: editData.status
-            }
+            ...order,
+            customer: editData.customer,
+            date: editData.date,
+            total: editData.total,
+            status: editData.status
+          }
           : order
       )
     );
@@ -112,12 +97,12 @@ export default function Orders() {
 
     // Basic validation
     if (
-        !newOrder.customer ||       
-        !newOrder.date ||
-        !newOrder.total) 
-       {alert('Please fill in all required fields.');
-        return;
-       }
+      !newOrder.customer ||
+      !newOrder.date ||
+      !newOrder.total) {
+      alert('Please fill in all required fields.');
+      return;
+    }
 
     // Create new order ID
     const newIdNumber = 1001 + ordersData.length;
@@ -141,12 +126,12 @@ export default function Orders() {
 
     // Clear form
     setNewOrder({
-    customer: '',
-    product: '',
-    date: '',
-    total: '',
-    status: 'Pending'
-     });
+      customer: '',
+      product: '',
+      date: '',
+      total: '',
+      status: 'Pending'
+    });
 
     // Close popup
     setShowCreateOrder(false);
@@ -189,28 +174,55 @@ export default function Orders() {
     );
   };
 
-  useEffect(() => {
-  fetchProducts();
-}, []);
-
-const fetchProducts = async () => {
-  try {
-    const response = await fetch(
-      'http://localhost:5000/api/products'
-    );
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch products');
+  const fetchOrders = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/orders');
+      if (!response.ok) {
+        throw new Error('Failed to fetch orders');
+      }
+      const data = await response.json();
+      setOrdersData(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      setOrdersData([]);
     }
+  };
 
-    const data = await response.json();
+  const handleSeedOrders = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/orders/seed', {
+        method: 'POST'
+      });
+      if (response.ok) {
+        alert('Realistic orders successfully seeded from MongoDB products!');
+        fetchOrders();
+      } else {
+        const err = await response.json();
+        alert(err.message || 'Error seeding orders');
+      }
+    } catch (error) {
+      console.error('Error seeding orders:', error);
+      alert('Failed to connect to backend server.');
+    }
+  };
 
-    setProducts(data);
+  useEffect(() => {
+    fetchOrders();
+    fetchProducts();
+  }, []);
 
-  } catch (error) {
-    console.error('Error fetching products:', error);
-  }
-};
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/products');
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
   return (
     <div>
 
@@ -245,9 +257,23 @@ const fetchProducts = async () => {
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
-            width: '100%'
+            gap: '12px',
+            width: '100%',
+            margin: '20px 0 18px 0'
           }}
         >
+          <button
+            className="btn-action"
+            onClick={handleSeedOrders}
+            style={{
+              background: '#059669',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            Refresh
+          </button>
 
           <button
             className="btn-action"
@@ -255,15 +281,12 @@ const fetchProducts = async () => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              margin: '20px 0 18px 0'
+              gap: '6px'
             }}
           >
             + Create Manual Order
           </button>
-
         </div>
-
 
         <table className="manager-table">
           <thead>
@@ -280,124 +303,112 @@ const fetchProducts = async () => {
             </tr>
           </thead>
           <tbody>
+            {ordersData.length > 0 ? (
+              ordersData.map((order, idx) => {
+                const orderKey = order._id || order.orderId || order.id || idx;
+                const displayId = order.orderId || order.id;
+                const customer = order.customerName || order.customer;
+                const productDisplay = order.productName
+                  ? `${order.productName} (x${order.quantity || 1})`
+                  : (order.product || '-');
+                const dateDisplay = order.date
+                  ? new Date(order.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                  : '-';
+                const totalDisplay = typeof order.total === 'number'
+                  ? `Rs. ${order.total.toLocaleString('en-LK', { minimumFractionDigits: 2 })}`
+                  : (order.total?.toString().startsWith('Rs.') ? order.total : `Rs. ${order.total}`);
 
-            {ordersData.map((order) => (
-
-              <tr key={order.id}>
-
-                <td
-                  style={{
-                    color: '#0A5C99',
-                    fontWeight: '600'
-                  }}
-                >
-                  {order.id}
+                return (
+                  <tr key={orderKey}>
+                    <td style={{ color: '#0A5C99', fontWeight: '600' }}>
+                      {displayId}
+                    </td>
+                    <td>
+                      {customer}
+                    </td>
+                    <td>
+                      {productDisplay}
+                    </td>
+                    <td>
+                      {dateDisplay}
+                    </td>
+                    <td>
+                      <strong>
+                        {totalDisplay}
+                      </strong>
+                    </td>
+                    <td>
+                      <span
+                        className={`status-pill ${order.status === 'Delivered'
+                            ? 'status-active'
+                            : order.status === 'Pending'
+                              ? 'status-pending'
+                              : 'status-inactive'
+                          }`}
+                      >
+                        {order.status}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleView(order)}
+                        style={{
+                          border: 'none',
+                          background: 'none',
+                          cursor: 'pointer',
+                          color: '#64748B'
+                        }}
+                        title="View Order"
+                      >
+                        <Eye size={20} />
+                      </button>
+                    </td>
+                    <td className="action-column">
+                      <button
+                        onClick={() => handleEdit(order)}
+                        style={{
+                          border: 'none',
+                          background: 'none',
+                          cursor: 'pointer',
+                          color: '#64748B',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          margin: 'auto'
+                        }}
+                        title="Edit Order"
+                      >
+                        <Pencil size={18} />
+                      </button>
+                    </td>
+                    <td className="action-column">
+                      <button
+                        onClick={() => handleDelete(order._id || order.orderId || order.id)}
+                        style={{
+                          border: 'none',
+                          background: 'none',
+                          cursor: 'pointer',
+                          color: '#ff0000',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          margin: 'auto'
+                        }}
+                        title="Delete Order"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="9" style={{ textAlign: 'center', padding: '2rem' }}>
+                  No orders found in the database. Click "Seed Realistic Orders" above!
                 </td>
-
-                <td>
-                  {order.customer}
-                </td>
-
-                <td>
-                  {order.product || ''}
-                </td>
-
-                <td>
-                  {order.date}
-                </td>
-
-                <td>
-                  <strong>
-                    {order.total}
-                  </strong>
-                </td>
-
-                <td>
-
-                  <span
-                    className={`status-pill ${
-                      order.status === 'Pending'
-                        ? 'status-pending'
-                        : 'status-active'
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-
-                </td>
-
-
-                {/* VIEW */}
-
-                <td>
-
-                  <button
-                    onClick={() => handleView(order)}
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      cursor: 'pointer',
-                      color: '#64748B'
-                    }}
-                    title="View Order"
-                  >
-                    <Eye size={20} />
-                  </button>
-
-                </td>
-
-
-                {/* EDIT */}
-
-                <td className="action-column">
-
-                  <button
-                    onClick={() => handleEdit(order)}
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      cursor: 'pointer',
-                      color: '#64748B',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      margin: 'auto'
-                    }}
-                    title="Edit Order"
-                  >
-                    <Pencil size={18} />
-                  </button>
-
-                </td>
-
-
-                {/* DELETE */}
-
-                <td className="action-column">
-
-                  <button
-                    onClick={() => handleDelete(order.id)}
-                    style={{
-                      border: 'none',
-                      background: 'none',
-                      cursor: 'pointer',
-                      color: '#ff0000',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      margin: 'auto'
-                    }}
-                    title="Delete Order"
-                  >
-                    <Trash2 size={18} />
-                  </button>
-
-                </td>
-
               </tr>
-
-            ))}
-
+            )}
           </tbody>
 
         </table>
@@ -490,7 +501,7 @@ const fetchProducts = async () => {
                 }}
               />
             </div>
-            
+
             {/* Product */}
 
             <div style={{ marginBottom: '15px' }}>

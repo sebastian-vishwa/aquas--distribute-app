@@ -73,3 +73,15 @@
 
 .login-footer-links { text-align: center; font-size: 0.9rem; color: #64748B; }
 .link-bold { color: #1E3A8A; font-weight: 700; cursor: pointer; }
+
+.link-guest {
+  color: #64748B;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+.link-guest:hover {
+  color: #1E3A8A;
+}
