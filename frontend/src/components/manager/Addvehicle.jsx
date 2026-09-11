@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./AddVehicle.css";
 
-export default function AddVehicle({ onClose, refreshVehicles }) {
+export default function AddVehicle({ onClose, refreshVehicles, editData }) {
   const [vehicle, setVehicle] = useState({
     registrationNumber: "",
     vehicleType: "",
@@ -17,6 +17,36 @@ export default function AddVehicle({ onClose, refreshVehicles }) {
 
   const [driverList, setDriverList] = useState([]);
 
+  useEffect(() => {
+    if (editData) {
+      setVehicle({
+        registrationNumber: editData.registrationNumber || editData.vehicleId || "",
+        vehicleType: editData.vehicleType || "Truck",
+        make: editData.make || "",
+        model: editData.model || "",
+        year: editData.year || new Date().getFullYear(),
+        fuelType: editData.fuelType || "Diesel",
+        capacity: editData.capacity || "2000 kg",
+        status: editData.status || "Idle",
+        driver: editData.driver || "Unassigned",
+        notes: editData.notes || "",
+      });
+    } else {
+      setVehicle({
+        registrationNumber: "",
+        vehicleType: "",
+        make: "",
+        model: "",
+        year: "",
+        fuelType: "",
+        capacity: "",
+        status: "Idle",
+        driver: "",
+        notes: "",
+      });
+    }
+  }, [editData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -26,39 +56,42 @@ export default function AddVehicle({ onClose, refreshVehicles }) {
     }));
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // 1. Validation check
-    if (!vehicle.registrationNumber || !vehicle.vehicleType || !vehicle.make || !vehicle.model || !vehicle.year || !vehicle.capacity) {
-      alert("Please fill all required fields.");
+    if (!vehicle.registrationNumber) {
+      alert("Please enter a registration number / vehicle ID.");
       return;
     }
 
+    const url = editData
+      ? `http://localhost:5000/api/vehicles/${editData._id}`
+      : 'http://localhost:5000/api/vehicles/add';
+    const method = editData ? 'PUT' : 'POST';
+
     try {
       // 2. Send the data to your backend
-      const response = await fetch('http://localhost:5000/api/vehicles/add', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           ...vehicle,
           vehicleId: vehicle.registrationNumber, // Mapping this so it matches your backend schema
-          location: 'Depot' // Default location for new vehicles
+          location: editData?.location || 'Depot' // Default location
         }),
       });
 
       // 3. Handle success or failure
       if (response.ok) {
-        alert('✅ Vehicle added successfully!');
+        alert(editData ? '✅ Vehicle updated successfully!' : '✅ Vehicle added successfully!');
         if (refreshVehicles) refreshVehicles(); // Tell the roster table to update
         onClose(); // Close the popup
       } else {
         const errData = await response.json();
-        alert(`❌ Error adding vehicle: ${errData.message}`);
+        alert(`❌ Error ${editData ? 'updating' : 'adding'} vehicle: ${errData.message}`);
       }
     } catch (error) {
       console.error('Server error:', error);
@@ -90,10 +123,10 @@ export default function AddVehicle({ onClose, refreshVehicles }) {
         <div className="vehicle-modal-header">
 
           <div>
-            <h2>Add Vehicle</h2>
+            <h2>{editData ? 'Edit Vehicle' : 'Add Vehicle'}</h2>
 
             <p>
-              Basic information for vehicle registration.
+              {editData ? 'Update existing vehicle information.' : 'Basic information for vehicle registration.'}
             </p>
           </div>
 
@@ -363,7 +396,7 @@ export default function AddVehicle({ onClose, refreshVehicles }) {
               type="submit"
               className="vehicle-save-btn"
             >
-              + Add Vehicle
+              {editData ? 'Update Vehicle' : '+ Add Vehicle'}
             </button>
 
           </div>

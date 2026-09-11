@@ -188,10 +188,6 @@
 
 .about-image {
   flex: 1;
-  height: 380px;
-  background: #F1F5F9;
-  border: 2px dashed #CBD5E1;
-  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -223,26 +219,24 @@
 .deal-section {
   display: flex;
   background-color: var(--primary-blue);
-  padding: 6rem 8%;
-  align-items: center;
+  padding: 3rem 8%;
+  align-items: stretch;
   gap: 5rem;
 }
 
 .deal-image {
   flex: 1;
-  height: 420px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px dashed rgba(255, 255, 255, 0.3);
-  border-radius: 12px;
+  max-height: 420px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .deal-card {
   flex: 1;
   background: #ffffff;
-  padding: 3.5rem;
+  padding: 2rem;
   border-radius: 16px;
   text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -263,8 +257,8 @@
 
 .deal-card .price {
   color: var(--primary-blue);
-  font-size: 3.8rem;
-  margin: 0.8rem 0;
+  font-size: 2.8rem;
+  margin: 0.5rem 0;
   font-weight: 800;
 }
 
@@ -283,11 +277,11 @@
   display: flex;
   justify-content: center;
   gap: 1.5rem;
-  margin: 2rem 0;
+  margin: 1.5rem 0;
 }
 
 .time-box h2 {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   margin: 0;
   color: var(--text-dark);
 }

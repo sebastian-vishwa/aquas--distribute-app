@@ -50,17 +50,27 @@ export default function Customers() {
     setEditingCustomer(null);
   };
   
-  const handleDelete = (customerId) => {
-  const confirmDelete = window.confirm(
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
       'Are you sure you want to delete this customer?'
     );
+    if (!confirmDelete) return;
 
-    if (confirmDelete) {
-      setCustomerData(
-        customerData.filter(
-          (customer) => customer._id !== customerId
-        )
-      );
+    try {
+      const response = await fetch(`http://localhost:5000/api/auth/customers/${id}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        alert('✅ Customer deleted successfully!');
+        setCustomerData(prevData => prevData.filter(c => c._id !== id));
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message || 'Failed to delete customer.');
+      }
+    } catch (error) {
+      console.error('Error deleting customer:', error);
+      alert('Error connecting to server to delete customer.');
     }
   };
 
@@ -82,17 +92,23 @@ export default function Customers() {
     fetchCustomers();
   }, []);
 
+  const wholesaleCount = customerData.filter(c => c.businessType === 'Wholesale / Distribution').length;
+  const corporateCount = customerData.filter(c => c.businessType === 'Corporate Office').length;
+  const retailCount = customerData.filter(c => c.businessType === 'Retail Storefront').length;
+  const industrialCount = customerData.filter(c => c.businessType === 'Industrial / Factory').length;
+
   return (
     <div>
       <div className="manager-header">
         <h1>Customers</h1>
       </div>
           
-      <div className="manager-stats-grid">
-        <div className="stat-card"><div className="stat-title">Total Partners</div><div className="stat-value">{customerData.length}</div></div>
-        <div className="stat-card"><div className="stat-title">Active Corporate</div><div className="stat-value">--</div></div>
-        <div className="stat-card"><div className="stat-title">Active Retail</div><div className="stat-value">--</div></div>
-        <div className="stat-card"><div className="stat-title">Pending Review</div><div className="stat-value">0</div></div>
+      <div className="manager-stats-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+        <div className="stat-card"><div className="stat-title">TOTAL PARTNERS</div><div className="stat-value">{customerData.length}</div></div>
+        <div className="stat-card"><div className="stat-title">WHOLESALE PARTNERS</div><div className="stat-value">{wholesaleCount}</div></div>
+        <div className="stat-card"><div className="stat-title">ACTIVE CORPORATE</div><div className="stat-value">{corporateCount}</div></div>
+        <div className="stat-card"><div className="stat-title">ACTIVE RETAIL</div><div className="stat-value">{retailCount}</div></div>
+        <div className="stat-card"><div className="stat-title">INDUSTRIAL / FACTORY</div><div className="stat-value">{industrialCount}</div></div>
       </div>
 
       <div className="manager-table-container">

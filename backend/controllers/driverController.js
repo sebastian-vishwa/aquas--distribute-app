@@ -64,4 +64,30 @@ const driverLogin = async (req, res) => {
   }
 };
 
-module.exports = { addDriver, getDrivers, driverLogin };
+// 4. Function to Delete a Driver
+const deleteDriver = async (req, res) => {
+  try {
+    const deletedDriver = await Driver.findByIdAndDelete(req.params.id);
+    if (!deletedDriver) {
+      return res.status(404).json({ message: 'Driver not found' });
+    }
+    res.status(200).json({ message: 'Driver deleted successfully!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting driver', error: error.message });
+  }
+};
+
+// 5. Function to Update a Driver
+const updateDriver = async (req, res) => {
+  try {
+    const updatedDriver = await Driver.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedDriver) {
+      return res.status(404).json({ message: 'Driver not found' });
+    }
+    res.status(200).json({ message: 'Driver updated successfully!', driver: updatedDriver });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating driver', error: error.message });
+  }
+};
+
+module.exports = { addDriver, getDrivers, driverLogin, deleteDriver, updateDriver };

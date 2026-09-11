@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Filter, Truck, ShieldCheck, ArrowRight, Mail } from 'lucide-react';
 import heroImage from '../../assets/bottles_cat.png';
+import waterBottles from '../../assets/background removed.jpg';
 import './Home_occ_customer.css';
 
 export default function Home() {
   const navigate = useNavigate();
+  const [catalogueData, setCatalogueData] = useState([]);
+
+  useEffect(() => {
+    const fetchCatalogue = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/products');
+        const data = await response.json();
+        setCatalogueData(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Failed to fetch catalogue:", error);
+      }
+    };
+    fetchCatalogue();
+  }, []);
+
+  const dealProduct = catalogueData.length > 0 ? catalogueData[0] : null;
+  const discountedPrice = dealProduct ? dealProduct.wholesalePrice * 0.8 : 0;
 
   return (
     <div className="home-wrapper">
@@ -144,8 +162,29 @@ export default function Home() {
 
       {/* ABOUT SECTION */}
       <section className="about-section">
-        <div className="about-image">
-          <div className="image-placeholder">Office Water Image Here</div>
+        <div className="about-image" style={{ background: 'transparent', border: 'none', height: 'auto' }}>
+          <div style={{
+            width: '450px',
+            height: '450px',
+            backgroundColor: '#0A3D91',
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: '0 auto',
+            boxShadow: '0 10px 25px rgba(10, 61, 145, 0.2)'
+          }}>
+            <img 
+              src={waterBottles} 
+              alt="Aquas Water Bottles" 
+              style={{ 
+                width: '85%', 
+                height: 'auto', 
+                objectFit: 'contain',
+                transform: 'translateY(-10px)' // Nudges the bottles up slightly for a nice 3D pop effect
+              }} 
+            />
+          </div>
         </div>
         <div className="about-content">
           <h2><span className="highlight">Pure Water</span> Is The Foundation Of Good Health</h2>
@@ -157,15 +196,32 @@ export default function Home() {
 
       {/* DEAL OF THE MONTH */}
       <section className="deal-section">
-        <div className="deal-image">
-          <div className="image-placeholder">Single Jug Image Here</div>
+        <div className="deal-image" style={{ flex: 1, maxHeight: '420px', background: 'transparent', border: 'none', padding: 0 }}>
+          {dealProduct && dealProduct.image ? (
+            <img 
+              src={dealProduct.image} 
+              alt={dealProduct.productName} 
+              style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} 
+            />
+          ) : (
+            <span style={{ color: '#93C5FD' }}>Loading Deal Image...</span>
+          )}
         </div>
         <div className="deal-card">
           <span className="deal-subtitle">SPECIAL CORPORATE PACKAGE</span>
           <h2>DEAL OF THE MONTH</h2>
-          <h1 className="price">Rs. 4,999</h1>
-          <h4>Free Dispenser + 3 Bottles (5 Gal)</h4>
-          <p>Subscribe to our standard yearly office plan and get a premium hot & cold water dispenser completely free for the first month.</p>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '0.5rem 0' }}>
+            <span style={{ textDecoration: 'line-through', color: '#64748B', fontSize: '1.1rem' }}>
+              Rs. {dealProduct?.wholesalePrice?.toLocaleString('en-LK', { minimumFractionDigits: 2 })}
+            </span>
+            <h2 style={{ color: '#1E3A8A', fontSize: '2.8rem', margin: '0.2rem 0' }}>
+              Rs. {discountedPrice.toLocaleString('en-LK', { minimumFractionDigits: 2 })}
+            </h2>
+          </div>
+
+          <h4>{dealProduct?.productName || 'Special Water Package'}</h4>
+          <p>{dealProduct?.description || 'Subscribe to our standard yearly office plan and get high-purity water delivered seamlessly to your workplace.'}</p>
 
           <div className="countdown">
             <div className="time-box"><h2>0-</h2><span>DAYS</span></div>
@@ -173,7 +229,7 @@ export default function Home() {
             <div className="time-box"><h2>10</h2><span>MINS</span></div>
             <div className="time-box"><h2>14</h2><span>SECS</span></div>
           </div>
-          <button className="btn-primary full-width" onClick={() => navigate('/products')}>Claim Offer</button>
+          <button className="btn-primary full-width" style={{ padding: '0.75rem' }} onClick={() => navigate('/products')}>Claim Offer</button>
         </div>
       </section>
 

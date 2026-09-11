@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { History, Eye, Target, MapPin, Phone, Mail, CheckCircle2 } from 'lucide-react';
+import { History, Eye, Target, MapPin, Phone, Mail, CheckCircle2, UserCircle } from 'lucide-react';
 import './About_occ_customer.css';
 import heroImage from '../../assets/bottles_cat.png';
 
@@ -142,13 +142,37 @@ export default function About() {
           <h2>Command Structure</h2>
           <p>The engineering and logistical minds directing AquaPure's operational capacity.</p>
         </div>
-        <div className="team-grid">
-          {['Wishwa Yashoda', 'Dhananjana SEnevirathne','Uvini Amaya', 'Gagani Tharusha'].map((name, index) => (
-            <div className="team-card" key={index}>
-              <div className="avatar-placeholder">Avatar</div>
-              <h3>{name}</h3>
-              <span className="role">{['CHIEF EXECUTIVE OFFICER', 'CHIEF OPERATIONS OFFICER', 'CHIEF TECHNOLOGY OFFICER', 'HEAD OF QUALITY ASSURANCE'][index]}</span>
-              <p>Expertise and leadership blurb goes here detailing their specialized background.</p>
+        <div 
+          className="team-grid" 
+          style={{ 
+            display: 'flex', 
+            flexWrap: 'wrap', 
+            justifyContent: 'center', 
+            gap: '2rem' 
+          }}
+        >
+          {[
+            { name: 'Wishwa Yashoda', role: 'CHIEF EXECUTIVE OFFICER' },
+            { name: 'Dhananjana Senevirathne', role: 'CHIEF OPERATIONS OFFICER' },
+            { name: 'Uvini Amaya', role: 'CHIEF TECHNOLOGY OFFICER' },
+            { name: 'Gagani Tharusha', role: 'HEAD OF QUALITY ASSURANCE' },
+            { name: 'Yohan Thanthrige', role: 'GENERAL MANAGER' }
+          ].map((member, index) => (
+            <div 
+              className="team-card" 
+              key={index}
+              style={{ 
+                flex: '0 1 240px', 
+                minWidth: '220px', 
+                maxWidth: '260px', 
+                textAlign: 'center' 
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+                <UserCircle size={64} color="#0A3D91" strokeWidth={1.5} />
+              </div>
+              <h3>{member.name}</h3>
+              <span className="role">{member.role}</span>
             </div>
           ))}
         </div>
